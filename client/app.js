@@ -20,6 +20,7 @@ borrowApp.config(function($routeProvider) {
 });
 
 borrowApp.controller('loginController', function($scope){
+  $scope.message = 'YO YO YO YO'
 });
 
 borrowApp.controller('signupController', function($scope){
