@@ -7,11 +7,11 @@ var User = require('../models/userModel.js');
 
 exports.createOne = function(req, res) {
   var newUser = req.body;
-  User.create(newUser, function(err, newUser) {
-    if(err){
+  User.create(newUser, function(err, user) {
+    if(err) {
       return res.json(err);
     }
-    res.json(newUser);
+    res.json(user);
   });
 };
 
