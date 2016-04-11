@@ -38,7 +38,7 @@ exports.retrieveAll = function(req, res) {
 
 exports.updateOne = function(req, res) {
   var query = {_id: req.params.item_id};
-  var updatedProp = req.body;
+  var updatedProps = req.body;
   var options = {new: true, upsert: true};
   Item.findOneAndUpdate(query, updatedProps, options, function(err, matchingItem){
     if(err){
