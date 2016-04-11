@@ -7,7 +7,9 @@ var app = express();
 var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/borrow');
+var mongolab_URI = 'mongodb://dichotic-anvil:6DH6qhtoNywPvV@ds017070.mlab.com:17070/borrow';
+var dbURI = mongolab_URI || 'mongodb://localhost/borrow';
+mongoose.connect(dbURI);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
