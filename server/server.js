@@ -21,22 +21,22 @@ var port = process.env.PORT || 3000;
 var userRouter = require('./routers/userRouter.js');
 var itemRouter = require('./routers/itemRouter.js');
 
+// points to user and item routers at respective routes
 app.use('/api/users', userRouter);
 app.use('/api/items', itemRouter);
 
-
 app.get('/', function(req, res) {
-  res.send('successful get request');
+  res.json({message: 'Ready to go!'});
 });
 
 app.post('/', function(req, res) {
 });
 
-
-
+// START THE SERVER
+//============================================
 app.listen(port, function(err) {
   if (err) {
     console.log(err);
   }
-  console.log('Borrow App up and running on port:  ' + port);
+  console.log('Borrow App up and running on port: ' + port);
 });
