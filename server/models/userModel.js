@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Item = require('../models/itemModel');
+var Item = require('../models/itemModel.js');
 
 var Schema = mongoose.Schema;
 
@@ -7,7 +7,7 @@ var userSchema = new Schema({
 
   firstName: String,
   lastName: String,
-  userName: { _id: Number, type: String, required: true, unique: true },
+  userName: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   created_At: Date,
   updated_At: Date,
@@ -19,7 +19,7 @@ var userSchema = new Schema({
 
 userSchema.pre('save', function (next) {
 var err = new Error('Whoops! Something went wrong.');
-  next(err);
+  next();
 });
 
 //Create a model using the schema
