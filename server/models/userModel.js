@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.schema;
+var Item = require('../models/itemModel');
+
+var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
   userName: {
@@ -11,12 +13,17 @@ var userSchema = new Schema({
 },
   inventory: {
     type: [{type: Schema.Types.ObjectId, ref: 'Item'}],
-    default: [],
+    default: []
   },
   password: {
     type: String,
     required: true
   }
-})
+});
 
-module.exports = mongoose.model('User', userSchema)
+userSchema.pre('save', function (next) {
+var err = new Error('something went wrong');
+  next(err);
+});
+
+module.exports = mongoose.model('User', userSchema);
