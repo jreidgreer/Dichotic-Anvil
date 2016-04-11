@@ -4,25 +4,21 @@ var Item = require('../models/itemModel');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-  userName: {
 
-    _id: Number,
-    type: String,
-    required: true,
-    unique: true
-},
+  firstName: String,
+  lastName: String,
+  userName: { _id: Number, type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  created_At: Date,
+  updated_At: Date,
   inventory: {
     type: [{type: Schema.Types.ObjectId, ref: 'Item'}],
     default: []
   },
-  password: {
-    type: String,
-    required: true
-  }
 });
 
 userSchema.pre('save', function (next) {
-var err = new Error('something went wrong');
+var err = new Error('Whoops! Something went wrong.');
   next(err);
 });
 
