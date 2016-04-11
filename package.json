@@ -1,0 +1,17 @@
+{
+  "name": "borrow",
+  "description": "An app to borrow things from your friends",
+  "main": "server.js",
+  "authors": [
+    "Michael Balarezo",
+    "Brandon Courtney",
+    "Jeremy Rosenfeld",
+    "John Zuccarelli"
+  ],
+  "dependencies": {
+    "angular": "^1.5.3",
+    "body-parser": "~1.0.1",
+    "express": "~4.0.0",
+    "mongoose": "~3.6.13"
+  }
+}
