@@ -3,4 +3,4 @@
 
 - Product Owner: Michael Balarezo
 - Scrum Master: Jeremy Rosenfeld
-- Development Team: Brandon Courtney and John Zuccareli 
+- Development Team: Brandon Courtney and John Zuccarelli 
