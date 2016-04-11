@@ -49,4 +49,4 @@ View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 
 ## Contributing
 
-See [https://github.com/Dichotic-Anvil/Dichotic-Anvil/blob/master/_CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](_CONTRIBUTING.md) for contribution guidelines.
