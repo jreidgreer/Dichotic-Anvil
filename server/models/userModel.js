@@ -22,4 +22,6 @@ var err = new Error('Whoops! Something went wrong.');
   next(err);
 });
 
-module.exports = mongoose.model('User', userSchema);
+//Create a model using the schema
+var User = mongoose.model('User', userSchema);
+module.exports = User;
