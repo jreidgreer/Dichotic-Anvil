@@ -1,7 +1,7 @@
 angular.module('borrow.signup', [])
-.controller('signUpCtrl', function($scope, $http) {
+.controller('signUpCtrl', function($scope, $http, User) {
 
-  $scope.postData = function() {
+  $scope.signUp = function() {
     
     var data = {
       firstName: $scope.firstName,
@@ -11,12 +11,6 @@ angular.module('borrow.signup', [])
       created_At: Date()
     };
 
-    $http.post('/api/users/', data)
-      .then(function(resp) {
-        console.log(resp.data)
-      })
-      .catch(function(err) {
-        console.log('this', err);
-      })
-    }
+    User.createUser(data);
+  };
 });

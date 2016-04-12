@@ -1,5 +1,6 @@
 angular.module('borrow', ['ngRoute',
-  'borrow.signup'
+  'borrow.signup',
+  'borrow.userServices'
 ])
 
 .config(function($routeProvider) {
@@ -20,13 +21,3 @@ angular.module('borrow', ['ngRoute',
     controller: 'dashController'
   })
 });
-    
- //  $http.post('/api/users', data)
- //    .success(function(data, status, headers, config) {
- //      $scope.response = data;
- //    })
- //    .error(function(data, status, headers, config) {
- //      $scope.responseDetails = 'Data ' + data
- //    });
- //    $scope.signUpForm.$setPristine();
- //  }

@@ -1,13 +1,21 @@
-// angular.module('borrow.services', [])
-//   .factory('Users', function($http) {
-//     var createUser = function(user, callback) {
-//       return http ({
-//         method: 'POST',
-//         url: '/api/users/',
-//         data: user
-//       })
-//       .then(function(resp) {
-//         callback(resp.data)
-//       });
-//     };
-//   });
+angular.module('borrow.userServices', [])
+  .factory('User', function($http) {
+
+    var createUser = function(user) {
+      return $http.post('/api/users/', user)
+        .then(function(resp){
+          console.log('User Created!')
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    }
+
+    // var getUser = function(userName) {
+    //   return $http.get('/api/users/');
+    // }
+
+    return {
+      createUser: createUser
+    }
+  });
