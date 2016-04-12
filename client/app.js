@@ -26,16 +26,16 @@ borrowApp.controller('loginController', function($scope) {
 borrowApp.controller('signUpCtrl', function($scope, $http) {
 
   $scope.postData = function() {
+    
     var data = {
-      firstname: $scope.firstName,
-      lastname: $scope.lastName,
+      firstName: $scope.firstName,
+      lastName: $scope.lastName,
       userName: $scope.userName,
-      password: $scope.passWord
+      password: $scope.password,
+      created_At: Date()
     };
 
-
-    
-    $http.post('http://localhost:3000/api/users', data)
+    $http.post('/api/users/', data)
       .then(function(resp) {
         console.log(resp.data)
       })
