@@ -1,6 +1,8 @@
-var borrowApp = angular.module('borrowApp', ['ngRoute']);
+angular.module('borrow', ['ngRoute',
+  'borrow.signup'
+])
 
-borrowApp.config(function($routeProvider) {
+.config(function($routeProvider) {
   $routeProvider
 
   .when('/login', {
@@ -9,48 +11,15 @@ borrowApp.config(function($routeProvider) {
   })
 
   .when('/signup', {
-    templateUrl : '/views/signup.html',
+    templateUrl : '/views/signup/signup.html',
     controller: 'signUpCtrl'
   })
 
-  .when('/user', {
-    templateUrl : '/views/user.html',
-    controller: 'userController'
+  .when('/dashboard', {
+    templateUrl : '/views/dashboard.html',
+    controller: 'dashController'
   })
 });
-
-borrowApp.controller('loginController', function($scope) {
-
-});
-
-borrowApp.controller('signUpCtrl', function($scope, $http) {
-
-  $scope.postData = function() {
-    
-    var data = {
-      firstName: $scope.firstName,
-      lastName: $scope.lastName,
-      userName: $scope.userName,
-      password: $scope.password,
-      created_At: Date()
-    };
-
-    $http.post('/api/users/', data)
-      .then(function(resp) {
-        console.log(resp.data)
-      })
-      .catch(function(err) {
-        console.log('this', err);
-      })
-    }
-});
-
-borrowApp.controller('userController', function($scope) {
-});
-
-
- // $scope.postData = function() {
-   
     
  //  $http.post('/api/users', data)
  //    .success(function(data, status, headers, config) {
