@@ -6,9 +6,6 @@ var User = require('../models/userModel.js');
 //============================================
 
 exports.createOne = function(req, res) {
-
-  console.log(req.body);
-
   var newUser = req.body;
   User.create(newUser, function(err, user) {
     if(err) {
