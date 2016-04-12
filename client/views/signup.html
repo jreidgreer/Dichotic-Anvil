@@ -1,3 +1,13 @@
-<div>
-  <h1>Signup Page<h1>
-</div>
+<div ng-controller='signUpCtrl'>
+ <form name='signUpForm' class='signupForm' autocomplete="off">
+ 	<label>Firstname</label> <br/>
+ 		<input type='text' name='firstname' ng-model="firstName" required><br/>
+ 	<label>Lastname</label> <br/>
+ 		<input type='text' name='lastname' ng-model="lastName" required><br/>
+  <label>Username</label> <br/>
+    <input type='text' name='username' ng-model="userName" required><br/>
+  <label>Password</label> <br/>
+   <input type='password' name='password' ng-model="passWord" required><br/>
+  <button type='submit'>Signup</button>
+ </form>
+</div> 

@@ -10,7 +10,7 @@ borrowApp.config(function($routeProvider) {
 
   .when('/signup', {
     templateUrl : '/views/signup.html',
-    controller: 'signupController'
+    controller: 'signUpCtrl'
   })
 
   .when('/user', {
@@ -19,12 +19,16 @@ borrowApp.config(function($routeProvider) {
   })
 });
 
-borrowApp.controller('loginController', function($scope){
-  $scope.message = 'YO YO YO YO'
+borrowApp.controller('loginController', function($scope) {
+
 });
 
-borrowApp.controller('signupController', function($scope){
+borrowApp.controller('signUpCtrl', function($scope) {
+  $scope.firstName = '';
+  $scope.lastName = '';
+  $scope.userName = '';
+  $scope.passWord = '';
 });
 
-borrowApp.controller('userController', function($scope){
+borrowApp.controller('userController', function($scope) {
 });
