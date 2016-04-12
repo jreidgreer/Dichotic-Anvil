@@ -1,5 +1,6 @@
 angular.module('borrow', ['ngRoute',
-  'borrow.signup'
+  'borrow.signup',
+  'borrow.userServices'
 ])
 
 .config(function($routeProvider) {
