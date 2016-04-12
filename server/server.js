@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var mongolab_URI = 'mongodb://dichotic-anvil:6DH6qhtoNywPvV@ds017070.mlab.com:17070/borrow';
 
 // to connect via command line using mongo client:
-//		mongo ds017070.mlab.com:17070/borrow -u dichotic-anvil -p 6DH6qhtoNywPvV
+// mongo ds017070.mlab.com:17070/borrow -u dichotic-anvil -p 6DH6qhtoNywPvV
 
 var dbURI = mongolab_URI || 'mongodb://localhost/borrow';
 mongoose.connect(dbURI);
