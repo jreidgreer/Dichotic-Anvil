@@ -1,4 +1,4 @@
-<div ng-controller='signUpCtrl'>
+<div>
  <form name='signUpForm' ng-submit='postData()' class='signupForm' autocomplete="off">
  	<label>Firstname</label> <br/>
  		<input type='text' name='firstname' ng-model="firstName" required><br/>
@@ -7,7 +7,7 @@
   <label>Username</label> <br/>
     <input type='text' name='username' ng-model="userName" required><br/>
   <label>Password</label> <br/>
-   <input type='password' name='password' ng-model="passWord" required><br/>
+   <input type='password' name='password' ng-model="password" required><br/>
   <button type='submit'>Signup</button>
  </form>
  <h1> {{ response }} </h1>
