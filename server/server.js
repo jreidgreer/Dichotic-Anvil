@@ -1,17 +1,44 @@
+// BASE SETUP
+//============================================
+
 var express = require('express');
-var mongoose = require('mongoose');
 var app = express();
 
-mongoose.connect('mongodb://localhost/borrow');
+var bodyParser = require('body-parser');
+
+var mongoose = require('mongoose');
+var mongolab_URI = 'mongodb://dichotic-anvil:6DH6qhtoNywPvV@ds017070.mlab.com:17070/borrow';
+var dbURI = mongolab_URI || 'mongodb://localhost/borrow';
+mongoose.connect(dbURI);
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(express.static('client'));
 
+var port = process.env.PORT || 3000;
+
+// ROUTES FOR OUR API
+//============================================
+
+var userRouter = require('./routers/userRouter.js');
+var itemRouter = require('./routers/itemRouter.js');
+
+// points to user and item routers at respective routes
+app.use('/api/users', userRouter);
+app.use('/api/items', itemRouter);
+
 app.get('/', function(req, res) {
-  res.send('successful get request');
+  res.json({message: 'Ready to go!'});
 });
 
 app.post('/', function(req, res) {
 });
 
-
-
-app.listen(3000);
+// START THE SERVER
+//============================================
+app.listen(port, function(err) {
+  if (err) {
+    console.log(err);
+  }
+  console.log('Borrow App up and running on port: ' + port);
+});

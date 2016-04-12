@@ -1,29 +1,27 @@
 var mongoose = require('mongoose');
-var Item = require('../models/itemModel');
+var Item = require('../models/itemModel.js');  //require Item model to make relational connection to User inventory items
 
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-  userName: {
 
-    _id: Number,
-    type: String,
-    required: true,
-    unique: true
-},
+  firstName: String,
+  lastName: String,
+  userName: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  created_At: Date,
+  updated_At: Date,
   inventory: {
     type: [{type: Schema.Types.ObjectId, ref: 'Item'}],
     default: []
   },
-  password: {
-    type: String,
-    required: true
-  }
 });
 
 userSchema.pre('save', function (next) {
-var err = new Error('something went wrong');
-  next(err);
+var err = new Error('Whoops! Something went wrong.');
+  next();
 });
 
-module.exports = mongoose.model('User', userSchema);
+//Create a model using the schema
+var User = mongoose.model('User', userSchema);
+module.exports = User;
