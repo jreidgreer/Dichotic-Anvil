@@ -6,11 +6,10 @@ userRouter.route('/') // to all users (/api/users/)
   .post(userController.createOne);
 
 userRouter.route('/login') // to all users (/api/users/login)
-.post(userController.retrieveOne);
+  .post(userController.verifyLogin);
 
 
 userRouter.route('/:user_id') // to one specific user (/api/users/:user_id)
-  .get(userController.retrieveOne)
   .put(userController.updateOne)
   .delete(userController.deleteOne);
 

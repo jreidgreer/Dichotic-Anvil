@@ -1,6 +1,8 @@
 angular.module('borrow', ['ngRoute',
+  'borrow.userServices',
   'borrow.signup',
-  'borrow.userServices'
+  'borrow.login',
+  'borrow.dashboard'
 ])
 
 .config(function($routeProvider) {
@@ -13,7 +15,7 @@ angular.module('borrow', ['ngRoute',
 
   .when('/signup', {
     templateUrl : './views/signup/signup.html',
-    controller: 'signUpCtrl'
+    controller: 'signUpController'
   })
 
   .when('/dashboard', {
