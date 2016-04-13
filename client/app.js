@@ -2,6 +2,7 @@ angular.module('borrow', ['ngRoute',
   'borrow.userServices',
   'borrow.signup',
   'borrow.login',
+  'borrow.upload',
   'borrow.dashboard'
 ])
 
@@ -22,6 +23,12 @@ angular.module('borrow', ['ngRoute',
     templateUrl : './views/dashboard/dashboard.html',
     controller: 'dashController',
     authenticate: true
+  })
+
+  .when('/upload', {
+    templateUrl : './views/upload/upload.html',
+    controller: 'uploadItemController'
+    // authenticate: true
   })
 
   $httpProvider.interceptors.push('AttachTokens');

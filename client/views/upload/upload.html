@@ -1,0 +1,22 @@
+<div>
+
+  <h1>Please Upload Your Item Here</h1>
+  <form name='uploadItemForm' ng-submit='uploadItem()' class='uploadForm' autocomplete="off">
+   
+    <label for="itemName">Your Item's Name</label>
+    <input type='text' name='itemName' ng-model="itemName" required>
+    <br>
+  
+    <label for="itemImage">Does your item have an image?</label>
+    <input type="file" name="itemImage" id="itemImage" name="img" ng-model="itemImage"  required>
+    <br>
+  
+    <label for="itemDescription">Would you like to describe you image?</label>
+    <!-- <input type='text' name='itemDescription' ng-model="firstDescription" required> -->
+    <textarea type='textarea' name='itemDescription' ng-model="firstDescription" required> </textarea>
+    <br>
+    
+    <button type='submit'>Add Item</button>
+  </form>
+
+</div>
