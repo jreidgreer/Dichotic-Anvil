@@ -5,6 +5,9 @@ userRouter.route('/') // to all users (/api/users/)
   .get(userController.retrieveAll)
   .post(userController.createOne);
 
+userRouter.route('/login') // to all users (/api/users/login)
+.post(userController.retrieveOne);
+
 
 userRouter.route('/:user_id') // to one specific user (/api/users/:user_id)
   .get(userController.retrieveOne)
