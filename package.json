@@ -12,6 +12,8 @@
     "angular": "^1.5.3",
     "body-parser": "~1.0.1",
     "express": "~4.0.0",
-    "mongoose": "~3.6.13"
+    "jsonwebtoken": "^5.7.0",
+    "mongoose": "~3.6.13",
+    "morgan": "^1.7.0"
   }
 }
