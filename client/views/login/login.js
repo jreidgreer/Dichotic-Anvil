@@ -1,5 +1,5 @@
 angular.module('borrow.login', [])
-.controller('loginController', function($scope, $http, $location, User) {
+.controller('loginController', function($scope, $window, $location, Auth) {
 
   $scope.login = function() {
     
@@ -8,13 +8,18 @@ angular.module('borrow.login', [])
       password: $scope.password
     };
 
-   User.login(data, function(resp) {
-    if (!resp.error) {
-      $location.path('/dashboard');
-    } else {
-      $scope.error = 'Incorrect username or password!!!!!';
-    }
-   });
-  
+    Auth.login(data, function(token) {
+        $window.localStorage.setItem('com.borrow', token);
+        $location.path('/dashboard');
+    });
   };
+
+   // User.login(data, function(resp) {
+   //  if (!resp.error) {
+   //    $location.path('/dashboard');
+   //  } else {
+   //    $scope.error = 'Incorrect username or password!!!!!';
+   //  }
+   // });
+  
 });
