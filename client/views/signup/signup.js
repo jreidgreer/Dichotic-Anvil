@@ -1,5 +1,5 @@
 angular.module('borrow.signup', [])
-.controller('signUpCtrl', function($scope, $http, User) {
+.controller('signUpController', function($scope, $http, User) {
 
   $scope.signUp = function() {
     
