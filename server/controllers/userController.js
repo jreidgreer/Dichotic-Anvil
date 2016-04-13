@@ -1,6 +1,8 @@
 
 //require user model
 var User = require('../models/userModel.js');
+var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
+
 
 // CRUD ACTIONS
 //============================================
@@ -15,23 +17,47 @@ exports.createOne = function(req, res) {
   });
 };
 
-exports.verifyLogin = function(req, res) {
-  var username = {userName: req.body.userName};
-  User.findOne(username, function(err, user) {
+exports.verifyLogin = function(req, res, next) {
+  var userName = req.body.userName;
+  var password = req.body.password;
+
+  console.log('USERNAME======', userName);
+  console.log('PASSWORD======', password);
+
+  User.findOne({userName: userName}, function(err, user) {
     if(!user) {
-      res.send({error: 'no user found'});
+      next(console.error('User not found', err));
     } else {
-      if (req.body.password === user.password) {
-        res.send({
-          username: user.userName,
-          inventory: user.inventory
-        });
-      } else {
-        res.send({error: 'invalid email or password'});
-      }
+      user.comparePasswords(password, function(err, compareResult){
+        if (err) {
+          console.error('Error with password comparison', err);
+        }
+        if(compareResult) {
+          var token = jwt.encode(user, 'shhhhh');
+          res.json({token: token});
+        } else {
+          return next(console.log('Passwords do not match'));
+        }
+      });
     }
   });
 };
+
+exports.authCheck = function (req, res) {
+  var token = req.headers['x-access-token'];
+  if (!token) {
+    res.json({error: 'No token'});
+  } else {
+    var user = jwt.decode(token, 'shhhhh');
+    User.findOne({userName: user.userName}, function(err, foundUser) {
+        if (foundUser) {
+          res.send(200);
+        } else {
+          res.send(401);
+        }
+    })
+  }
+}
 
 exports.retrieveAll = function(req, res) {
   var query = req.query;

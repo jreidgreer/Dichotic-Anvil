@@ -1,5 +1,5 @@
 angular.module('borrow.signup', [])
-.controller('signUpController', function($scope, $http, User) {
+.controller('signUpController', function($scope, $window, $location, Auth) {
 
   $scope.signUp = function() {
     
@@ -11,6 +11,11 @@ angular.module('borrow.signup', [])
       created_At: Date()
     };
 
-    User.createUser(data);
+    Auth.createUser(data, function(token) {
+        $window.localStorage.setItem('com.borrow', token);
+        $location.path('/dashboard');
+    });
+
+    // User.createUser(data);
   };
 });
