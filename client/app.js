@@ -7,17 +7,17 @@ angular.module('borrow', ['ngRoute',
   $routeProvider
 
   .when('/login', {
-    templateUrl : '/views/login.html',
+    templateUrl : './views/login/login.html',
     controller: 'loginController'
   })
 
   .when('/signup', {
-    templateUrl : '/views/signup/signup.html',
+    templateUrl : './views/signup/signup.html',
     controller: 'signUpCtrl'
   })
 
   .when('/dashboard', {
-    templateUrl : '/views/dashboard.html',
+    templateUrl : './views/dashboard/dashboard.html',
     controller: 'dashController'
   })
 });
