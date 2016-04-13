@@ -1,5 +1,14 @@
-<div>
-  <h1>User Dashboard<h1>
-  <img src='https://pbs.twimg.com/profile_images/652848456071909376/r51WPHEC.jpg'>
-  <p>Michael's Things<p>
-</div>
+<div class='dashboard'>
+	<section>
+		<aside>
+			<img ng-src='pathtoimg/{{hash}}' class='user-profile-image' alt="Description">
+			<h1 class='user-name' ng-model='username'></h1>
+			<ul class='user-friends'>
+				<li ng-repeat=''>{{}}</li>
+			</ul>
+		</aside>
+	</section>
+	<div class='user-inventory' ng-repeat='img in inventory'>
+		<image ng-src=''/>
+	</div>
+</div> 
