@@ -13,13 +13,4 @@ angular.module('borrow.login', [])
         $location.path('/dashboard');
     });
   };
-
-   // User.login(data, function(resp) {
-   //  if (!resp.error) {
-   //    $location.path('/dashboard');
-   //  } else {
-   //    $scope.error = 'Incorrect username or password!!!!!';
-   //  }
-   // });
-  
 });
