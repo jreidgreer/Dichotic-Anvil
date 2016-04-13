@@ -1,22 +1,93 @@
-<div>
+<div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title text-center">
+                <span class="glyphicon glyphicon-user"></span>Upload Item Form
+            </h2>
+        </div>
+        <div class="panel-body">
+            <!-- The form to add item information -->
+            <form name ="addForm" novalidate>
+                <div class="form-group">
+                    <label for="username">Name</label>
+                    <input type="text" class="form-control" placeholder="Item name" ng-model="item.itemName" required>
+                </div>
 
-  <h1>Please Upload Your Item Here</h1>
+                <label class="radio control-label">Borrowed?</label>
+                <div class="radio" >
+                    <label>
+                        <input type="radio" name="optionsRadios" value="Yes" ng-model="item.borrowed" >
+                        Yes
+                    </label>
+                </div>
+                <div class="radio" >
+                    <label>
+                        <input type="radio" name="optionsRadios" value="No" ng-model="item.borrowed" required>
+                        No
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="username">Desciption</label>
+                    <input type="text" class="form-control" placeholder="Description" ng-model="item.itemDescription" required>
+                </div>
+                <div class="form-group">
+                    <label for="picture">Main picture</label>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-default" ng-click="upload()">
+                            Upload <span class="caret"></span>
+                        </button>
+                        <div style="margin-top:10px;">
+                            <!-- Show the thumbnail only when the picture is uploaded -->
+                            <a href="{{item.picture.url}}" class="thumbnail" ng-if="item.picture">
+                            <!-- the picture is rendered with width: 500 and sharpened -->
+                            <img ng-src="{{item.picture.url | fpConvert: {filter:'sharpen'} }}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="picture">More pictures? (Max 3, optional!)</label>
+                    <div class="text-center">
+                    <button type="button" class="btn btn-default" ng-click="uploadMultiple()">
+                    Upload <span class="caret"></span>
+                    </button>
+                    <!-- Show the thumbanil of more pictures -->
+                        <div style="margin-top:10px;" ng-repeat="picture in item.morePictures">     <div class="col-md-{{12 / item.morePictures.length}}">
+                            <a href="{{picture.url}}" class="thumbnail">
+                              <img ng-src="{{picture.url | fpConvert: {filter:'sharpen'} }}">
+                            </a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <hr />
+                <button type="submit" class="btn btn-danger btn-block"  ng-click="createItem()" ng-disabled="item.$invalid || !item.picture">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--
+
+
   <form name='uploadItemForm' ng-submit='uploadItem()' class='uploadForm' autocomplete="off">
-   
+
     <label for="itemName">Your Item's Name</label>
     <input type='text' name='itemName' ng-model="itemName" required>
     <br>
-  
+
     <label for="itemImage">Does your item have an image?</label>
     <input type="file" name="itemImage" id="itemImage" name="img" ng-model="itemImage"  required>
     <br>
-  
+
     <label for="itemDescription">Would you like to describe you image?</label>
-    <!-- <input type='text' name='itemDescription' ng-model="firstDescription" required> -->
+    <!-- <input type='text' name='itemDescription' ng-model="firstDescription" required>
     <textarea type='textarea' name='itemDescription' ng-model="firstDescription" required> </textarea>
     <br>
-    
+
     <button type='submit'>Add Item</button>
   </form>
 
 </div>
+-->

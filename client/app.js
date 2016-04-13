@@ -1,4 +1,5 @@
 angular.module('borrow', ['ngRoute',
+  'angular-filepicker',
   'borrow.userServices',
   'borrow.signup',
   'borrow.login',
@@ -6,7 +7,7 @@ angular.module('borrow', ['ngRoute',
   'borrow.dashboard'
 ])
 
-.config(function($routeProvider, $httpProvider) {
+.config(function($routeProvider, filepickerProvider, $httpProvider) {
   $routeProvider
 
   .when('/login', {
@@ -27,9 +28,11 @@ angular.module('borrow', ['ngRoute',
 
   .when('/upload', {
     templateUrl : './views/upload/upload.html',
-    controller: 'uploadItemController'
+    controller: 'addItemController'
     // authenticate: true
   })
+  filepickerProvider.setKey('A1IrC7fsKQuqV78eZa0euz');
+
 
   $httpProvider.interceptors.push('AttachTokens');
 })
@@ -53,3 +56,17 @@ angular.module('borrow', ['ngRoute',
     }
   });
 })
+
+
+var app = angular.module('superheroApp', ['addSuperheroCtrl',  'ngRoute', 'angular-filepicker'])
+    .config(function($routeProvider, filepickerProvider){
+        //The route provider handles the client request to switch route
+        $routeProvider.when('/addSuperhero', {
+            templateUrl: 'partials/addSuperhero.html',
+                        controller: 'addSuperheroController'
+        })
+        //Redirect to addSuperhero in all the other cases.
+        .otherwise({redirectTo:'/addSuperhero'});
+        //Add the API key to use filestack service
+        filepickerProvider.setKey('YOUR_API_KEY');
+});
