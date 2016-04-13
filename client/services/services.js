@@ -1,5 +1,5 @@
 angular.module('borrow.userServices', [])
-  .factory('User', function($http) {
+  .factory('User', function($http, $location) {
 
     var createUser = function(user) {
       return $http.post('/api/users/', user)
@@ -11,11 +11,19 @@ angular.module('borrow.userServices', [])
         });
     }
 
-    // var getUser = function(userName) {
-    //   return $http.get('/api/users/');
-    // }
+    var login = function(user, callback) {
+      return $http.post('/api/users/login', user)
+        .then(function(resp) {
+          callback(resp.data)
+          console.log('User logged in')
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    }
 
     return {
-      createUser: createUser
+      createUser: createUser,
+      login: login
     }
   });
