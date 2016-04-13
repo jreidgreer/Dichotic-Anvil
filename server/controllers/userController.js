@@ -1,5 +1,5 @@
 
-//require user model
+//require user model and jwt
 var User = require('../models/userModel.js');
 var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 

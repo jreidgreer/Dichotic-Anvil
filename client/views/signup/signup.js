@@ -15,7 +15,5 @@ angular.module('borrow.signup', [])
         $window.localStorage.setItem('com.borrow', token);
         $location.path('/dashboard');
     });
-
-    // User.createUser(data);
   };
 });
