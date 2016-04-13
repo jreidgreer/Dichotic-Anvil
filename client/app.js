@@ -27,7 +27,7 @@ angular.module('borrow', ['ngRoute',
 
   .when('/upload', {
     templateUrl : './views/upload/upload.html',
-    controller: 'uploadItemController',
+    controller: 'uploadItemController'
     // authenticate: true
   })
 
