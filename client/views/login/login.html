@@ -1,18 +1,16 @@
 <div>
   <h1>Login Page<h1>
-  <p>{{message}}</p>
-
-  <form name='loginForm' ng-submit='postData()' class='signupForm' autocomplete="off">
+  <div ng-show='error'>{{error}}</div>
+  <form name='loginForm' ng-submit='login()' class='signupForm' autocomplete="off">
     
     <label>Username</label> <br/>
     <input type='text' name='username' ng-model="userName" required><br/>
     
     <label>Password</label> <br/>
-    <input type='password' name='password' ng-model="passWord" required><br/>
+    <input type='password' name='password' ng-model="password" required><br/>
     
-    <button type='submit'>Signup</button>
+    <button type='submit'>Login</button>
   </form>
-  <h1> {{ response }} </h1>
 </div>
 
 
