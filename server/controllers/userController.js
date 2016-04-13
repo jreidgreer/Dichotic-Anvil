@@ -64,7 +64,7 @@ exports.retrieveAll = function(req, res) {
   User.find(query, function(err, allUsers){
     if(err){
       return res.json(err);
-    } 
+    }
     res.json(allUsers);
   });
 };
@@ -76,7 +76,7 @@ exports.updateOne = function(req, res) {
   User.findOneAndUpdate(query, updatedProps, options, function(err, matchingUser){
     if(err){
       return res.json(err);
-    } 
+    }
     res.json(matchingUser);
   });
 };
@@ -86,7 +86,7 @@ exports.deleteOne = function(req, res) {
   User.findOneAndRemove(query, function(err, matchingUser){
     if(err){
       return res.json(err);
-    } 
+    }
     res.json(matchingUser);
   });
 };
