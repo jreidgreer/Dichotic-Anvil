@@ -36,7 +36,7 @@ exports.verifyLogin = function(req, res, next) {
         }
         if(compareResult) {
           var token = jwt.encode(user, 'shhhhh');
-          res.json({token: token});
+          res.json({token: token, user: {userName: user.userName, userId: user._id}});
         } else {
           return next(console.log('Passwords do not match'));
         }

@@ -8,8 +8,9 @@ angular.module('borrow.login', [])
       password: $scope.password
     };
 
-    Auth.login(data, function(token) {
+    Auth.login(data, function(token, data) {
         $window.localStorage.setItem('com.borrow', token);
+        $window.localStorage.setItem('userName', data);
         $location.path('/dashboard');
     });
   };
