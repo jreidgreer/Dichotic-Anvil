@@ -5,11 +5,17 @@ angular.module('borrow', ['ngRoute',
   'borrow.login',
   'borrow.upload',
   'borrow.gallery',
+  'borrow.landing',
   'borrow.dashboard'
 ])
 
 .config(function($routeProvider, filepickerProvider, $httpProvider) {
   $routeProvider
+
+  .when('/', {
+      templateUrl: './views/landing/landing.html',
+      controller: 'landingController'
+    })
 
   .when('/login', {
     templateUrl : './views/login/login.html',
