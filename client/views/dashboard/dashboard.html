@@ -1,16 +1,36 @@
+
+
 <div class='dashboard'>
-<button type='submit' ng-click='signout()'>Logout</button>
 	<section>
 		<aside>
 			<img ng-src='pathtoimg/{{hash}}' class='user-profile-image' alt="Description">
 			<h1 class='user-name' ng-model='username'></h1>
 			<ul class='user-friends'>
 				<!-- <li ng-repeat=''>{{}}</li> -->
+
 			</ul>
 		</aside>
-	</section>
+		</section>
+		<div class="row">
+<div ng-repeat="item in items">
+    <div class="col-md-4 col-xs-6  col-sm-offset-0">
+    <div class="thumbnail">
+      <img ng-src="{{item.picture.url | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
+      <div class="caption text-center">
+        <h3>{{item.itemName}}</h3>
+        <p><label>Description: </label> {{item.itemDescription}}</p>
+        <div class="text-right"><a ng-href="/#/detail/{{item._id}}" class="btn btn-danger" role="button">View</a> </div>
+      </div>
+    </div>
+    </div>
+</div>
+</div>
+
+
+
 	<a href="#/upload" >Add a thing!</a>
 	<div class='user-inventory' ng-repeat='img in inventory'>
 		<image ng-src=''/>
 	</div>
 </div>
+<button type='submit' ng-click='signout()'>Logout</button>
