@@ -11,8 +11,10 @@ exports.createOne = function(req, res) {
   var newUser = req.body;
   User.create(newUser, function(err, user) {
     if(err) {
+      console.log(err);
       return res.json(err);
     }
+    console.log(user);
     res.json(user);
   });
 };
