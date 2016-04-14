@@ -2,8 +2,6 @@
 
 angular.module('borrow.gallery', [])
   .controller('galleryController', function($scope, Auth, $http) {
-  $scope.query = {};
-  $scope.queryBy = '$';
   $scope.items = [];
     //Retrieve all the superheroes to show the gallery
   $http.get('/api/items')
