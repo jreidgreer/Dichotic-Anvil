@@ -5,7 +5,7 @@ var itemSchema = new Schema({
   _item : {type: Number, ref : 'User' },
   itemName : String,
   borrowed : Boolean,
-  itemDescriptiom: String,
+  itemDescription: String,
   picture: {type: Schema.Types.Mixed},
   morePictures: Schema.Types.Mixed, // this is not required
   createdAt: {type: Date, default: Date.now}
