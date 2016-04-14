@@ -4,6 +4,7 @@ angular.module('borrow', ['ngRoute',
   'borrow.signup',
   'borrow.login',
   'borrow.upload',
+  'borrow.gallery',
   'borrow.dashboard'
 ])
 
@@ -29,6 +30,12 @@ angular.module('borrow', ['ngRoute',
   .when('/upload', {
     templateUrl : './views/upload/upload.html',
     controller: 'addItemController',
+    authenticate: true
+  })
+
+  .when('/gallery', {
+    templateUrl : './views/gallery/gallery.html',
+    controller: 'galleryController',
     authenticate: true
   })
 
