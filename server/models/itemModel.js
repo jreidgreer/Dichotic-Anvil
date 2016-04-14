@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var relationship = require("mongoose-relationship");
 
 var itemSchema = new Schema({
-  _item : {type: Number, ref : 'User' },
+  owner : {type: Schema.ObjectId, ref:'User', childPath: 'inventory'},
   itemName : String,
   borrowed : Boolean,
   itemDescription: String,
@@ -18,6 +19,9 @@ itemSchema.pre('save', function(next){
     }
     next();
 });
+
+itemSchema.plugin(relationship, {relationshipPathName: 'owner'});
+
 //Create a model using the schema
 var Item = mongoose.model('Item', itemSchema);
 module.exports = Item;
