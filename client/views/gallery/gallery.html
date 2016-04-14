@@ -1,27 +1,42 @@
 
-<div class="row">
-    <div class="col-md-12">
-      <form action="" method="POST" role="form">
-        <div class="input-group">
-          <input type="search" id="search" class="form-control" ng-model="search">
-           <div class="input-group-addon">Found {{(items | filter:search).length}} of {{items.length}}</div>
-        </div>
-      </form>
-    </div>
+<div class="container">
+<h1>Search for items to borrow!</h1>
+  <div class="row">
+    <style type="text/css">
+    h1 {
+      text-align: center;
+    }
+      .controls {
+        padding-bottom: 20px;
+        margin-bottom: 10px;
+      }
+      .container .row blockquote {
+        border-left: 0px !Important;
+      }
+    </style>
+`</div>
+
+<div class="col-md-12">
+    <form action="" method="POST" role="form">
+      <div class="input-group">
+        <input type="search" id="search" class="form-control" ng-model="search">
+        <div class="input-group-addon">Found {{(items | filter:search).length}} of {{items.length}}</div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div class="container result">
-      <div ng-class="item ? 'col-md-6' : 'col-md-4'" class="item" ng-repeat="item in items | filter:search | orderBy:'item.itemName':reverse">
-
-        <div class="thumbnail">
-        <img ng-src="{{item.picture.url | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
-          <div class="caption text-center">
-           <h3>{{item.itemName}}</h3>
-            <p><label>Description: </label> {{item.itemDescription}}</p>
-            <div class="text-right">
-           <a ng-href="/#/detail/{{item._id}}" class="btn btn-danger" role="button">View</a>
-           </div>
-       </div>
+  <div ng-class="item ? 'col-md-6' : 'col-md-4'" class="item" ng-repeat="item in items | filter:search | orderBy:'item.itemName':reverse">
+   <div class="thumbnail">
+    <img ng-src="{{item.picture.url | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
+      <div class="caption text-center">
+          <h3>{{item.itemName}}</h3>
+          <p><label>Description: </label> {{item.itemDescription}}</p>
+        <div class="text-right">
+          <a ng-href="/#/detail/{{item._id}}" class="btn btn-danger" role="button">View</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
