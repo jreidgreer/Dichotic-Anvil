@@ -1,19 +1,31 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" ng-app="borrow">
+
 <head>
+
   <meta charset="utf-8">
   <title>borrow</title>
+
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  
+  <!-- Dependencies -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
   <script src="./bower_components/filepicker-js/filepicker.js"></script>
   <script src="./bower_components/angular-filepicker/dist/angular_filepicker.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="./styles/style.css">
+
 </head>
 <body>
-<h3>borrow</h3>
+
+  <!-- Main View -->
   <div ng-view></div>
+
   <script src='./services/services.js'></script>
+  <script src='./views/landing/landing.js'></script>
   <script src='./views/dashboard/dashboard.js'></script>
   <script src='./views/gallery/gallery.js'></script>
   <script src='./views/signup/signup.js'></script>
