@@ -1,0 +1,11 @@
+.jumbotron {
+  height: 800px;
+  color: white;
+  background-image: url('../assets/header-bg.jpg');
+  text-shadow: #444 0 1px 1px;
+}
+
+.nav-color {
+  background-color: #FFC204;
+  margin: 0;
+}
