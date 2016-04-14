@@ -8,7 +8,7 @@ angular.module('borrow.userServices', [])
       data: user
     })
     .then(function (resp) {
-      callback(resp.data.token);
+      callback(resp.data.token, resp.data.user);
     });
   };
 
