@@ -49,10 +49,20 @@ html, body, .ng-scope {
     display: table-row;
 }
 
+
+.container, .container .row, section {
+  background-color: #FFF5D9;
+}
+
+.upload, .panel, body{
+  background-color: #FFF5D9;
+
+}
+
 .image-block {
     border: 3px solid white ;
     background-color: black;
-    padding: 0px;    
+    padding: 0px;
     margin: 0px;
     height:200px;
     width: 200px;
@@ -69,5 +79,5 @@ html, body, .ng-scope {
     color: rgba(6,6,6,0.0);
 }
 .image-block:hover > p {
-    background-color: rgba(28,61,178,0.5);    
+    background-color: rgba(28,61,178,0.5);
     color: white;
