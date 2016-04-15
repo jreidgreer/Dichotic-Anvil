@@ -8,7 +8,12 @@ angular.module('borrow.dashboard', [])
   $http.get('/api/user/me')
   .success(function(data){
     console.log(JSON.stringify(data));
-     $scope.items = data;
+     $scope.user = data;
+     console.log($scope.user)
+
+     for (var i = 0; i < $scope.user.inventory.length; i++) {
+      $scope.items.push($scope.user.inventory[i].picture.url)
+     }
   })
   .error(function(data) {
         console.log('Error: ' + data);
