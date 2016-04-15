@@ -5,8 +5,16 @@ var Item = require('../models/itemModel.js');
 // CRUD ACTIONS
 //============================================
 
+// NEEDS MIDDLEWARE
 exports.createOne = function(req, res) {
   var newItem = new Item(req.body);
+  
+  // set the owner to the current users _id
+
+  console.log(req.currentUser);
+
+  newItem.owner = req.currentUser._id;
+
   newItem.save(function(err) {
     if(err){
       return res.json(err);
@@ -15,6 +23,7 @@ exports.createOne = function(req, res) {
   });
 };
 
+// NEEDS MIDDLEWARE
 exports.retrieveOne = function(req, res) {
   //have to look in req.params to check for the id. Set the _id to to the value in req.params.id
   var query = {_id: req.params.item_id};
@@ -26,6 +35,7 @@ exports.retrieveOne = function(req, res) {
   });
 };
 
+// NEEDS MIDDLEWARE
 exports.retrieveAll = function(req, res) {
   Item.find(function(err, allItems){
     if(err){
@@ -35,6 +45,7 @@ exports.retrieveAll = function(req, res) {
   });
 };
 
+// NEEDS MIDDLEWARE
 exports.updateOne = function(req, res) {
   var query = {_id: req.params.item_id};
   Item.findById(query, function(err, matchingItem){
@@ -56,6 +67,7 @@ exports.updateOne = function(req, res) {
   });
 };
 
+// NEEDS MIDDLEWARE
 exports.deleteOne = function(req, res) {
   var query = {_id: req.params.item_id};
   Item.findOneByIdAndRemove(query, function(err, matchingItem){
