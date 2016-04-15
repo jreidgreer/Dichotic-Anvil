@@ -3,26 +3,41 @@
 angular.module('borrow.dashboard', [])
   .controller('dashController', function($scope, $http, Auth) {
 
-    $scope.items = [];
+  $scope.items = [];
+  $scope.requestItems = [];
+  $scope.requestMessages = [];
 
-    $http.get('/api/user/me')
-      .success(function(data){
-        console.log(JSON.stringify(data));
-         $scope.user = data;
-         console.log($scope.user)
-    
-        $scope.numPersonalItems = $scope.user.inventory.length
 
-        for (var i = 0; i < $scope.user.inventory.length; i++) {
-          $scope.items.push($scope.user.inventory[i].picture.url)
+  // Get the user object to populate dashboard
+  $http.get('/api/user/me')
+    .success(function(data){
+      // console.log(JSON.stringify(data));
+      $scope.user = data;
+      console.log($scope.user)
+      
+      $scope.numPersonalItems = $scope.user.inventory.length;
+      // Iterate over inventory to populate user items
+      for (var i = 0; i < $scope.user.inventory.length; i++) {
+        $scope.items.push($scope.user.inventory[i].picture.url)
+       }
+      // Iterate over inventory to populate items that have requests
+      for (var i = 0; i < $scope.user.inventory.length; i++) {
+        if($scope.user.inventory[i].requested) {
+          $scope.requestItems.push($scope.user.inventory[i]);
         }
-      })
-      .error(function(data) {
-            console.log('Error: ' + data);
-      });
-  
-    $scope.signout = function() {
-      Auth.signout();
-    };
+      }
+      // Push strings to requestMessages array
+      for(var i = 0; i < requestItems.length; i++) {
+        $scope.requestMessages.push(requestItems[i].whoWantsIt + ' would like to borrow your ' + requestItems[i].itemName)
+      }
+    })
+    .error(function(data) {
+      console.log('Error: ' + data);
+    
+  });
+
+  $scope.signout = function() {
+    Auth.signout();
+  };
 
 });

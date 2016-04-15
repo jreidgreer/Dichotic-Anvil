@@ -31,8 +31,9 @@
                 <div class="form-group">
                     <label for="username">Name</label>
                     <input type="text" class="form-control" placeholder="Item name" ng-model="item.itemName" required>
-            <!-- intialize borrowed to false upon uploading a new item -->
+            <!-- intialize borrowed and requested to false upon uploading a new item -->
                     <input type="hidden" name="borrowed" ng-init="item.borrowed='false';" ng-value="borrowed"/>
+                    <input type="hidden" name="requested" ng-init="item.requested='false';" ng-value="requested"/>
                 </div>
 
                 <div class="form-group">
