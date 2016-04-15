@@ -2,12 +2,13 @@ angular.module('borrow.signup', [])
 .controller('signUpController', function($scope, $window, $location, Auth) {
 
   $scope.signUp = function() {
-    
+
     var data = {
       firstName: $scope.firstName,
       lastName: $scope.lastName,
       userName: $scope.userName,
       password: $scope.password,
+      picture: $scope.picture,
       created_At: Date()
     };
 

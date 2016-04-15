@@ -11,11 +11,12 @@ var userSchema = new Schema({
   lastName: String,
   userName: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true },
+  picture: {type: Schema.Types.Mixed},
   created_At: Date,
   updated_At: Date,
   inventory: [
     {
-      type: Schema.ObjectId, 
+      type: Schema.ObjectId,
       ref: 'Item',
       default: []
     }
