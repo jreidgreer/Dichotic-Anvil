@@ -1,23 +1,46 @@
+
 <div>
  <form name='signUpForm' ng-submit='signUp()' class='signupForm' autocomplete="off">
+
   <div class="form-group">
  	  <label for="inputFirstName">First Name</label>
  		<input type='text' name='firstname' ng-model="firstName" id="inputFirstName"required><br/>
   </div>
+
   <div class="form-group">
  	  <label for="inputLastName">Last Name</label>
  		<input type='text' name='lastname' ng-model="lastName" id="inputLastName"required><br/>
   </div>
 
-
   <div class="form-group">
     <label for="inputUserName">Username</label>
     <input type='text' name='username' ng-model="userName" id="inputUserName"required><br/>
   </div>
+
   <div class="form-group">
     <label for="inputPassword">Password</label>
     <input type='password' name='password' ng-model="password" id="inputPassword"required><br/>
   </div>
+
+ <div class="form-group">
+                    <label for="picture">Main picture</label>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-default" ng-click="upload()">
+                            Upload <span class="caret"></span>
+                        </button>
+                        <div style="margin-top:10px;">
+                            <!-- Show the thumbnail only when the picture is uploaded -->
+
+                            <a href="{{picture.url}}" class="thumbnail" ng-if="picture">
+                            <!-- the picture is rendered with width: 500 and sharpened -->
+                                                        <img ng-src="{{picture.url | fpConvert: {filter:'sharpen'} }}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
   <button class="btn btn-primary" type='submit'>Signup</button>
  </form>
 </div>
+
+

@@ -49,16 +49,6 @@ html, body, .ng-scope {
     display: table-row;
 }
 
-
-.container, .container .row, section {
-  background-color: #FFF5D9;
-}
-
-.upload, .panel, body{
-  background-color: #FFF5D9;
-
-}
-
 .image-block {
     border: 3px solid white ;
     background-color: black;
