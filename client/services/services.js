@@ -29,7 +29,7 @@ angular.module('borrow.userServices', [])
 
   var signout = function () {
     $window.localStorage.removeItem('com.borrow');
-    $location.path('/login');
+    $location.path('/');
   };
 
 
