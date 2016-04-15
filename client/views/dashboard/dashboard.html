@@ -30,8 +30,7 @@
   </div>
     <div class="navbar-right">
       <p class="navbar-text">
-        <a class="navbar-link" href="/#/signup">Signup</a>
-        <a class="navbar-link" href="/#/login">Login</a>
+        <a class="navbar-link" ng-click='signout()'>Logout</a>
       </p>
     </div>
   </div>
@@ -46,6 +45,10 @@
 				<a class="btn btn-info" href="#/gallery">Search all the things</a>
 			</div>
 		</div>
-		<div class="col-lg-8 dashboard-right"></div>
+		<div class="col-lg-8 dashboard-right">
+     <div ng-repeat='item in items'>
+       <img src={{item}}>
+     </div>  
+    </div>
 	</div>
 </div>
