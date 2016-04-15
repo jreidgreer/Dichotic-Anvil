@@ -1,4 +1,18 @@
-
+<div class="navbar nav-color">
+  <div class="container-fluid">
+  <div class='navbar-left'>
+    <div class="title">
+      <h3 class="text-left">borrow</h3>
+    </div>
+  </div>
+    <div class="navbar-right">
+      <p class="navbar-text">
+        <a class="navbar-link" ng-click='signout()'>Logout</a>
+      </p>
+    </div>
+  </div>
+</div>
+<section>
 <div class="container">
 <h1>Search for items to borrow!</h1>
   <div class="row">
@@ -34,9 +48,10 @@
           <h3>{{item.itemName}}</h3>
           <p><label>Description: </label> {{item.itemDescription}}</p>
         <div class="text-right">
-          <a ng-href="/#/detail/{{item._id}}" class="btn btn-danger" role="button">View</a>
+          <a ng-href="/#/detail/{{item._id}}" </a>
         </div>
       </div>
     </div>
   </div>
 </div>
+</section>
