@@ -81,3 +81,7 @@ html, body, .ng-scope {
 .image-block:hover > p {
     background-color: rgba(28,61,178,0.5);
     color: white;
+}
+#itemsContainer {
+  text-align: center;
+}
