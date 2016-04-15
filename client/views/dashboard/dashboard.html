@@ -1,13 +1,13 @@
 
 
-<div class='dashboard'>
+<!-- <div class='dashboard'>
 	<section>
 		<aside>
 			<img ng-src='pathtoimg/{{hash}}' class='user-profile-image' alt="Description">
 			<h1 class='user-name' ng-model='username'></h1>
-			<ul class='user-friends'>
+			<ul class='user-friends'> -->
 				<!-- <li ng-repeat=''>{{}}</li> -->
-			</ul>
+		<!-- 	</ul>
 		</aside>
 		</section>
 	<a href="#/upload" >Add a thing!</a>
@@ -19,4 +19,33 @@
 		<image ng-src=''/>
 	</div>
 </div>
-<button type='submit' ng-click='signout()'>Logout</button>
+<button type='submit' ng-click='signout()'>Logout</button> -->
+
+<div class="navbar nav-color">
+  <div class="container-fluid">
+  <div class='navbar-left'>
+    <div class="title">
+      <h3 class="text-left">borrow</h3>
+    </div>
+  </div>
+    <div class="navbar-right">
+      <p class="navbar-text">
+        <a class="navbar-link" href="/#/signup">Signup</a>
+        <a class="navbar-link" href="/#/login">Login</a>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="container dashboard-container">
+	<div class="row dashboard-row">
+		<div class="col-lg-4 dashboard-left">
+			<img src="https://lh3.googleusercontent.com/FRqHTER87jmNcUFLe7mDElVAo5-NsyVN1LbTDESYnNocWkaerVvR8HWJTFhcW-Qhyhc=w300" class="img-circle center-block" style="width:150px;height:150px">
+			<p class="text-center">I'm batman. I have lot's of things</p>
+			<div class="text-center">
+				<a class="btn btn-info" href="#/upload" >Add a thing!</a>
+				<a class="btn btn-info" href="#/gallery">Search all the things</a>
+			</div>
+		</div>
+		<div class="col-lg-8 dashboard-right"></div>
+	</div>
+</div>
