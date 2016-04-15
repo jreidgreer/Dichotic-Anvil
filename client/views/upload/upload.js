@@ -29,21 +29,4 @@ angular.module('borrow.upload', [])
             }
         );
     };
-    //Multiple files upload set to 3 as max number
-    $scope.uploadMultiple = function(){
-        filepickerService.pickMultiple(
-            {
-                mimetype: 'image/*',
-                language: 'en',
-                maxFiles: 3, //pickMultiple has one more option
-                services: ['COMPUTER','DROPBOX','GOOGLE_DRIVE','IMAGE_SEARCH', 'FACEBOOK', 'INSTAGRAM'],
-                openTo: 'IMAGE_SEARCH'
-            },
-      function(Blob){
-                console.log(JSON.stringify(Blob));
-                $scope.item.morePictures = Blob;
-                $scope.$apply();
-            }
-        );
-    };
 });

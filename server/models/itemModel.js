@@ -8,7 +8,6 @@ var itemSchema = new Schema({
   borrowed : Boolean,
   itemDescription: String,
   picture: {type: Schema.Types.Mixed},
-  morePictures: Schema.Types.Mixed, // this is not required
   createdAt: {type: Date, default: Date.now}
 });
 
