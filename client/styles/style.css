@@ -1,4 +1,4 @@
-html, body, .ng-scope {
+ html, body, .ng-scope {
   height: 100%;
 }
 .jumbotron {
@@ -32,7 +32,7 @@ html, body, .ng-scope {
 .dashboard-left {
   float: none;
   padding-top: 2em;
-  background-color: #FFF5D9;
+  background-color: #FFFCF2;
   display: table-cell;
 }
 

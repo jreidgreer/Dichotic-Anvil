@@ -21,6 +21,13 @@ var userSchema = new Schema({
       default: []
     }
   ],
+  requests: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Item',
+      default: []
+    }
+  ],
 });
 
 userSchema.methods.comparePasswords = function(inputPassword, callback) {
