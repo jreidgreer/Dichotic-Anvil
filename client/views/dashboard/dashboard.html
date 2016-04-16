@@ -20,9 +20,27 @@
 
     <!-- Left Column -->
     <div class="col-lg-3 dashboard-left">
-      <img src="https://lh3.googleusercontent.com/FRqHTER87jmNcUFLe7mDElVAo5-NsyVN1LbTDESYnNocWkaerVvR8HWJTFhcW-Qhyhc=w300" class="img-circle center-block" style="width:150px;height:150px">
-      <p class="text-center">I'm batman. I have lot's of things</p>
+      <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
+      <p class="text-center">Check out my things!</p>
       <div class="text-center">
+
+      <div class="form-group">
+                    <label for="picture">Profile Picture</label>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-default" ng-click="upload()">
+                            Upload <span class="caret"></span>
+                        </button>
+                        <div style="margin-top:10px;">
+                            <!-- Show the thumbnail only when the picture is uploaded -->
+
+                            <a href="{{user.picture.url}}" class="thumbnail" ng-if="user.picture">
+                            <!-- the picture is rendered with width: 500 and sharpened -->
+                            <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
         <a class="btn btn-info" href="#/upload" >Add a thing!</a>
         <a class="btn btn-info" href="#/gallery">Search all the things</a>
       </div>
@@ -38,7 +56,7 @@
   <div class="row dashboard-row-bottom-right">
     <div id="itemsContainer">
       <h3>You are currently have {{ numPersonalItems }} items</h3>
-    </div> 
+    </div>
     <h3>My things</h3>
     <div class="image-block col-sm-4" ng-repeat='item in items' style="background: url({{item}}) no-repeat center top;background-size:cover;">
       <p>borrow?</p>

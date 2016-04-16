@@ -1,7 +1,7 @@
 //Dashboard controller
 
 angular.module('borrow.dashboard', [])
-  .controller('dashController', function($scope, $http, Auth) {
+  .controller('dashController', function($scope, $http, Auth, filepickerService) {
 
   $scope.items = [];
   $scope.requestItems = [];
@@ -14,7 +14,7 @@ angular.module('borrow.dashboard', [])
       // console.log(JSON.stringify(data));
       $scope.user = data;
       console.log($scope.user)
-      
+
       $scope.numPersonalItems = $scope.user.inventory.length;
       // Iterate over inventory to populate user items
       for (var i = 0; i < $scope.user.inventory.length; i++) {
@@ -33,9 +33,24 @@ angular.module('borrow.dashboard', [])
     })
     .error(function(data) {
       console.log('Error: ' + data);
-    
+
   });
 
+$scope.upload = function(){
+        filepickerService.pick(
+            {
+                mimetype: 'image/*',
+                language: 'en',
+                services: ['COMPUTER','DROPBOX','GOOGLE_DRIVE','IMAGE_SEARCH', 'FACEBOOK', 'INSTAGRAM'],
+                openTo: 'IMAGE_SEARCH'
+            },
+            function(Blob){
+                console.log(JSON.stringify(Blob));
+                $scope.user.picture = Blob;
+                $scope.$apply();
+            }
+        );
+    };
   $scope.signout = function() {
     Auth.signout();
   };
