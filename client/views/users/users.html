@@ -1,7 +1,9 @@
 <div class='user-container'>
 	<div class='user-list'>
 		<ul class='friends'>
-			
+			<li ng-click='addFriend(user.userName)' ng-repeat='user in users'>
+        {{user.userName}}
+      <li>
 		</ul>
 	</div>
 </div>
