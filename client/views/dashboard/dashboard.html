@@ -27,8 +27,7 @@
 				<a class="btn btn-info" href="#/gallery">Search all the things</a>
         <a class="btn btn-info" href="#/users">Search all the users</a>
 			</div>
-		</div>
-
+      
       <div class="form-group">
         <label for="picture">Profile Picture</label>
         <div class="text-center">
@@ -42,11 +41,9 @@
             </div>
         </div>
       </div>
-                <hr />
-        <a class="btn btn-info" href="#/upload" >Add a thing!</a>
-        <a class="btn btn-info" href="#/gallery">Search all the things</a>
-      </div>
     </div>
+
+                
 
     <!-- Right Column -->
     <div class="col-lg-9 dashboard-right">
@@ -56,8 +53,8 @@
           <p>{{request}})</p>
         </div>
       <div class="row dashboard-row-bottom-right">
-        <div id="itemsContainer">
           <h3>You are currently have {{ numPersonalItems }} items</h3>
+        <div id="itemsContainer">
         </div>
         <h3>My things</h3>
         <div class="image-block col-sm-4" ng-repeat='item in items' style="background: url({{item}}) no-repeat center top;background-size:cover;">

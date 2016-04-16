@@ -26,8 +26,8 @@ angular.module('borrow.dashboard', [])
         }
       }
       // Push strings to requestMessages array
-      for(var i = 0; i < requestItems.length; i++) {
-        $scope.requestMessages.push(requestItems[i].whoWantsIt + ' would like to borrow your ' + requestItems[i].itemName)
+      for(var i = 0; i < $scope.requestItems.length; i++) {
+        $scope.requestMessages.push($scope.requestItems[i].whoWantsIt + ' would like to borrow your ' + $scope.requestItems[i].itemName)
       }
     })
     .error(function(data) {
