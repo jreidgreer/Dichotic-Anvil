@@ -27,14 +27,4 @@ angular.module('borrow.users', [])
     });
   };
 
-
-
-		// $http.post('/api/users/:user_id')
-	 //  .success(function(data) {
-	 //  	console.log(data);
-	 //  })
-	 //  .error(function(data) {
-	 //        console.log('Error: ' + data);
-	 //  });
-
 	});
