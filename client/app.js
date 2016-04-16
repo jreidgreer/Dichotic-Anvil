@@ -44,6 +44,11 @@ angular.module('borrow', ['ngRoute',
     controller: 'galleryController',
     authenticate: true
   })
+  .when('/users', {
+    templateUrl : './views/users/users.html',
+    controller: 'userController',
+    authenticate: true
+  })
 
   filepickerProvider.setKey('A1IrC7fsKQuqV78eZa0euz');
   $httpProvider.interceptors.push('AttachTokens');
