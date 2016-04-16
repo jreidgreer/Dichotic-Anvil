@@ -44,6 +44,9 @@ module.exports = function (app, express) {
   app.get('/api/user/:user_id', userController.getUser);
   app.get('/api/users', userController.retrieveAll);
 
+  // TO ADD A FRIEND
+  app.post('/api/user/me/friends', userController.addFriend);
+
   app.post('/api/users/signup', userController.createOne);
   app.post('/api/users/login', userController.verifyLogin);
 

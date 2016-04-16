@@ -13,8 +13,23 @@ exports.userWhiteList = [
   "userName",
   "firstName",
   "lastName",
-  "inventory"
+  "inventory",
+  "friends"
 ];
+
+// our user object cleaner function
+exports.filterUser = function(user_object) {
+  var response_object = {};
+
+  // process the whitelist
+  for(var k in user_object) {
+    if(exports.userWhiteList.indexOf(k) > -1) {
+      response_object[k] = user_object[k];
+    }
+  }
+
+  return response_object;
+};
 
 // Use this to dish out an error to the client
 exports.sendError =  function(res, errorString){
@@ -118,19 +133,21 @@ exports.getUser = function(req, res) {
   }
 
   User.findOne({_id: userId})
-  .populate('inventory')
+  .populate('inventory friends')
   .exec(function(err, foundUser) {
         if (foundUser){
+          
+          // clean up friends with filter
+          for(var i = 0; i < foundUser.friends.length; i++)
+          {
+            foundUser.friends[i] = exports.filterUser(foundUser.friends[i]);
 
-          var response_object = {};
-
-          // process the whitelist
-          for(var k in foundUser) {
-            if(exports.userWhiteList.indexOf(k) > -1) {
-              response_object[k] = foundUser[k];
-            }
+            // remove friends of friends so it doesn't become a recursive mess
+            delete foundUser.friends[i].friends;
           }
-            res.json(response_object);
+
+          res.json(exports.filterUser(foundUser));
+
         } else {
             exports.sendError(res, 'No user found with that ID');
         }
@@ -179,15 +196,97 @@ exports.authCheck = function (req, res, cb) {
 
 // NEEDS MIDDLEWARE
 exports.retrieveAll = function(req, res) {
-  var query = req.query;
-  User.find(query, function(err, allUsers){
-    if(err){
-      return res.json(err);
-    }
-    res.json(allUsers);
-  });
+    
+    // update to pull all users with inventory 
+
+    User.find()
+    .populate('inventory friends')
+    .exec(function(err, results) {
+
+        if(!results || results.length < 1)
+        {
+          exports.sendError(res, 'No users');
+          return;
+        }
+
+        console.log(results);
+
+        var ret = [];
+
+        // loop over results and filter using white list
+        for(var i = 0; i < results.length; i++) {
+
+          // skip me
+          if (results[i]._id.toString() === req.currentUser._id.toString()) {
+            continue;
+          }
+
+          var user = results[i];
+
+            // clean up friends with filter
+          for(var j = 0; j < user.friends.length; j++)
+          {
+            user.friends[j] = exports.filterUser(user.friends[j]);
+
+            // remove friends of friends so it doesn't become a recursive mess
+            delete user.friends[j].friends;
+          }
+
+          // push onto ret
+          ret.push(exports.filterUser(user));
+        }
+
+        res.json(ret);
+        
+      })
+
 };
 
+// NEEDS MIDDELWARE
+exports.addFriend = function(req, res) {
+
+  // get userId they are trying to add, and verify that they exist, and that we aren't already friends with them
+
+  var userId = req.body.userName;
+
+  User.findOne({userName: userId}, function(err, foundUser) {
+
+    if(!foundUser)
+    {
+      // user does not exist
+      exports.sendError(res, 'No user with that ID was found');
+      return;
+    }
+
+    // check if we are already friends with them
+    var already_friends = false;
+    for(var i = 0; i < req.currentUser.friends.length; i++)
+    {
+        if(req.currentUser.friends[i].toString() === foundUser._id.toString())
+        {
+          already_friends = true;
+          break;
+        }
+    }
+
+    if(already_friends)
+    {
+      // we're already friends with this person
+      exports.sendError(res, 'Already friends with that user');
+      return;
+    }
+
+
+    // add them
+    User.update({ _id: req.currentUser._id },
+      { $push: { friends: foundUser }}, function(err, raw) {
+
+      });
+
+    res.json({success: true, message: 'Added User'});
+
+  });
+}
 // NEEDS MIDDLEWARE
 exports.updateOne = function(req, res) {
   var query = {_id: req.params.user_id};

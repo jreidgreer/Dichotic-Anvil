@@ -7,7 +7,6 @@ angular.module('borrow.dashboard', [])
   $scope.requestItems = [];
   $scope.requestMessages = [];
 
-
   // Get the user object to populate dashboard
   $http.get('/api/user/me')
     .success(function(data){
@@ -33,7 +32,6 @@ angular.module('borrow.dashboard', [])
     })
     .error(function(data) {
       console.log('Error: ' + data);
-
   });
 
 $scope.upload = function(){

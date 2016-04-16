@@ -28,6 +28,13 @@ var userSchema = new Schema({
       default: []
     }
   ],
+  friends: [
+    {
+      type: Schema.ObjectId,
+      ref: 'User',
+      default: []
+    }
+  ]
 });
 
 userSchema.methods.comparePasswords = function(inputPassword, callback) {
