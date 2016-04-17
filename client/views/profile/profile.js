@@ -1,15 +1,14 @@
 //Dashboard controller
 
-angular.module('borrow.dashboard', [])
-  .controller('dashController', function($rootScope, $scope, $http, $location, Auth, filepickerService) {
+angular.module('borrow.profile', [])
+  .controller('profileController', function($routeParams, $scope, $http, Auth) {
 
   $scope.items = [];
-  $scope.requestItems = [];
-  $scope.requestMessages = [];
   $scope.myFriend = '';
 
+  var user_id = $routeParams.user_id;
   // Get the user object to populate dashboard
-  $http.get('/api/user/me')
+  $http.get('/api/user/' + user_id)
     .success(function(data){
       // console.log(JSON.stringify(data));
       $scope.user = data;
@@ -35,25 +34,6 @@ angular.module('borrow.dashboard', [])
       console.log('Error: ' + data);
   });   
 
-  $scope.upload = function(){
-        filepickerService.pick(
-            {
-                mimetype: 'image/*',
-                language: 'en',
-                services: ['COMPUTER','DROPBOX','GOOGLE_DRIVE','IMAGE_SEARCH', 'FACEBOOK', 'INSTAGRAM'],
-                openTo: 'IMAGE_SEARCH'
-            },
-            function(Blob){
-                console.log(JSON.stringify(Blob));
-                $scope.user.picture = Blob;
-                $scope.$apply();
-            }
-        );
-    };
-
-    $scope.viewProfile = function (friendId) {
-      $location.path('/profile/'+ friendId);
-    };
 
   $scope.signout = function() {
     Auth.signout();

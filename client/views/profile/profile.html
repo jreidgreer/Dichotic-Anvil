@@ -21,29 +21,9 @@
     <!-- Left Column -->
     <div class="col-lg-3 dashboard-left">
       <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
-      <p class="text-center">Check out my things!</p>
-      <div class="text-center">
-				<a class="btn btn-info" href="#/upload" >Add a thing!</a>
-				<a class="btn btn-info" href="#/gallery">Search all the things</a>
-        <a class="btn btn-info" href="#/users">Search all the users</a>
-			</div>
-      
-      <div class="form-group">
-        <label for="picture">Profile Picture</label>
-        <div class="text-center">
-            <button type="button" class="btn btn-default" ng-click="upload()">Upload <span class="caret"></span></button>
-            <div style="margin-top:10px;">
-                <!-- Show the thumbnail only when the picture is uploaded -->
-                <a href="{{user.picture.url}}" class="thumbnail" ng-if="user.picture">
-                <!-- the picture is rendered with width: 500 and sharpened -->
-                <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}">
-                </a>
-            </div>
-        </div>
-      </div>
       <h3>My friends</h3>
       <ul>
-        <li ng-repeat='friend in user.friends'> <a ng-click='viewProfile(friend._id)'> {{friend.userName}}</a></li>
+        <li ng-repeat='friend in user.friends'> <a ng-click='viewProfile(friend._id)'{{friend.userName}}> </a></li>
       </ul>
     </div>
 
@@ -57,7 +37,7 @@
           <p>{{request}})</p>
         </div>
       <div class="row dashboard-row-bottom-right">
-          <h3>You are currently have {{ numPersonalItems }} items</h3>
+          <h3>I currently have {{ numPersonalItems }} items</h3>
         <div id="itemsContainer">
         </div>
         <h3>My things</h3>
@@ -67,6 +47,6 @@
       </div>
       </div>
     </div>
-
+    
   </div>
 </div>
