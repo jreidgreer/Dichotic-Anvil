@@ -1,11 +1,12 @@
 //Dashboard controller
 
 angular.module('borrow.dashboard', [])
-  .controller('dashController', function($scope, $http, Auth, filepickerService) {
+  .controller('dashController', function($rootScope, $scope, $http, Auth, filepickerService) {
 
   $scope.items = [];
   $scope.requestItems = [];
   $scope.requestMessages = [];
+  $scope.myFriend = '';
 
   // Get the user object to populate dashboard
   $http.get('/api/user/me')
@@ -32,7 +33,7 @@ angular.module('borrow.dashboard', [])
     })
     .error(function(data) {
       console.log('Error: ' + data);
-  });
+  });   
 
 $scope.upload = function(){
         filepickerService.pick(
