@@ -43,7 +43,7 @@
       </div>
       <h3>My friends</h3>
       <ul>
-        <li ng-repeat='friend in user.friends'> {{friend.userName}} </li>
+        <li ng-repeat='friend in user.friends'> <a ng-click='viewProfile(friend._id)'> {{friend.userName}}</a></li>
       </ul>
     </div>
 
@@ -67,3 +67,6 @@
       </div>
       </div>
     </div>
+
+  </div>
+</div>

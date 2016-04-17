@@ -1,7 +1,7 @@
 //Dashboard controller
 
 angular.module('borrow.dashboard', [])
-  .controller('dashController', function($rootScope, $scope, $http, Auth, filepickerService) {
+  .controller('dashController', function($rootScope, $scope, $http, $location, Auth, filepickerService) {
 
   $scope.items = [];
   $scope.requestItems = [];
@@ -35,7 +35,7 @@ angular.module('borrow.dashboard', [])
       console.log('Error: ' + data);
   });   
 
-$scope.upload = function(){
+  $scope.upload = function(){
         filepickerService.pick(
             {
                 mimetype: 'image/*',
@@ -50,6 +50,11 @@ $scope.upload = function(){
             }
         );
     };
+
+    $scope.viewProfile = function (friendId) {
+      $location.path('/profile/'+ friendId);
+    };
+
   $scope.signout = function() {
     Auth.signout();
   };

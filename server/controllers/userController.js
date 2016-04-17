@@ -10,6 +10,7 @@ var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 
 // only these fields get output'd to the client from the user model
 exports.userWhiteList = [
+  "_id",
   "userName",
   "firstName",
   "lastName",

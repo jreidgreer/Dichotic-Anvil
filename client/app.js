@@ -8,6 +8,7 @@ angular.module('borrow', ['ngRoute',
   'borrow.landing',
   'borrow.dashboard',
   'borrow.users',
+  'borrow.profile'
 ])
 
 .config(function($routeProvider, filepickerProvider, $httpProvider) {
@@ -48,6 +49,11 @@ angular.module('borrow', ['ngRoute',
   .when('/users', {
     templateUrl : './views/users/users.html',
     controller: 'userController',
+    authenticate: true
+  })
+  .when('/profile/:user_id', {
+    templateUrl : './views/profile/profile.html',
+    controller: 'profileController',
     authenticate: true
   })
 
