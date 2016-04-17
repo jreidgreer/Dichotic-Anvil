@@ -23,6 +23,17 @@ angular.module('borrow.userServices', [])
     });
   };
 
+ var updateUser = function (user, callback) {
+    return $http({
+      method: 'PUT',
+      url: '/api/users/:user_id',
+      data: user
+    })
+    .then(function (resp) {
+      callback(resp.data.user);
+    });
+  };
+
   var isAuth = function () {
     return !!$window.localStorage.getItem('com.borrow');
   };
@@ -36,6 +47,7 @@ angular.module('borrow.userServices', [])
   return {
     login: login,
     createUser: createUser,
+    updateUser: updateUser,
     isAuth: isAuth,
     signout: signout
   };
