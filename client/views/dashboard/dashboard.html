@@ -41,11 +41,10 @@
             </div>
         </div>
       </div>
-
-      <div ng-repeat='friend in user.friends'>
-        <h3>My friends</h3>
-        {{friend.userName}}
-      </div>
+      <h3>My friends</h3>
+      <ul>
+        <li ng-repeat='friend in user.friends'> {{friend.userName}} </li>
+      </ul>
     </div>
 
                 

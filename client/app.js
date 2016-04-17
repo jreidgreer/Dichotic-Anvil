@@ -7,7 +7,7 @@ angular.module('borrow', ['ngRoute',
   'borrow.gallery',
   'borrow.landing',
   'borrow.dashboard',
-  'borrow.users' 
+  'borrow.users',
 ])
 
 .config(function($routeProvider, filepickerProvider, $httpProvider) {
