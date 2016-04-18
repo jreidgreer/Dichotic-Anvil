@@ -1,5 +1,5 @@
 angular.module('borrow.users', [])
-	.controller('userController', function($scope, $http) {
+	.controller('userController', function($scope, $http, Auth) {
 		$scope.users = '';
 		$http.get('/api/users')
 	  .success(function(data) {
@@ -25,6 +25,11 @@ angular.module('borrow.users', [])
     .then(function (resp) {
       console.log(resp.data);
     });
+  };
+
+
+$scope.signout = function() {
+    Auth.signout();
   };
 
 	});
