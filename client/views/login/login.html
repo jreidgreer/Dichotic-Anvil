@@ -1,8 +1,8 @@
 <div>
-  <h1>Login Page<h1>
   <div ng-show='error'>{{error}}</div>
 
-  <form name='loginForm' ng-submit='login()' class='signupForm' autocomplete="off">
+  <form name='loginForm' ng-submit='login()' class='signupForm col-md-4 col-md-offset-4' autocomplete="off">
+    <h1>Login Page<h1>
     <div class="form-group">
       <label for="inputUserName">Username</label>
       <input type='text' class="form-control" placeholder="Username" name='username' ng-model="userName" id="inputUserName"required>
