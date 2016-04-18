@@ -6,8 +6,14 @@ var itemSchema = new Schema({
   owner : {type: Schema.ObjectId, ref:'User', childPath: 'inventory'},
   itemName : String,
   borrowed : Boolean,
-  requested: Boolean,
-  whoWantsIt: {type: Schema.ObjectId, ref:'User'},
+  requests: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Request',
+      default: []
+    }
+  ],
+  
   itemDescription: String,
   picture: {type: Schema.Types.Mixed},
   createdAt: {type: Date, default: Date.now}
