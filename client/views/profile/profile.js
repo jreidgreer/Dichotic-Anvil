@@ -34,15 +34,18 @@ angular.module('borrow.profile', [])
       console.log('Error: ' + data);
   });  
 
-  $scope.borrow = function(){
-    return $http({
+  $scope.borrow = function(item){
+    $http({
       method: 'POST',
-      url: '/api/items/:item_id/borrow',
-      data: user
+      url: '/api/items/'+ item._id + '/borrow',
+      data: {duration: 5, message: 'Test'}
     })
     .then(function (resp) {
-      callback(resp.data.token);
-    });
+      console.log(resp);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
   }; 
 
 
