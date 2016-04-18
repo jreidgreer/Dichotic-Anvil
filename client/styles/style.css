@@ -11,12 +11,12 @@
   margin-top: 0px;
   width: 50%;
   height: 100%;
-  margin: auto; 
+  margin: auto;
 }
 
 .signupForm {
   width: 50%;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 .buttons {
@@ -139,5 +139,40 @@ section.uploadbg {
 
 ul {
   list-style-type: none;
+}
+body {
+  height: 100%;
+    width: 100%;
+    background-color: #FFFCF2;
+}
 
+section.userbg {
+    height: 100%;
+    width: 100%;
+    background-color: #FFFCF2;
+}
+
+h2.userlist {
+  text-align: center;
+}
+
+table.friendtable {
+    width:25%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+th, td {
+    padding: 5px;
+    text-align: center;
+}
+table.friendtable tr:nth-child(even) {
+    background-color: #eee;
+}
+table.friendtable tr:nth-child(odd) {
+   background-color:#fff;
+}
+table.friendtable th  {
+    background-color: black;
+    color: white;
 }
