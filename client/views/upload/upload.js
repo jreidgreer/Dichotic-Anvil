@@ -1,5 +1,5 @@
 angular.module('borrow.upload', [])
-.controller('addItemController', function($scope, $http, filepickerService){
+.controller('addItemController', function($scope, $http, filepickerService, Auth){
     $scope.item = {};
     //Send the newly created superhero to the server to store in the db
     $scope.createItem = function(){
@@ -29,4 +29,7 @@ angular.module('borrow.upload', [])
             }
         );
     };
+   $scope.signout = function() {
+    Auth.signout();
+  };
 });
