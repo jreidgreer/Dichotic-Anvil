@@ -17,7 +17,8 @@ exports.userWhiteList = [
   "lastName",
   "inventory",
   "friends",
-  "borrowing"
+  "borrowing",
+  "picture"
 ];
 
 // our user object cleaner function
