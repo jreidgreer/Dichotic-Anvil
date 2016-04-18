@@ -7,6 +7,7 @@ angular.module('borrow.dashboard', [])
   $scope.requestItems = [];
   $scope.requestMessages = [];
   $scope.myFriend = '';
+  $scope.borrowing = [];
 
   // Get the user object to populate dashboard
   $http.get('/api/user/me')
@@ -22,18 +23,20 @@ angular.module('borrow.dashboard', [])
        }
       // Iterate over inventory to populate items that have requests
       for (var i = 0; i < $scope.user.inventory.length; i++) {
-        if ($scope.user.inventory[i].requests) {
-          // console.log($scope.user.inventory[i].requests);
-          for (var j = 0; j < $scope.user.inventory[i].requests.length; j++) {
+        if (!$scope.user.inventory[i].borrowed){
+          if ($scope.user.inventory[i].requests) {
+            // console.log($scope.user.inventory[i].requests);
+            for (var j = 0; j < $scope.user.inventory[i].requests.length; j++) {
 
-            console.log($scope.user.inventory[i].requests[j]);
-            $scope.requestItems.push($scope.user.inventory[i].requests[j]);
+              console.log($scope.user.inventory[i].requests[j]);
+              $scope.requestItems.push($scope.user.inventory[i].requests[j]);
+            }
           }
         }
       }
-      // Push strings to requestMessages array
-      for(var i = 0; i < $scope.requestItems.length; i++) {
-        $scope.requestMessages.push($scope.requestItems[i].whoWantsIt + ' would like to borrow your ' + $scope.requestItems[i].itemName)
+
+      for (var i = 0; i < $scope.user.borrowing.length; i++) {
+        $scope.borrowing.push($scope.user.borrowing[i].item.itemName)
       }
     })
     .error(function(data) {
