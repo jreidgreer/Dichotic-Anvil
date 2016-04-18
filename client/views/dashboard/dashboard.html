@@ -8,7 +8,7 @@
   </div>
     <div class="navbar-right">
       <p class="navbar-text">
-        <a class="navbar-link" ng-click='signout()'>Logout</a>
+        <a class="btn btn-default navbar-link" href="/#/login" ng-click='signout()'>Logout</a>
       </p>
     </div>
   </div>
@@ -23,14 +23,16 @@
       <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
       <p class="text-center">Check out my things!</p>
       <div class="text-center">
+        <div class="btn-group-vertical">
 				<a class="btn btn-info" href="#/upload" >Add a thing!</a>
 				<a class="btn btn-info" href="#/gallery">Search all the things</a>
         <a class="btn btn-info" href="#/users">Search all the users</a>
+      </div>
 			</div>
 
       <h3>My friends</h3>
       <ul>
-        <li ng-repeat='friend in user.friends'> <a ng-click='viewProfile(friend._id)'> {{friend.userName}}</a></li>
+        <li ng-repeat='friend in user.friends'> <a ng-click='viewProfile(friend._id)'><h4> {{friend.userName}} </h4></a></li>
       </ul>
     </div>
 
@@ -39,19 +41,20 @@
     <!-- Right Column -->
     <div class="col-lg-9 dashboard-right">
       <div class="row dashboard-row-top-right">
-        <h3>You're currently borrowing these items</h3>
+        <h3 class="text-right">Things you're borrowing</h3>
         <ul>
-          <li ng-repeat='borrow in borrowing'>{{borrow}}</li>
-        <ul>
-        <h3>Messages</h3>
-        <div class="item-requests" ng-repeat='request in requestItems'>
-          <p>{{request}} <button type="button" class="btn btn-default" ng-click="approve(request)">Approve </button> <button type="button" class="btn btn-default" ng-click="deny(request)">Deny </button></p>
+          <li class="text-right" ng-repeat='borrow in borrowing'><h4>{{borrow}}</h4></li>
+        </ul>
+        <h3 class="text-right">Messages</h3>
+        <div class="text-right" class="item-requests" ng-repeat='request in requestItems'>
+          <p class"text-right">{{request}} <button type="button" class="btn btn-default" ng-click="approve(request)">Approve </button> <button type="button" class="btn btn-default" ng-click="deny(request)">Deny </button></p>
         </div>
+      </div>
       <div class="row dashboard-row-bottom-right">
-          <h3>You are currently have {{ numPersonalItems }} items</h3>
+          <h3 class="text-right">You are currently have {{ numPersonalItems }} items</h3>
         <div id="itemsContainer">
         </div>
-        <h3>My things</h3>
+        <h3 class="text-right">My things</h3>
         <div class="image-block col-sm-4" ng-repeat='item in items' style="background: url({{item}}) no-repeat center top;background-size:cover;">
         </div>
       </div>
