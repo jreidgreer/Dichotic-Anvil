@@ -29,13 +29,13 @@ module.exports = function (app, express) {
         // did not pass the auth check, stop the request/response
         if(!passedAuthentication) {
           userController.sendError(res, 'Unauthenticated');
-          return; 
+          return;
         }
-        
+
         // continue the request/response
         next();
       });
-      
+
   });
 
 
@@ -43,6 +43,7 @@ module.exports = function (app, express) {
   //============================================
   app.get('/api/user/:user_id', userController.getUser);
   app.get('/api/users', userController.retrieveAll);
+  app.put('/api/users/:user_id', userController.updateOne);
 
   // TO ADD A FRIEND
   app.post('/api/user/me/friends', userController.addFriend);
@@ -55,7 +56,7 @@ module.exports = function (app, express) {
   app.get('/api/items', itemController.retrieveAll);
   app.post('/api/items', itemController.createOne);
 
-  // TO BORROW AN ITEM 
+  // TO BORROW AN ITEM
   app.post('/api/items/:item_id/borrow', itemController.borrow);
 
    // REQUESTS

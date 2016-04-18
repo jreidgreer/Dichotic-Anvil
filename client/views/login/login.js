@@ -2,7 +2,7 @@ angular.module('borrow.login', [])
 .controller('loginController', function($scope, $window, $location, Auth) {
 
   $scope.login = function() {
-    
+
     var data = {
       userName: $scope.userName,
       password: $scope.password

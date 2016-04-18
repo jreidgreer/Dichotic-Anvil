@@ -26,7 +26,7 @@ exports.filterUser = function(user_object, current_user) {
   for(var k in user_object) {
     if(exports.userWhiteList.indexOf(k) > -1) {
       response_object[k] = user_object[k];
-    } 
+    }
   }
 
   // process the inventory and make sure we only show requests if the user object is the current user
@@ -124,7 +124,7 @@ exports.createNewSessionForUser = function (user, res) {
 
   // encrypt the session with ONLY our session vars so that we don't over-encrypt (all subdocuments and un-necessary fields)
   var token = jwt.encode(session_vars, session_secret);
-          
+
   console.log('Creating new session for user: [' + user.userName + '] --> token: [' + token + ']');
 
   // dish out response that we made the session
@@ -153,7 +153,7 @@ exports.getUser = function(req, res) {
   }])
   .exec(function(err, foundUser) {
         if (foundUser){
-          
+
           // clean up friends with filter
           for(var i = 0; i < foundUser.friends.length; i++)
           {
@@ -213,8 +213,8 @@ exports.authCheck = function (req, res, cb) {
 
 // NEEDS MIDDLEWARE
 exports.retrieveAll = function(req, res) {
-    
-    // update to pull all users with inventory 
+
+    // update to pull all users with inventory
 
     User.find()
     .populate('inventory friends')
@@ -254,7 +254,7 @@ exports.retrieveAll = function(req, res) {
         }
 
         res.json(ret);
-        
+
       })
 
 };
