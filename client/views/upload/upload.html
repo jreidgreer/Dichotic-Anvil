@@ -12,19 +12,21 @@
 
     <div class="navbar-right">
       <p class="navbar-text">
-        <a class="navbar-link" ng-click='signout()'>Logout</a>
+        <a class="btn btn-default navbar-link" ng-click='signout()'>Logout</a>
       </p>
     </div>
   </div>
 </div>
+<section class="uploadbg" >
 
-<div class="col-md-8 col-md-offset-2">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+<div class="col-md-6 col-md-offset-2">
+    <div class="panel panel-default text-center">
+        <div class="panel-heading " >
             <h2 class="panel-title text-center">
-                <span class="glyphicon glyphicon-user"></span>Upload Item Form
+                <span></span>Upload Item Form
             </h2>
         </div>
+
         <div class="panel-body">
             <!-- The form to add item information -->
             <form name ="addForm" novalidate>
@@ -56,13 +58,13 @@
                     </div>
                 </div>
                 <hr />
-                <button type="submit" class="btn btn-danger btn-block"  ng-click="createItem()" ng-disabled="item.$invalid || !item.picture">Submit</button>
+            <button type="submit" class="btn btn-info"  ng-click="createItem()" ng-disabled="item.$invalid || !item.picture">Submit</button>
             </form>
-            <a href="#/dashboard">Go back to dashboard</a>
-            <div>
-            <a href="#/gallery">Go back to gallery</a>
-            </div>
+
+
+            <a class="btn btn-default navbar-link" href="#/dashboard">Go back to dashboard</a>
 
         </div>
     </div>
 </div>
+</section>

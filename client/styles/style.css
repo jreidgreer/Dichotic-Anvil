@@ -78,3 +78,13 @@
 span.glyphicon-piggy-bank, span.glyphicon-tree-conifer, span.glyphicon-user {
     font-size: 5em;
 }
+
+h2.panel-title {
+    font-size: 25px;
+}
+
+section.uploadbg {
+    height: 100%;
+    width: 100%;
+    background-color: #FFFCF2;
+}
