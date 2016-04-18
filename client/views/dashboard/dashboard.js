@@ -23,8 +23,9 @@ angular.module('borrow.dashboard', [])
       // Iterate over inventory to populate items that have requests
       for (var i = 0; i < $scope.user.inventory.length; i++) {
         if ($scope.user.inventory[i].requests) {
-          console.log($scope.user.inventory[i].requests);
+          // console.log($scope.user.inventory[i].requests);
           for (var j = 0; j < $scope.user.inventory[i].requests.length; j++) {
+
             console.log($scope.user.inventory[i].requests[j]);
             $scope.requestItems.push($scope.user.inventory[i].requests[j]);
           }
@@ -41,6 +42,34 @@ angular.module('borrow.dashboard', [])
 
     $scope.viewProfile = function (friendId) {
       $location.path('/profile/'+ friendId);
+    };
+
+    $scope.approve = function(id) {
+      $http({
+        method: 'PUT',
+        url: '/api/requests/' + id,
+        data: {action: 'approve'}
+      })
+      .then(function (resp) {
+        console.log(resp);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+    };
+
+    $scope.deny = function(id) {
+      $http({
+        method: 'PUT',
+        url: '/api/requests/' + id,
+        data: {action: 'deny'}
+      })
+      .then(function (resp) {
+        console.log(resp);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
     };
 
   $scope.signout = function() {

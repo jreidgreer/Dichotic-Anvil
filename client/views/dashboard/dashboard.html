@@ -41,7 +41,7 @@
       <div class="row dashboard-row-top-right">
         <h3>Messages</h3>
         <div class="item-requests" ng-repeat='request in requestItems'>
-          <p>{{request}}</p>
+          <p>{{request}} <button type="button" class="btn btn-default" ng-click="approve(request)">Approve </button> <button type="button" class="btn btn-default" ng-click="deny(request)">Deny </button></p>
         </div>
       <div class="row dashboard-row-bottom-right">
           <h3>You are currently have {{ numPersonalItems }} items</h3>

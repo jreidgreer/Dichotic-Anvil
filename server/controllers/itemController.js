@@ -148,6 +148,7 @@ exports.updateRequest = function(req, res) {
 
 
   var request_id = req.params.request_id;
+  console.log(request_id);
   var action = req.body.action || '';
 
   if(action !== 'approve' && action !== 'deny')
