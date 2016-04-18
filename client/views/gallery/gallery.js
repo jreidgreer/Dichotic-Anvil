@@ -14,6 +14,20 @@ angular.module('borrow.gallery', [])
   });
  $scope.orderProp="name";
 
+  $scope.borrow = function(item){
+    $http({
+      method: 'POST',
+      url: '/api/items/'+ item._id + '/borrow',
+      data: {duration: 5, message: 'Can I borrow this?'}
+    })
+    .then(function (resp) {
+      console.log(resp);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  };
+
   $scope.signout = function() {
   Auth.signout();
   };

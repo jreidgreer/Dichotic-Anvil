@@ -7,7 +7,9 @@
   </div>
     <div class="navbar-right">
       <p class="navbar-text">
-        <a class="navbar-link" ng-click='signout()'>Logout</a>
+      <a class="btn btn-default navbar-link" href="#/dashboard">Go back to dashboard</a>
+        <a class="btn btn-default" ng-click='signout()'>Logout</a>
+
       </p>
     </div>
   </div>
@@ -41,12 +43,13 @@
 </div>
 
 <div class="container result">
-  <div ng-class="item ? 'col-md-6' : 'col-md-4'" class="item" ng-repeat="item in items | filter:search | orderBy:'item.itemName':reverse">
+  <div ng-class="item ? 'col-md-6' : 'col-md-4'" class="item" ng-repeat="item in items | filter:search | orderBy:'item.itemName':reverse" ng-click='borrow(item)' >
    <div class="thumbnail">
     <img ng-src="{{item.picture.url | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
       <div class="caption text-center">
           <h3>{{item.itemName}}</h3>
           <p><label>Description: </label> {{item.itemDescription}}</p>
+          <button>borrow?</button>
         <div class="text-right">
           <a ng-href="/#/detail/{{item._id}}" </a>
         </div>
