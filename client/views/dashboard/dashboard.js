@@ -33,23 +33,7 @@ angular.module('borrow.dashboard', [])
     })
     .error(function(data) {
       console.log('Error: ' + data);
-  });   
-
-  $scope.upload = function(){
-        filepickerService.pick(
-            {
-                mimetype: 'image/*',
-                language: 'en',
-                services: ['COMPUTER','DROPBOX','GOOGLE_DRIVE','IMAGE_SEARCH', 'FACEBOOK', 'INSTAGRAM'],
-                openTo: 'IMAGE_SEARCH'
-            },
-            function(Blob){
-                console.log(JSON.stringify(Blob));
-                $scope.user.picture = Blob;
-                $scope.$apply();
-            }
-        );
-    };
+  });
 
     $scope.viewProfile = function (friendId) {
       $location.path('/profile/'+ friendId);
