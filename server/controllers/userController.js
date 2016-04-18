@@ -34,8 +34,8 @@ exports.filterUser = function(user_object, current_user) {
   {
       for(var i = 0; i < response_object.inventory.length; i++)
       {
-        console.log(delete response_object.inventory[i]['requests']);
-        console.log(response_object.inventory[i]);
+        //console.log(delete response_object.inventory[i]['requests']);
+
       }
   }
 
