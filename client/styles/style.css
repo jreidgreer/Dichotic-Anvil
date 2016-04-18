@@ -113,6 +113,13 @@ span.glyphicon-piggy-bank, span.glyphicon-tree-conifer, span.glyphicon-user {
     font-size: 5em;
 }
 
+.login-page-background {
+  height: 100%;
+  width: 100%;
+  background-color: #FFFCF2;
+  margin-right: auto;
+  margin-left: auto;
+}
 h2.panel-title {
     font-size: 25px;
 }
