@@ -4,7 +4,8 @@
 .jumbotron {
   height: 800px;
   color: white;
-  background-image: url('../assets/header-bg.jpg');
+  background: url('../assets/header-bg.jpg') no-repeat;
+  background-size: cover;
   text-shadow: #444 0 1px 1px;
 }
 
@@ -72,4 +73,8 @@
 }
 #itemsContainer {
   text-align: center;
+}
+
+span.glyphicon-piggy-bank, span.glyphicon-tree-conifer, span.glyphicon-user {
+    font-size: 5em;
 }
