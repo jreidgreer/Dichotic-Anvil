@@ -1,6 +1,40 @@
  html, body, .ng-scope {
   height: 100%;
 }
+
+/*.super-container {
+  margin-top: 30px;
+}*/
+
+.signup-container {
+  background-color: #FFFCF2;
+  margin-top: 0px;
+  width: 50%;
+  height: 100%;
+  margin: auto; 
+}
+
+.signupForm {
+  width: 50%;
+  margin: 0 auto; 
+}
+
+.buttons {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form-group .firstName {
+  margin-top: 15px;
+}
+.form-group h3 {
+  text-align: center;
+}
+
+.form-group .pic {
+  text-align: center;
+}
+
 .jumbotron {
   height: 800px;
   color: white;
