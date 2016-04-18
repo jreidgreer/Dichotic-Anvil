@@ -1,6 +1,7 @@
 
 //require user model and jwt
 var User = require('../models/userModel.js');
+var Request = require('../models/requestModel.js');
 var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 
 
@@ -15,7 +16,8 @@ exports.userWhiteList = [
   "firstName",
   "lastName",
   "inventory",
-  "friends"
+  "friends",
+  "borrowing"
 ];
 
 // our user object cleaner function
@@ -143,6 +145,9 @@ exports.getUser = function(req, res) {
     userId = req.currentUser._id;
   }
 
+  var isMe = (userId.toString() === req.currentUser._id.toString());
+
+
   User.findOne({_id: userId})
   .populate(['inventory',
    'friends',
@@ -163,7 +168,31 @@ exports.getUser = function(req, res) {
             delete foundUser.friends[i].friends;
           }
 
-          res.json(exports.filterUser(foundUser, req.currentUser));
+
+          // build borrowing key for the items that the current user is borrowing
+          if(isMe)
+          {
+              query = {
+                'approved': true,
+                'borrower': req.currentUser._id
+              };
+
+              Request.find(query, function(err, results)
+              {
+                  
+                  foundUser.borrowing = results;
+
+                  res.json(exports.filterUser(foundUser, req.currentUser));
+                  
+              }).populate('item');
+          }
+          else
+          {
+            //otherwise just dish out the object
+            res.json(exports.filterUser(foundUser, req.currentUser));
+          }
+
+          
 
         } else {
             exports.sendError(res, 'No user found with that ID');

@@ -39,9 +39,13 @@
     <!-- Right Column -->
     <div class="col-lg-9 dashboard-right">
       <div class="row dashboard-row-top-right">
+        <h3>You're currently borrowing these items</h3>
+        <ul>
+          <li ng-repeat='borrow in borrowing'>{{borrow}}</li>
+        <ul>
         <h3>Messages</h3>
-        <div class="item-requests" ng-repeat='request in requestMessages'>
-          <p>{{request}})</p>
+        <div class="item-requests" ng-repeat='request in requestItems'>
+          <p>{{request}} <button type="button" class="btn btn-default" ng-click="approve(request)">Approve </button> <button type="button" class="btn btn-default" ng-click="deny(request)">Deny </button></p>
         </div>
       <div class="row dashboard-row-bottom-right">
           <h3>You are currently have {{ numPersonalItems }} items</h3>
@@ -49,7 +53,6 @@
         </div>
         <h3>My things</h3>
         <div class="image-block col-sm-4" ng-repeat='item in items' style="background: url({{item}}) no-repeat center top;background-size:cover;">
-          <p>borrow?</p>
         </div>
       </div>
       </div>

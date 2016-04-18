@@ -17,7 +17,7 @@ angular.module('borrow.profile', [])
       $scope.numPersonalItems = $scope.user.inventory.length;
       // Iterate over inventory to populate user items
       for (var i = 0; i < $scope.user.inventory.length; i++) {
-        $scope.items.push($scope.user.inventory[i].picture.url)
+        $scope.items.push($scope.user.inventory[i])
        }
       // Iterate over inventory to populate items that have requests
       for (var i = 0; i < $scope.user.inventory.length; i++) {
@@ -32,7 +32,21 @@ angular.module('borrow.profile', [])
     })
     .error(function(data) {
       console.log('Error: ' + data);
-  });   
+  });  
+
+  $scope.borrow = function(item){
+    $http({
+      method: 'POST',
+      url: '/api/items/'+ item._id + '/borrow',
+      data: {duration: 5, message: 'Test'}
+    })
+    .then(function (resp) {
+      console.log(resp);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }; 
 
 
   $scope.signout = function() {

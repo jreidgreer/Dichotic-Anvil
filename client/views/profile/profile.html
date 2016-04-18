@@ -41,7 +41,7 @@
         <div id="itemsContainer">
         </div>
         <h3>My things</h3>
-        <div class="image-block col-sm-4" ng-repeat='item in items' style="background: url({{item}}) no-repeat center top;background-size:cover;">
+        <div class="image-block col-sm-4" ng-repeat='item in items' ng-click='borrow(item)'style="background: url({{item.picture.url}}) no-repeat center top;background-size:cover;">
           <p>borrow?</p>
         </div>
       </div>
