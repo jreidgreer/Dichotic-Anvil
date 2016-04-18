@@ -21,7 +21,7 @@
     <!-- Left Column -->
     <div class="col-lg-3 dashboard-left">
       <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
-      <p class="text-center">Check out my things!</p>
+      <h3 class="text-center">{{user.userName}}</h3>
       <div class="text-center">
         <div class="btn-group-vertical">
 				<a class="btn btn-info" href="#/upload" >Add a thing!</a>
@@ -54,7 +54,7 @@
           <h3 class="text-right">You are currently have {{ numPersonalItems }} items</h3>
         <div id="itemsContainer">
         </div>
-        <h3 class="text-right">My things</h3>
+        <h3>My things</h3>
         <div class="image-block col-sm-4" ng-repeat='item in items' style="background: url({{item}}) no-repeat center top;background-size:cover;">
         </div>
       </div>

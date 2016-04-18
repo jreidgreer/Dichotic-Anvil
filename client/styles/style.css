@@ -74,14 +74,18 @@
 .dashboard-right {
   float: none;
   display: table-cell;
+  background-color: white;
 }
 
 .dashboard-row-top-right {
   padding-right: 20px;
+  background-color: white;
 }
 
 .dashboard-row-bottom-right {
   padding-right: 20px;
+  background-color: white;
+
 }
 
 
@@ -176,3 +180,5 @@ table.friendtable th  {
     background-color: black;
     color: white;
 }
+
+
