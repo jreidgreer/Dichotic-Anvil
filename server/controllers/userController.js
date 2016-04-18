@@ -22,30 +22,30 @@ exports.userWhiteList = [
 ];
 
 // our user object cleaner function
-exports.filterUser = function(user_object, current_user) {
-  var response_object = {};
+exports.filterUser = function(userObject, currentUser) {
+  var responseObject = {};
 
   // process the whitelist
-  for(var k in user_object) {
-    if(exports.userWhiteList.indexOf(k) > -1) {
-      response_object[k] = user_object[k];
+  for(var k in userObject) {
+    if(exports.userWhiteList.indexOf(k) !== -1) {
+      responseObject[k] = userObject[k];
     }
   }
 
   // process the inventory and make sure we only show requests if the user object is the current user
-  if(user_object._id.toString() !== current_user._id.toString())
+  if(userObject._id.toString() !== currentUser._id.toString())
   {
-      for(var i = 0; i < response_object.inventory.length; i++)
+      for(var i = 0; i < responseObject.inventory.length; i++)
       {
-        //console.log(delete response_object.inventory[i]['requests']);
+        //console.log(delete responseObject.inventory[i]['requests']);
 
       }
   }
 
-  return response_object;
+  return responseObject;
 };
 
-// Use this to dish out an error to the client
+// Use this to send out an error to the client
 exports.sendError =  function(res, errorString){
 
   error = {
@@ -118,17 +118,17 @@ exports.verifyLogin = function(req, res) {
 // creates a new jwt-session for a newly created or newly logged in user
 exports.createNewSessionForUser = function (user, res) {
 
-  var session_vars = {
+  var session = {
       userName: user.userName,
       created: Date.now(),
   };
 
-  var session_secret = 'shhhhh';
+  var sessionSecret = 'shhhhh';
 
   // encrypt the session with ONLY our session vars so that we don't over-encrypt (all subdocuments and un-necessary fields)
-  var token = jwt.encode(session_vars, session_secret);
+  var token = jwt.encode(session, sessionSecret);
 
-  console.log('Creating new session for user: [' + user.userName + '] --> token: [' + token + ']');
+  console.log('Creating new session for user:' + user.userName + ' token: ' + token);
 
   // dish out response that we made the session
   res.status(201).json({
@@ -141,6 +141,8 @@ exports.createNewSessionForUser = function (user, res) {
 exports.getUser = function(req, res) {
 
   var userId = req.params.user_id;
+
+  //checks if the param send in the route is 'me' and resets the currentUser id to userId
   if(userId === 'me') {
     // map to the current userId
     userId = req.currentUser._id;
@@ -150,50 +152,39 @@ exports.getUser = function(req, res) {
 
 
   User.findOne({_id: userId})
-  .populate(['inventory',
-   'friends',
-   {
-    path: 'inventory',
-    // Get friends of friends - populate the 'friends' array for every friend
-    populate: { path: 'requests' }
-  }])
+  .populate(['inventory', 'friends',  {
+                                        path: 'inventory',
+                                        // Get friends of friends - populate the 'friends' array for every friend
+                                        populate: { path: 'requests' }
+                                      }])
   .exec(function(err, foundUser) {
         if (foundUser){
 
           // clean up friends with filter
-          for(var i = 0; i < foundUser.friends.length; i++)
-          {
+          for(var i = 0; i < foundUser.friends.length; i++) {
             foundUser.friends[i] = exports.filterUser(foundUser.friends[i], req.currentUser);
 
-            // remove friends of friends so it doesn't become a recursive mess
+            // remove friends of friends so it doesn't become a mess
             delete foundUser.friends[i].friends;
           }
 
-
           // build borrowing key for the items that the current user is borrowing
-          if(isMe)
-          {
-              query = {
-                'approved': true,
-                'borrower': req.currentUser._id
-              };
+          if (isMe) { 
 
-              Request.find(query, function(err, results)
-              {
-                  
-                  foundUser.borrowing = results;
+            query = {'approved': true, 'borrower': req.currentUser._id};
 
-                  res.json(exports.filterUser(foundUser, req.currentUser));
-                  
-              }).populate('item');
+            Request.find(query, function(err, results) {
+                
+                foundUser.borrowing = results;
+                res.json(exports.filterUser(foundUser, req.currentUser));
+                
+            }).populate('item');
           }
           else
           {
             //otherwise just dish out the object
             res.json(exports.filterUser(foundUser, req.currentUser));
           }
-
-          
 
         } else {
             exports.sendError(res, 'No user found with that ID');
@@ -204,11 +195,11 @@ exports.getUser = function(req, res) {
 
 
 // OUR "IS LOGGED IN?" MIDDLEWARE FUNCTION
-exports.authCheck = function (req, res, cb) {
+exports.authCheck = function (req, res, callback) {
   var token = req.headers['x-access-token'];
   if (!token) {
 
-    cb(false);
+    callback(false);
 
   } else {
 
@@ -222,7 +213,7 @@ exports.authCheck = function (req, res, cb) {
 
     // bad token
     if(!user) {
-      cb(false);
+      callback(false);
       return;
     }
 
@@ -231,11 +222,11 @@ exports.authCheck = function (req, res, cb) {
 
             // we have the currently logged in user, set the currentUser variable on the request so that we can use it everywhere
             req.currentUser = foundUser;
-            cb(true);
+            callback(true);
 
         } else {
 
-            cb(false);
+            callback(false);
         }
     })
   }
@@ -325,8 +316,7 @@ exports.addFriend = function(req, res) {
 
 
     // add them
-    User.update({ _id: req.currentUser._id },
-      { $push: { friends: foundUser }}, function(err, raw) {
+    User.update({ _id: req.currentUser._id },{ $push: { friends: foundUser }}, function(err, raw) {
 
       });
 

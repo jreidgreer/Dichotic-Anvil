@@ -97,9 +97,9 @@ exports.borrow = function(req, res) {
   var item_id = req.params.item_id;
 
   // validate duration
-  var borrow_message = req.body.message || '';
-  var duration_days = parseInt(req.body.duration);
-  if(isNaN(duration_days) || duration_days < 1 || duration_days > 7)
+  var borrowMessage = req.body.message || '';
+  var durationDays = parseInt(req.body.duration);
+  if(isNaN(durationDays) || durationDays < 1 || durationDays > 7)
   {
     exports.sendError(res, 'Invalid duration');
     return;
@@ -123,8 +123,8 @@ exports.borrow = function(req, res) {
 
       // create new request object
       var newRequest = new Request();
-      newRequest.borrow_message = borrow_message;
-      newRequest.duration = duration_days;
+      newRequest.borrowMessage = borrowMessage;
+      newRequest.duration = durationDays;
       newRequest.borrower = req.currentUser._id;
       newRequest.item = item._id;
 

@@ -3,7 +3,7 @@
 angular.module('borrow.gallery', [])
   .controller('galleryController', function($scope, Auth, $http) {
   $scope.items = [];
-    //Retrieve all the superheroes to show the gallery
+    //Retrieve all the items to show the gallery
   $http.get('/api/items')
   .success(function(data){
     console.log(JSON.stringify(data));

@@ -17,7 +17,7 @@ module.exports = function (app, express) {
   app.use(function(req, res, next){
 
       // if we should ignore the current request
-      if(middlewareIgnorePaths.indexOf(req.path) > -1) {
+      if(middlewareIgnorePaths.indexOf(req.path) !== -1) {
         next();
         return;
       }
