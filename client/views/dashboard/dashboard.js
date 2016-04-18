@@ -14,7 +14,7 @@ angular.module('borrow.dashboard', [])
     .success(function(data){
       // console.log(JSON.stringify(data));
       $scope.user = data;
-      console.log($scope.user)
+      console.log('USER!!!!!!!!!!!!!!!',$scope.user)
 
       $scope.numPersonalItems = $scope.user.inventory.length;
       // Iterate over inventory to populate user items

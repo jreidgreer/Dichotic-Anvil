@@ -8,7 +8,8 @@
   </div>
     <div class="navbar-right">
       <p class="navbar-text">
-        <a class="navbar-link" ng-click='signout()'>Logout</a>
+        <a class="btn btn-default navbar-link" href="#/dashboard">Go back to dashboard</a>
+        <a class="btn btn-default navbar-link" href="/#/login" ng-click="signout()">Logout</a>
       </p>
     </div>
   </div>
@@ -21,6 +22,7 @@
     <!-- Left Column -->
     <div class="col-lg-3 dashboard-left">
       <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
+      <h3 class="text-center">{{user.userName}}</h3>
       <h3>My friends</h3>
       <ul>
         <li ng-repeat='friend in user.friends'> <a ng-click='viewProfile(friend._id)'{{friend.userName}}> </a></li>
@@ -32,12 +34,7 @@
     <!-- Right Column -->
     <div class="col-lg-9 dashboard-right">
       <div class="row dashboard-row-top-right">
-        <h3>Messages</h3>
-        <div class="item-requests" ng-repeat='request in requestMessages'>
-          <p>{{request}})</p>
-        </div>
       <div class="row dashboard-row-bottom-right">
-          <h3>I currently have {{ numPersonalItems }} items</h3>
         <div id="itemsContainer">
         </div>
         <h3>My things</h3>
