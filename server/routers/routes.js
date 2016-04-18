@@ -56,7 +56,7 @@ module.exports = function (app, express) {
   app.get('/api/items', itemController.retrieveAll);
   app.post('/api/items', itemController.createOne);
 
-  // TO BORROW AN ITEM 
+  // TO BORROW AN ITEM
   app.post('/api/items/:item_id/borrow', itemController.borrow);
 
    // REQUESTS
