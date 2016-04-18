@@ -19,14 +19,24 @@ exports.userWhiteList = [
 ];
 
 // our user object cleaner function
-exports.filterUser = function(user_object) {
+exports.filterUser = function(user_object, current_user) {
   var response_object = {};
 
   // process the whitelist
   for(var k in user_object) {
     if(exports.userWhiteList.indexOf(k) > -1) {
       response_object[k] = user_object[k];
-    }
+    } 
+  }
+
+  // process the inventory and make sure we only show requests if the user object is the current user
+  if(user_object._id.toString() !== current_user._id.toString())
+  {
+      for(var i = 0; i < response_object.inventory.length; i++)
+      {
+        console.log(delete response_object.inventory[i]['requests']);
+        console.log(response_object.inventory[i]);
+      }
   }
 
   return response_object;
@@ -134,20 +144,26 @@ exports.getUser = function(req, res) {
   }
 
   User.findOne({_id: userId})
-  .populate('inventory friends')
+  .populate(['inventory',
+   'friends',
+   {
+    path: 'inventory',
+    // Get friends of friends - populate the 'friends' array for every friend
+    populate: { path: 'requests' }
+  }])
   .exec(function(err, foundUser) {
         if (foundUser){
           
           // clean up friends with filter
           for(var i = 0; i < foundUser.friends.length; i++)
           {
-            foundUser.friends[i] = exports.filterUser(foundUser.friends[i]);
+            foundUser.friends[i] = exports.filterUser(foundUser.friends[i], req.currentUser);
 
             // remove friends of friends so it doesn't become a recursive mess
             delete foundUser.friends[i].friends;
           }
 
-          res.json(exports.filterUser(foundUser));
+          res.json(exports.filterUser(foundUser, req.currentUser));
 
         } else {
             exports.sendError(res, 'No user found with that ID');
@@ -227,14 +243,14 @@ exports.retrieveAll = function(req, res) {
             // clean up friends with filter
           for(var j = 0; j < user.friends.length; j++)
           {
-            user.friends[j] = exports.filterUser(user.friends[j]);
+            user.friends[j] = exports.filterUser(user.friends[j], req.currentUser);
 
             // remove friends of friends so it doesn't become a recursive mess
             delete user.friends[j].friends;
           }
 
           // push onto ret
-          ret.push(exports.filterUser(user));
+          ret.push(exports.filterUser(user, req.currentUser));
         }
 
         res.json(ret);

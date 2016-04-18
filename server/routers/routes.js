@@ -54,6 +54,15 @@ module.exports = function (app, express) {
   //============================================
   app.get('/api/items', itemController.retrieveAll);
   app.post('/api/items', itemController.createOne);
+
+  // TO BORROW AN ITEM 
+  app.post('/api/items/:item_id/borrow', itemController.borrow);
+
+   // REQUESTS
+  //============================================
+  app.put('/api/requests/:request_id', itemController.updateRequest);
+
+
   app.get('/api/items/:item_id', itemController.retrieveOne);
   app.put('/api/items/:item_id', itemController.updateOne);
   app.delete('/api/items/:item_id', itemController.deleteOne);

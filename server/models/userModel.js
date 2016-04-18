@@ -21,13 +21,6 @@ var userSchema = new Schema({
       default: []
     }
   ],
-  requests: [
-    {
-      type: Schema.ObjectId,
-      ref: 'Item',
-      default: []
-    }
-  ],
   friends: [
     {
       type: Schema.ObjectId,
