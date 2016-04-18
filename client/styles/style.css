@@ -77,10 +77,13 @@
 }
 
 .dashboard-row-top-right {
+  padding-right: 20px;
 }
 
 .dashboard-row-bottom-right {
+  padding-right: 20px;
 }
+
 
 .image-block {
     border: 3px solid white ;
@@ -128,4 +131,13 @@ section.uploadbg {
     height: 100%;
     width: 100%;
     background-color: #FFFCF2;
+}
+
+.text-right {
+  text-align: right
+}
+
+ul {
+  list-style-type: none;
+
 }
