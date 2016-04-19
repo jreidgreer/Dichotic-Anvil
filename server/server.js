@@ -2,14 +2,11 @@
 //============================================
 var express = require('express');
 var app = express();
-var mongoose = require('mongoose');
 
 // SESSION & PASSPORT
 //============================================
 var session = require('express-session');
 var passport = require('passport');
-
-mongoose.connect('mongodb://localhost/borrow');
 var bodyParser = require('body-parser');
 
 // MIDDLEWARE
@@ -20,8 +17,7 @@ var port = process.env.PORT || 3000;
 
 // ROUTES FOR FACEBOOK CONFIG
 //============================================
-// require('./config/facebookConfig.js')(app, session, passport);
-require('./config/passport.js')(app, session, passport);
+require('./config/facebookConfig.js')(app, session, passport);
 require('./config/routes.js')(app, express, passport);
 
 // START THE SERVER
