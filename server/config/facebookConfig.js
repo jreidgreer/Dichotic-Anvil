@@ -46,5 +46,13 @@ module.exports = function(app, session, passport) {
     });
   }));
 
+  //restore authentication through HTTP requests
+  passport.serializeUser(function(user, callback) {
+    callback(null, user);
+  });
+
+  passport.deserializeUser(function(obj, callback) {
+    callback(null, obj);
+  });
 
 };
