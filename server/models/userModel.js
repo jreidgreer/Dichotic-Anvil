@@ -1,9 +1,7 @@
-var mongoose = require('mongoose');
 var Item = require('../models/itemModel.js');  //require Item model to make relational connection to User inventory items
 var bcrypt = require('bcrypt-nodejs');
-var Schema = mongoose.Schema;
-var relationship = require("mongoose-relationship");
 
+var db = require('../db');
 
 var userSchema = new Schema({
 
