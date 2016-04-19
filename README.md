@@ -18,17 +18,20 @@
 1. [Team](#team)
 1. [Contributing](#contributing)
 
-## Usage
-
-> Some usage instructions
-
 ## Requirements
 
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+    - angular 1.5.3
+    - angular-route 1.3.16
+    - angular-mocks  1.3.16 
+    - angular-filepicker 1.1.4
+    - bcrypt-nodejs 0.0.3
+    - body-parser 1.0.1
+    - bootstrap 3.3.6
+    - express 4.0.0
+    - jwt-simple 0.5.0
+    - mongoose 3.6.13
+    - mongoose-relationship 0.1.5
+    - morgan 1.7.0
 
 ## Development
 
