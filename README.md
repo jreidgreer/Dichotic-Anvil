@@ -1,12 +1,12 @@
-# borrow
+# Borrow - Legacy
 
 > an app that allows people to borrow from one another
 
 ## Team
 
-  - __Product Owner__: Michael Balarezo
-  - __Scrum Master__: Jeremy Rosenfeld
-  - __Development Team Members__: Brandon Courtney, John Zuccarelli
+  - __Product Owner__: Claire Hsu
+  - __Scrum Master__: Arun Vasudevan
+  - __Development Team Members__: Reid Greer, Kim Curran
 
 ## Table of Contents
 
