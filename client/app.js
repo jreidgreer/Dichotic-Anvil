@@ -79,7 +79,7 @@ angular.module('borrow', ['ngRoute',
       $location.path('/login');
     }
   });
-})
+});
 
 
 

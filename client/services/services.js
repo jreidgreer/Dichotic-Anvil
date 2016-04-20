@@ -43,7 +43,6 @@ angular.module('borrow.userServices', [])
     $location.path('/');
   };
 
-
   return {
     login: login,
     createUser: createUser,
@@ -51,4 +50,22 @@ angular.module('borrow.userServices', [])
     isAuth: isAuth,
     signout: signout
   };
-});
+})
+
+  .factory('facebookService', function($q) {
+    return {
+      getLastName: function() {
+        var deferred = $q.defer();
+        FB.api('/me', {
+          fields: 'last_name'
+        }, function(resp) {
+          if (!resp) {
+            deferred.reject('Error occurred');
+          } else {
+            deferred.resolve(resp);
+          }
+        });
+        return deferred.promise;
+      }
+    };
+  });

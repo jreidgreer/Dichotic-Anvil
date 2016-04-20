@@ -2,20 +2,25 @@
 //============================================
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+
+// SESSION & PASSPORT
+//============================================
+var session = require('express-session');
+var passport = require('passport');
 
 mongoose.connect('mongodb://localhost/borrow');
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(express.static('client'));
+// MIDDLEWARE
+//============================================
+require('./config/middleware.js')(app, express);
 
 var port = process.env.PORT || 3000;
 
-// ROUTES FOR OUR API
+// ROUTES FOR FACEBOOK CONFIG
 //============================================
-require('./routers/routes.js')(app, express);
+require('./config/facebookConfig.js')(app, session, passport);
+require('./config/routes.js')(app, express, passport);
 
 // START THE SERVER
 //============================================
