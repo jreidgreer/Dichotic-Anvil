@@ -1,11 +1,8 @@
 var Sequelize = require('sequelize');
 var bcrypt = require('bcrypt-nodejs');
 
-var db = new Sequelize({
-  database: 'postgres://localhost:3000/borrow', 
-  options: {
-    dialect: 'postgres'
-  }
+var db = new Sequelize('borrow', null, null, {
+  dialect: 'postgres'
 });
 
 var User = db.define('user', {
@@ -75,6 +72,8 @@ Item.belongsToMany(Request, {as: 'Requests', through: 'ItemRequests'});
 Item.belongsTo(User, {as: 'Owner'});
 Request.belongsTo(User, { as: 'Borrower'});
 Request.hasOne(Item, { as: 'Item'});
+
+db.sync({force: true});
 
 module.exports = {
   db: db,
