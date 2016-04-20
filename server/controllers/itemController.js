@@ -1,7 +1,7 @@
 
 //require Item model
-var Item = require('../models/itemModel.js');
-var Request = require('../models/requestModel.js');
+var Item = require('../db.js').Item;
+var Request = require('../db.js').Request;
 
 // CRUD ACTIONS
 //============================================

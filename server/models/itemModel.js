@@ -10,8 +10,8 @@ var Item = db.define('item', {
   picture: Sequelize.STRING,
 });
 
-// Item.hasMany(Request, {as: 'Requests'});
-// Item.hasOne(User, {as: 'Owner'});
+Item.belongsToMany(db.Request, {as: 'Requests'});
+Item.belongsTo(db.User, {as: 'Owner'});
 
 module.exports = Item;
 

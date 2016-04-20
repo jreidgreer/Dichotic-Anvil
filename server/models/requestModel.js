@@ -10,8 +10,8 @@ var Request = db.define('request', {
   denied: Sequelize.BOOLEAN,
 });
 
-// Request.hasOne(User, { as: 'Borrower'});
-// Request.hasOne(Item, { as: 'Item'});
+Request.belongsTo(User, { as: 'Borrower'});
+Request.hasOne(Item, { as: 'Item'});
 
 //Create a model using the schema
 module.exports = Request;

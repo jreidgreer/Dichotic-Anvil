@@ -45,7 +45,7 @@ var User = db.define('user', {
   }
 });
 
-// User.hasMany(Item, {as: 'Inventory'});
-// User.hasMany(User, {as: 'Friends'});
+User.hasMany(db.Item, {as: 'Inventory'});
+User.hasMany(db.User, {as: 'Friends'});
 
 module.exports = User;

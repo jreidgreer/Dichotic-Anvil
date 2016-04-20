@@ -1,7 +1,7 @@
 
 //require user model and jwt
-var User = require('../models/userModel.js');
-var Request = require('../models/requestModel.js');
+var User = require('../db.js').User;
+var Request = require('../db.js').Request;
 var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 
 
@@ -9,7 +9,7 @@ var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 //============================================
 
 
-// only these fields get output'd to the client from the user model
+// only these fields get sent to the client from the user model
 exports.userWhiteList = [
   "_id",
   "userName",
