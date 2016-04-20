@@ -2,7 +2,6 @@
 //============================================
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 // SESSION & PASSPORT
@@ -12,9 +11,9 @@ var passport = require('passport');
 
 mongoose.connect('mongodb://localhost/borrow');
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(express.static('client'));
+// MIDDLEWARE
+//============================================
+require('./config/middleware.js')(app, express);
 
 var port = process.env.PORT || 3000;
 
