@@ -8,8 +8,19 @@ var middlewareIgnorePaths = [
   "/api/users/login"
 ];
 
-module.exports = function (app, express) {
+module.exports = function (app, express, passport) {
 
+  //FACEBOOK ROUTE
+  //============================================
+  app.get('/login/facebook', passport.authenticate('facebook', { successRedirect: '/#/dashboard', failureRedirect: '/'}));
+  app.get('/login/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/#/login'}),
+    function(req, res) {
+      var tempPassportSession = req.session.passport;
+      req.session.regenerate(function() {
+        req.session.passport = tempPassportSession;
+        res.redirect('/#/dashboard');
+      });
+    });
 
   // MIDDLEWARE
   //  all requests (except for signup/login) pass through this middleware function, if they do not pass, we cancel the request/response

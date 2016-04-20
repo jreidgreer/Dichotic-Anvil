@@ -24,7 +24,7 @@ require('./routers/routes.js')(app, express);
 // ROUTES FOR FACEBOOK CONFIG
 //============================================
 require('./config/facebookConfig.js')(app, session, passport);
-require('./config/routes.js')(app, express, passport);
+require('./routers/routes.js')(app, express, passport);
 
 // START THE SERVER
 //============================================
