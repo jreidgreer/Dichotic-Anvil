@@ -43,7 +43,6 @@ angular.module('borrow.userServices', [])
     $location.path('/');
   };
 
-
   return {
     login: login,
     createUser: createUser,
