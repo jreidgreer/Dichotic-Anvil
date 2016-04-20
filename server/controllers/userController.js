@@ -3,6 +3,8 @@
 var User = require('../db.js').User;
 var Request = require('../db.js').Request;
 var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
+var Sequelize = require('sequelize');
+
 
 
 // CRUD ACTIONS
@@ -60,20 +62,24 @@ exports.sendError =  function(res, errorString){
 // DOES NOT NEED MIDDLEWARE
 exports.createOne = function(req, res) {
   var newUser = req.body;
-  User.create(newUser, function(err, user) {
-    if(err) {
+  console.log('Attempting to create new user with: ', req.body);
+  User.create(newUser)
+  .then(function(user) {
+    
+    // create new session
+    exports.createNewSessionForUser(user, res);
+  })
+  .catch(Sequelize.ValidationError, function(error) {
+    if(error) {
 
-      console.log(err);
+      console.log('Error Caught by User Controller: ', error);
 
       // user probably already exists, refuse request
       exports.sendError(res, 'Username already exists');
 
       return;
     }
-
-    // create new session
-    exports.createNewSessionForUser(user, res);
-  });
+  })
 };
 
 // DOES NOT NEED MIDDLEWARE
@@ -85,7 +91,8 @@ exports.verifyLogin = function(req, res) {
   console.log('USERNAME======', userName);
   console.log('PASSWORD======', password);
 
-  User.findOne({userName: userName}, function(err, user) {
+  User.findOne({where: {userName: userName}})
+  .then( function(user) {
     if(!user) {
       // no user with that username in database
       exports.sendError(res, 'Invalid username or password');
@@ -93,13 +100,7 @@ exports.verifyLogin = function(req, res) {
     } else {
 
       // compare the bcrypt passwords
-      user.comparePasswords(password, function(err, compareResult){
-
-        if (err) {
-          // unknown bcrypt compare error
-          console.error('Error with password comparison', err);
-        }
-
+      user.comparePasswords(password, function(compareResult){
         if(compareResult) {
 
             // create new session
@@ -111,7 +112,10 @@ exports.verifyLogin = function(req, res) {
 
       });
     }
-  });
+  })
+  .catch(
+    console.log('An Error Occured Logging In: ', error)
+    );
 };
 
 

@@ -19,6 +19,7 @@ angular.module('borrow.userServices', [])
       data: user
     })
     .then(function (resp) {
+      console.log('Response Received from Server: ', resp.data.user);
       callback(resp.data.token);
     });
   };

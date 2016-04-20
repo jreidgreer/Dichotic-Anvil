@@ -37,9 +37,9 @@
 
           <div style="margin-top:10px;">
          <!-- Show the thumbnail only when the picture is uploaded -->
-         <a href="{{picture.url}}" class="thumbnail" ng-if="picture">
+         <a href="{{picture}}" class="thumbnail" ng-if="picture">
          <!-- the picture is rendered with width: 500 and sharpened -->
-        <img ng-src="{{picture.url | fpConvert: {filter:'sharpen'} }}">
+        <img ng-src="{{picture | fpConvert: {filter:'sharpen'} }}">
         </a>
        </div>
       </div>
@@ -51,22 +51,3 @@
     </div>
    </form>
   </div> 
-
-<!-- <div>
-  <div ng-show='error'>{{error}}</div>
-
-  <form name='loginForm' ng-submit='login()' class='signupForm col-md-4 col-md-offset-4' autocomplete="off">
-    <h1>Login Page<h1>
-    <div class="form-group">
-      <label for="inputUserName">Username</label>
-      <input type='text' class="form-control" placeholder="Username" name='username' ng-model="userName" id="inputUserName"required>
-    </div>
-    <div class="form-group">
-      <label for="inputPassword">Password</label>
-      <input type='password' class="form-control" placeholder="Password" name='password' ng-model="password" id="inputPassword"required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-  </form>
-</div>
-
- -->

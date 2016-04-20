@@ -10,40 +10,21 @@ var User = db.define('user', {
   lastName: Sequelize.STRING,
   userName: { type: Sequelize.STRING, required: true, unique: true },
   password: { type: Sequelize.STRING, required: true },
+  salt: Sequelize.STRING,
   picture: Sequelize.STRING
     },
-  {
+  { // Begin Options
   hooks: {
     beforeCreate: function(user) {
-      var password = user.get('password');
-
-      bcrypt.genSalt(10, function(err, salt) {
-        if(err) {
-          return next(err);
-        }
-        bcrypt.hash(password, salt , null, function(err, hash) {
-          if(err) {
-            return next(err);
-          }
-
-          user.password = hash;
-          user.salt = salt;
-        });
-      });
+      user.salt = bcrypt.genSaltSync(10);
+      user.password = bcrypt.hashSync(user.password, user.salt);
     }
-  },
+  }, // End Hooks
   instanceMethods: {
     comparePasswords: function(inputPassword, callback) {
-      var actualPassword = this.password;
-      bcrypt.compare(inputPassword, actualPassword, function(err, res) {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, res);
-        }
-      });
+      callback(bcrypt.compareSync(inputPassword, this.password));
     }
-  }
+  } // End Instance Methods
 });
 
 
