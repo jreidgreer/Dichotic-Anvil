@@ -1,15 +1,17 @@
-var Item = require('../models/itemModel.js');  //require Item model to make relational connection to User inventory items
+var Item = require('./itemModel.js');  //require Item model to make relational connection to User inventory items
 var bcrypt = require('bcrypt-nodejs');
 
 var Sequelize = require('sequelize');
 var db = require('../db');
 
 var User = db.define('user', {
-  firstName: Sequelize.String,
-  lastName: Sequelize.String,
-  userName: { type: Sequelize.String, required: true, unique: true },
-  password: { type: Sequelize.String, required: true },
-  picture: Sequelize.String,
+  firstName: Sequelize.STRING,
+  lastName: Sequelize.STRING,
+  userName: { type: Sequelize.STRING, required: true, unique: true },
+  password: { type: Sequelize.STRING, required: true },
+  picture: Sequelize.STRING
+},
+{
   hooks: {
     beforeCreate: function(user) {
       var password = user.get('password');
@@ -43,7 +45,7 @@ var User = db.define('user', {
   }
 });
 
-User.hasMany(Item, {as: 'Inventory'});
-User.hasMany(User, {as: 'Friends'});
+// User.hasMany(Item, {as: 'Inventory'});
+// User.hasMany(User, {as: 'Friends'});
 
 module.exports = User;
