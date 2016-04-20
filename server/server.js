@@ -17,14 +17,10 @@ require('./config/middleware.js')(app, express);
 
 var port = process.env.PORT || 3000;
 
-// ROUTES FOR OUR API
-//============================================
-require('./routers/routes.js')(app, express);
-
 // ROUTES FOR FACEBOOK CONFIG
 //============================================
 require('./config/facebookConfig.js')(app, session, passport);
-require('./routers/routes.js')(app, express, passport);
+require('./config/routes.js')(app, express, passport);
 
 // START THE SERVER
 //============================================

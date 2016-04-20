@@ -1,5 +1,7 @@
 module.exports = {
-  appID: 'ENTER_CLIENT_ID_HERE',
-  appSecret: 'ENTER_CLIENT_SECRET_HERE',
-  callbackUrl: 'ENTER_CALLBACK_URL'
+  facebookAuth: {
+      appID: '267351013600997',
+      appSecret: '4fa3ca6a018d3e99b25c9ed89c77e2e0',
+      callbackUrl: 'http://localhost:3000/auth/facebook/callback'
+  }
 };

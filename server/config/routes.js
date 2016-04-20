@@ -10,10 +10,17 @@ var middlewareIgnorePaths = [
 
 module.exports = function (app, express, passport) {
 
-  //FACEBOOK ROUTE
+  //FACEBOOK ROUTES
   //============================================
-  app.get('/login/facebook', passport.authenticate('facebook', { successRedirect: '/#/dashboard', failureRedirect: '/'}));
-  app.get('/login/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/#/login'}),
+  app.get('/auth/facebook', passport.authenticate('facebook', {
+    scope: 'email',
+    // successRedirect: '/#/dashboard',
+    // failureRedirect: '/#/login'
+  }));
+  app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/#/dashboard',
+    failureRedirect: '/#/login'
+  }),
     function(req, res) {
       var tempPassportSession = req.session.passport;
       req.session.regenerate(function() {
