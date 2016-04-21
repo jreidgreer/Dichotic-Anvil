@@ -56,6 +56,7 @@ angular.module('borrow', ['ngRoute',
     controller: 'profileController',
     authenticate: true
   })
+  .otherwise('/');
 
   filepickerProvider.setKey('A1IrC7fsKQuqV78eZa0euz');
   $httpProvider.interceptors.push('AttachTokens');
@@ -74,6 +75,25 @@ angular.module('borrow', ['ngRoute',
   return attach;
 })
 .run(function ($rootScope, $location, Auth) {
+    window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '267351013600997',
+      cookie     : true,  // enable cookies to allow the server to access 
+                          // the session
+      xfbml      : true,  // parse social plugins on this page
+      version    : 'v2.5' // use graph api version 2.5
+    });
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "http://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
     if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
       $location.path('/login');

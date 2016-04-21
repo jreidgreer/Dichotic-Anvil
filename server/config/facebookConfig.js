@@ -18,10 +18,11 @@ module.exports = function(app, session, passport) {
     clientID: fbConfig.facebookAuth.appID,
     clientSecret: fbConfig.facebookAuth.appSecret,
     callbackURL: fbConfig.facebookAuth.callbackUrl,
-    profileFields: ['id', 'first_name', 'last_name', 'email'],
+    enableProof: true,
+    // profileFields: ['id', 'first_name', 'last_name', 'email'],
   }, function(accessToken, refreshToken, profile, callback) {
     process.nextTick(function() {
-      User.findOne({ facebookId: profile.id }, function(err, user) {
+      User.findOne({ 'facebook.id': profile.id }, function(err, user) {
         if (err) {
           return callback(err);
         }
@@ -32,15 +33,15 @@ module.exports = function(app, session, passport) {
           //create new user in database if none exists
           var newUser = new User();
 
-          newUser.FB.id = profile.id;
-          newUser.FB.accessToken = accessToken;
-          newUser.FB.name = profile.name.givenName + ' ' + profile.name.familyName;
-          newUser.FB.email = (profile.emails[0].value || '').toLowerCase();
+          newUser.facebook.id = profile.id;
+          newUser.facebook.accessToken = accessToken;
+          newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
+          newUser.facebook.email = (profile.emails[0].value || '').toLowerCase();
 
           newUser.save(function(err) {
             if (err) {
               console.log(err);
-              return err;
+              // res.send(err);
             }
             return callback(null, newUser);
           });

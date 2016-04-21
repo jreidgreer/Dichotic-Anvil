@@ -52,20 +52,8 @@ angular.module('borrow.userServices', [])
   };
 })
 
-  .factory('facebookService', function($q) {
+  .factory('facebookAuth', function() {
     return {
-      getLastName: function() {
-        var deferred = $q.defer();
-        FB.api('/me', {
-          fields: 'last_name'
-        }, function(resp) {
-          if (!resp) {
-            deferred.reject('Error occurred');
-          } else {
-            deferred.resolve(resp);
-          }
-        });
-        return deferred.promise;
-      }
+      //
     };
   });
