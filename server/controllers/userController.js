@@ -2,6 +2,8 @@
 //require user model and jwt
 var User = require('../db.js').User;
 var Request = require('../db.js').Request;
+var Friends = require('../db.js').Friends;
+
 var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 var Sequelize = require('sequelize');
 
@@ -35,7 +37,7 @@ exports.filterUser = function(userObject, currentUser) {
   }
 
   // process the inventory and make sure we only show requests if the user object is the current user
-  if(userObject._id.toString() !== currentUser._id.toString())
+  if(userObject.id.toString() !== currentUser.id.toString())
   {
       for(var i = 0; i < responseObject.inventory.length; i++)
       {
@@ -62,7 +64,7 @@ exports.sendError =  function(res, errorString){
 // DOES NOT NEED MIDDLEWARE
 exports.createOne = function(req, res) {
   var newUser = req.body;
-  console.log('Attempting to create new user with: ', req.body);
+  // console.log('Attempting to create new user with: ', req.body);
   User.create(newUser)
   .then(function(user) {
     
@@ -88,54 +90,42 @@ exports.verifyLogin = function(req, res) {
   var userName = req.body.userName;
   var password = req.body.password;
 
-  console.log('USERNAME======', userName);
-  console.log('PASSWORD======', password);
-
   User.findOne({where: {userName: userName}})
   .then( function(user) {
     if(!user) {
       // no user with that username in database
       exports.sendError(res, 'Invalid username or password');
-
     } else {
-
       // compare the bcrypt passwords
       user.comparePasswords(password, function(compareResult){
         if(compareResult) {
-
-            // create new session
-            exports.createNewSessionForUser(user, res);
+          // create new session
+          exports.createNewSessionForUser(user, res);
         } else {
-
           exports.sendError(res, 'Invalid username or password');
         }
-
       });
     }
   })
-  .catch(
-    console.log('An Error Occured Logging In: ', error)
-    );
+  .catch(function(err) {
+    console.log('An Error Occured Logging In: ', err);
+  });
 };
 
 
 // creates a new jwt-session for a newly created or newly logged in user
 exports.createNewSessionForUser = function (user, res) {
-
   var session = {
       userName: user.userName,
       created: Date.now(),
   };
-
   var sessionSecret = 'shhhhh';
-
   // encrypt the session with ONLY our session vars so that we don't over-encrypt (all subdocuments and un-necessary fields)
   var token = jwt.encode(session, sessionSecret);
-
   console.log('Creating new session for user:' + user.userName + ' token: ' + token);
 
   // dish out response that we made the session
-  res.status(201).json({
+  res.status(201).send({
     token: token,
     success: true
   });
@@ -149,62 +139,74 @@ exports.getUser = function(req, res) {
   //checks if the param send in the route is 'me' and resets the currentUser id to userId
   if(userId === 'me') {
     // map to the current userId
-    userId = req.currentUser._id;
+    userId = req.currentUser.id;
   }
 
-  var isMe = (userId.toString() === req.currentUser._id.toString());
-
-
-  User.findOne({_id: userId})
-  .populate(['inventory', 'friends',  {
-                                        path: 'inventory',
-                                        // Get friends of friends - populate the 'friends' array for every friend
-                                        populate: { path: 'requests' }
-                                      }])
-  .exec(function(err, foundUser) {
+  var isMe = (userId.toString() === req.currentUser.id.toString());
+  console.log('userId is: ', userId);
+  if(!userId) {
+    res.status(500).send('userId undefined.');
+    return;
+  }
+  User.findOne({
+    attributes: {
+      exclude: ['password', 'salt']
+    },
+    where: {id: userId}
+  })
+  .then(function(foundUser) {
         if (foundUser){
+          var sentUser = foundUser.dataValues;
 
-          // clean up friends with filter
-          for(var i = 0; i < foundUser.friends.length; i++) {
-            foundUser.friends[i] = exports.filterUser(foundUser.friends[i], req.currentUser);
+          var foundUserFriends = foundUser.getFriends(req.currentUser.id, function(friends) {
+            sentUser.friends = friends.map(function(friend) {
+              return friend.dataValues;
+            });
 
-            // remove friends of friends so it doesn't become a mess
-            delete foundUser.friends[i].friends;
-          }
-
-          // build borrowing key for the items that the current user is borrowing
-          if (isMe) { 
-
-            query = {'approved': true, 'borrower': req.currentUser._id};
-
-            Request.find(query, function(err, results) {
-                
-                foundUser.borrowing = results;
-                res.json(exports.filterUser(foundUser, req.currentUser));
-                
-            }).populate('item');
-          }
-          else
-          {
-            //otherwise just dish out the object
-            res.json(exports.filterUser(foundUser, req.currentUser));
-          }
-
+            foundUser.getInventory()
+            .then(function(foundUserInventory){
+              sentUser.inventory = foundUserInventory.map(function(item) {
+                return item.dataValues;
+              });
+              if (isMe) { 
+                query = {'approved': true, 'BorrowerId': req.currentUser.id};
+                Request.findAll({
+                  where: query
+                  // include: ['Item']
+                })
+                .then(function(results) {
+                  sentUser.borrowing = results;
+                  res.json(exports.filterUser(sentUser, req.currentUser));
+                })
+                .catch(function(err) {
+                  console.log('An Error Occured Loading Requests: ', err);
+                });
+              }
+              else {
+                //otherwise just dish out the object
+                res.json(exports.filterUser(foundUser.dataValues, req.currentUser));
+              }
+            })
+            .catch(function(err) {
+              console.log('An Error Occured Loading Inventory: ', err);
+            })
+          });
         } else {
             exports.sendError(res, 'No user found with that ID');
         }
     })
+  .catch(function(err) {
+    console.log('Error Finding User', err);
+  });
 
 };
 
 
 // OUR "IS LOGGED IN?" MIDDLEWARE FUNCTION
-exports.authCheck = function (req, res, callback) {
+exports.authCheck = function (req, res, authCallback) {
   var token = req.headers['x-access-token'];
   if (!token) {
-
-    callback(false);
-
+    authCallback(false);
   } else {
 
     var user = null;
@@ -217,84 +219,89 @@ exports.authCheck = function (req, res, callback) {
 
     // bad token
     if(!user) {
-      callback(false);
+      authCallback(false);
       return;
     }
 
-    User.findOne({userName: user.userName}, function(err, foundUser) {
+    User.findOne({
+      where: {userName: user.userName}
+    }).then(function(foundUser) {
         if (foundUser){
-
             // we have the currently logged in user, set the currentUser variable on the request so that we can use it everywhere
-            req.currentUser = foundUser;
-            callback(true);
+            
+            req.currentUser = foundUser.dataValues;
 
+            foundUser.getFriends(req.currentUser.id, function(foundUserFriends) {
+              console.log('Friends returned by model: ', foundUserFriends);
+              req.currentUser.friends = foundUserFriends.map(function(friend) {
+                return friend.dataValues;
+              });
+
+              authCallback(true);
+            });
         } else {
 
-            callback(false);
+            authCallback(false);
         }
     })
+    .catch(function(err) {
+      console.log('Error Finding User During authCheck: ', err);
+    });
   }
 }
 
 // NEEDS MIDDLEWARE
 exports.retrieveAll = function(req, res) {
-
-    // update to pull all users with inventory
-
-    User.find()
-    .populate('inventory friends')
-    .exec(function(err, results) {
-
-        if(!results || results.length < 1)
-        {
+    User.findAll({
+      attributes: {
+        exclude: ['password', 'salt']
+      }
+    })
+    .then(function(results) {
+        if(!results || results.length < 1){
           exports.sendError(res, 'No users');
           return;
         }
 
-        console.log(results);
-
-        var ret = [];
+        foundUsers = results.map(function(user) {
+          return user.dataValues;
+        })
 
         // loop over results and filter using white list
-        for(var i = 0; i < results.length; i++) {
-
+        for(var i = 0; i < foundUsers.length; i++) {
           // skip me
-          if (results[i]._id.toString() === req.currentUser._id.toString()) {
-            continue;
+          if (foundUsers[i].id.toString() === req.currentUser.id.toString()) {
+            foundUsers.splice(i, 1);
           }
 
-          var user = results[i];
+          // var user = foundUsers[i];
+          //   // clean up friends with filter
+          // for(var j = 0; j < user.friends.length; j++) {
+          //   user.friends[j] = exports.filterUser(user.friends[j], req.currentUser);
 
-            // clean up friends with filter
-          for(var j = 0; j < user.friends.length; j++)
-          {
-            user.friends[j] = exports.filterUser(user.friends[j], req.currentUser);
-
-            // remove friends of friends so it doesn't become a recursive mess
-            delete user.friends[j].friends;
-          }
-
+          //   // remove friends of friends so it doesn't become a recursive mess
+          //   delete user.friends[j].friends;
+          // }
           // push onto ret
-          ret.push(exports.filterUser(user, req.currentUser));
+          // ret.push(exports.filterUser(user, req.currentUser));
         }
-
-        res.json(ret);
-
+        res.json(foundUsers);
       })
+    .catch(function(err) {
+      console.log('An Error Occured Retrieving All Users: ', err);
+      res.status(500).send(err);
+    });
 
 };
 
 // NEEDS MIDDELWARE
 exports.addFriend = function(req, res) {
-
   // get userId they are trying to add, and verify that they exist, and that we aren't already friends with them
-
   var userId = req.body.userName;
 
-  User.findOne({userName: userId}, function(err, foundUser) {
-
-    if(!foundUser)
-    {
+  User.findOne({where: {userName: userId}})
+    .then(function(foundUser) {
+    if(!foundUser){
       // user does not exist
       exports.sendError(res, 'No user with that ID was found');
       return;
@@ -302,52 +309,54 @@ exports.addFriend = function(req, res) {
 
     // check if we are already friends with them
     var already_friends = false;
-    for(var i = 0; i < req.currentUser.friends.length; i++)
-    {
-        if(req.currentUser.friends[i].toString() === foundUser._id.toString())
-        {
+    for(var i = 0; i < req.currentUser.friends.length; i++){
+        if(req.currentUser.friends[i].id.toString() === foundUser.id.toString()){
           already_friends = true;
           break;
         }
     }
-
-    if(already_friends)
-    {
+    if(already_friends){
       // we're already friends with this person
       exports.sendError(res, 'Already friends with that user');
       return;
     }
-
-
     // add them
-    User.update({ _id: req.currentUser._id },{ $push: { friends: foundUser }}, function(err, raw) {
-
-      });
-
-    res.json({success: true, message: 'Added User'});
-
-  });
+    Friends.create({
+      user1: req.currentUser.id,
+      user2: foundUser.dataValues.id
+    })
+    .then(function() {
+      res.json({success: true, message: 'Added Friend'});
+    })
+    .catch(function(err) {
+      console.log('An Error Occured Adding Friend: ', err);
+      res.status(500).send(err);
+    })
+  })
+  .catch(function(err) {
+    console.log('An Error Occured Finding User in addFriend: ', err);
+  })
 }
 // NEEDS MIDDLEWARE
 exports.updateOne = function(req, res) {
-  var query = {_id: req.params.user_id};
+  var query = {id: req.params.userid};
   var updatedProps = req.body;
-  var options = {new: true, upsert: true};
-  User.findOneAndUpdate(query, updatedProps, options, function(err, matchingUser){
-    if(err){
-      return res.json(err);
-    }
+  User.update(updatedProps, {where: query})
+  .then(function(matchingUser){
     res.json(matchingUser);
-  });
+  })
+  .catch(function(err) {
+    console.log('An Error Occured Updating User: ', err);
+    res.status(500).send(err);
+  })
 };
 
 // NEEDS MIDDLEWARE
 exports.deleteOne = function(req, res) {
-  var query = {_id: req.params.user_id};
-  User.findOneAndRemove(query, function(err, matchingUser){
-    if(err){
-      return res.json(err);
-    }
-    res.json(matchingUser);
+  var query = {id: req.params.user_id};
+  User.destroy({where: query})
+  .catch(function(err) {
+    console.log('An Error Occured Deleting Users: ', err);
+    res.status(500).send(err);
   });
 };

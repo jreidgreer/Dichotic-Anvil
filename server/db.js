@@ -23,7 +23,33 @@ var User = db.define('user', {
   instanceMethods: {
     comparePasswords: function(inputPassword, callback) {
       callback(bcrypt.compareSync(inputPassword, this.password));
-    }
+    },
+    getFriends: function(currentUserId, callback) {
+      Friends.findAll({
+        where: {
+          $or: [{user1: currentUserId}, {user2: currentUserId}]
+        }
+      })
+      .then(function(friendPairIds) {
+        var friendIds = [];
+        for(var i =0; i < friendPairIds.length; i++) {
+          // Get the non-current user id
+          friendIds.push(friendPairIds[i].dataValues.user1 === currentUserId ? friendPairIds[i].dataValues.user2 : friendPairIds[i].dataValues.user1);
+        }
+        User.findAll({
+          attributes: {
+            exclude: ['password', 'salt']
+          },
+          where: {id: friendIds}
+        })
+        .then(function(foundFriends) {
+          callback(foundFriends);
+        })
+        .catch(function(err) {
+          console.log('An Error Occured Finding Friends via getFriends model: ', err);
+        });
+      });
+    } // End getFriends method
   } // End Instance Methods
 });
 
@@ -47,10 +73,20 @@ var Request = db.define('request', {
   denied: Sequelize.BOOLEAN,
 });
 
-User.hasMany(Item, {as: 'Inventory'});
-User.belongsToMany(User, {as: 'Friends', through: 'UserFriends'});
-Item.belongsToMany(Request, {as: 'Requests', through: 'ItemRequests'});
-Item.belongsTo(User, {as: 'Owner'});
+//======================================================
+
+var Friends = db.define('friends', {
+  user1: Sequelize.INTEGER,
+  user2: Sequelize.INTEGER
+});
+
+User.hasMany(Item, {as: 'Inventory', foreignKey: 'Owner'});
+// User.hasMany(User, {as: 'Friends'});
+// User.belongsToMany(User, {as: 'Friends', through: 'UserFriends'});
+
+// Item.belongsToMany(Request, {as: 'Requests', through: 'ItemRequests'});
+// Item.belongsTo(User, {as: 'Owner', });
+
 Request.belongsTo(User, { as: 'Borrower'});
 Request.hasOne(Item, { as: 'Item'});
 
@@ -60,5 +96,6 @@ module.exports = {
   db: db,
   Item: Item,
   User: User,
-  Request: Request
+  Request: Request,
+  Friends: Friends
 };

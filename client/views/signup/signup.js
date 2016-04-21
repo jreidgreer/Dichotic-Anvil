@@ -37,7 +37,6 @@ $scope.signUp = function() {
 
       Auth.createUser(data, function(token) {
           $window.localStorage.setItem('com.borrow', token);
-          console.log('Attempting to redirect.');
           $location.path('/dashboard');
       });
 
