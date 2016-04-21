@@ -118,10 +118,12 @@ exports.borrow = function(req, res) {
       }
       // create new request object
       Request.create({
-        borrowMessage: borrowMessage,
+        borrow_message: borrowMessage,
         duration: durationDays,
         borrower: req.currentUser.id,
-        item: item.dataValues.id
+        item: item.dataValues.id,
+        approved: false,
+        denied: false
       })
       .then(function(newRequest) {
         res.send(newRequest);
