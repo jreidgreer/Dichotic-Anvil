@@ -12,12 +12,12 @@ module.exports = function (app, express, passport) {
 
   //FACEBOOK ROUTES
   //============================================
-  app.get('/auth/facebook', passport.authenticate('facebook', {
-    scope: 'email',
+  app.get('/#/auth/facebook', passport.authenticate('facebook', {
+    scope: ['email', 'public_profile']
     // successRedirect: '/#/dashboard',
     // failureRedirect: '/#/login'
   }));
-  app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  app.get('/#/auth/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/#/dashboard',
     failureRedirect: '/#/login'
   }),

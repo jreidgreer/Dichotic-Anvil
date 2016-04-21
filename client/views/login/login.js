@@ -31,4 +31,14 @@ angular.module('borrow.login', [])
         $location.path('/dashboard');
     });
   };
+
+  // $scope.FBlogin = function() {
+  //   FB.login(function(err, resp) {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+
+  //     }
+  //   });
+  // };
 });
