@@ -146,8 +146,6 @@ Request.belongsTo(User, { as: 'Borrower'});
 
 db.sync({force: true});
 
-db.sync({force: true});
-
 module.exports = {
   db: db,
   Item: Item,

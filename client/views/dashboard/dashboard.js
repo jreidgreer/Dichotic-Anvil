@@ -41,7 +41,7 @@ angular.module('borrow.dashboard', [])
     })
     .error(function(data) {
       console.log(JSON.stringify(data));
-  });
+    });
 
     $scope.viewProfile = function (friendId) {
       $location.path('/profile/'+ friendId);
