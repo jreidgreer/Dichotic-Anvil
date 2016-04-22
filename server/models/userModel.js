@@ -1,69 +1,53 @@
-var mongoose = require('mongoose');
-var Item = require('../models/itemModel.js');  //require Item model to make relational connection to User inventory items
+var Item = require('./itemModel.js');  //require Item model to make relational connection to User inventory items
 var bcrypt = require('bcrypt-nodejs');
-var Schema = mongoose.Schema;
-var relationship = require("mongoose-relationship");
 
+var Sequelize = require('sequelize');
+var db = require('../db');
 
-var userSchema = new Schema({
+var User = db.define('user', {
+  firstName: Sequelize.STRING,
+  lastName: Sequelize.STRING,
+  userName: { type: Sequelize.STRING, required: true, unique: true },
+  password: { type: Sequelize.STRING, required: true },
+  picture: Sequelize.STRING
+},
+{
+  hooks: {
+    beforeCreate: function(user) {
+      var password = user.get('password');
 
-  firstName: String,
-  lastName: String,
-  userName: { type: String, required: true, index: { unique: true } },
-  password: { type: String, required: true },
-  picture: {type: Schema.Types.Mixed},
-  created_At: Date,
-  updated_At: Date,
-  inventory: [
-    {
-      type: Schema.ObjectId,
-      ref: 'Item',
-      default: []
+      bcrypt.genSalt(10, function(err, salt) {
+        if(err) {
+          return next(err);
+        }
+        bcrypt.hash(password, salt , null, function(err, hash) {
+          if(err) {
+            return next(err);
+          }
+
+          user.password = hash;
+          user.salt = salt;
+        });
+      });
     }
-  ],
-  friends: [
-    {
-      type: Schema.ObjectId,
-      ref: 'User',
-      default: []
+  },
+  instanceMethods: {
+    comparePasswords: function(inputPassword, callback) {
+      var actualPassword = this.password;
+      bcrypt.compare(inputPassword, actualPassword, function(err, res) {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(null, res);
+        }
+      });
     }
-  ]
+  }
 });
 
-userSchema.methods.comparePasswords = function(inputPassword, callback) {
-  var actualPassword = this.password
-  console.log('INPUT PASSWORD=====', inputPassword)
-  console.log('ACTUAL PASSWORD=====', actualPassword)
-  bcrypt.compare(inputPassword, actualPassword, function(err, res) {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, res);
-    }
-  });
-};
+User.hasMany(db.Item, {as: 'Inventory'});
+User.hasMany(db.User, {as: 'Friends'});
 
-userSchema.pre('save', function(next){
-  var user = this;
-  var password = this.password;
-  bcrypt.genSalt(10, function(err, salt) {
-    if(err) {
-      return next(err);
-    }
-    bcrypt.hash(password, salt , null, function(err, hash) {
-      if(err) {
-        return next(err);
-      }
-
-      user.password = hash;
-      user.salt = salt;
-      next();
-    });
-  });
-});
-
-//Create a model using the schema
-var User = mongoose.model('User', userSchema);
 module.exports = User;
 
 //Facebook User

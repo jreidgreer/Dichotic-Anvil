@@ -20,7 +20,7 @@
 
     <!-- Left Column -->
     <div class="col-lg-3 dashboard-left">
-      <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
+      <img ng-src="{{user.picture | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
       <h3 class="text-center">{{user.userName}}</h3>
       <div class="text-center">
         <div class="btn-group-vertical">

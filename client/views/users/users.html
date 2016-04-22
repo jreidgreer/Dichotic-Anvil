@@ -21,7 +21,7 @@
     <h2 class="userlist">User List</h2>
     <table class="friendtable">
 			<tr class="friendlist" ng-repeat='user in users'>
-        <td > <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:80px;height:80px"> </td>
+        <td > <img ng-src="{{user.picture | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:80px;height:80px"> </td>
         <td > {{user.userName}} </td>
         <td> <button class="btn btn-default" ng-click='addFriend(user.userName)'>Add friend</button></td>
       </table>

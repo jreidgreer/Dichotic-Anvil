@@ -37,9 +37,9 @@
 
           <div style="margin-top:10px;">
          <!-- Show the thumbnail only when the picture is uploaded -->
-         <a href="{{picture.url}}" class="thumbnail" ng-if="picture">
+         <a href="{{picture}}" class="thumbnail" ng-if="picture">
          <!-- the picture is rendered with width: 500 and sharpened -->
-        <img ng-src="{{picture.url | fpConvert: {filter:'sharpen'} }}">
+        <img ng-src="{{picture | fpConvert: {filter:'sharpen'} }}">
         </a>
        </div>
       </div>
@@ -71,3 +71,4 @@
 </div>
 
  -->
+  </div> 
