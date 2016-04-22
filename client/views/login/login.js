@@ -32,13 +32,13 @@ angular.module('borrow.login', [])
     });
   };
 
-  // $scope.FBlogin = function() {
-  //   FB.login(function(err, resp) {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-
-  //     }
-  //   });
-  // };
+  $scope.FBlogin = function() {
+    FB.login(function(response) {
+      if (err) {
+        console.log(err);
+      } else {
+        
+      }
+    });
+  };
 });

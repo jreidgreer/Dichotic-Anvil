@@ -50,10 +50,4 @@ angular.module('borrow.userServices', [])
     isAuth: isAuth,
     signout: signout
   };
-})
-
-  .factory('facebookAuth', function() {
-    return {
-      //
-    };
-  });
+});

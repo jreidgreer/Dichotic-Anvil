@@ -1,6 +1,7 @@
 
 //require user model and jwt
 var User = require('../models/userModel.js');
+var facebookUser = require('../models/userModel.js');
 var Request = require('../models/requestModel.js');
 var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 
@@ -81,6 +82,17 @@ exports.verifyLogin = function(req, res) {
 
   var userName = req.body.userName;
   var password = req.body.password;
+
+  if (req.user) {
+    facebookUser.findOne({'facebook.id': req.user.id }, function(err, fbUser) {
+      if (!fbUser) {
+        exports.sendError(res, 'Invalid user');
+      } else {
+        exports.createNewSessionForUser(fbUser, res);
+      }
+    });
+    return;
+  }
 
   console.log('USERNAME======', userName);
   console.log('PASSWORD======', password);
@@ -197,11 +209,12 @@ exports.getUser = function(req, res) {
 // OUR "IS LOGGED IN?" MIDDLEWARE FUNCTION
 exports.authCheck = function (req, res, callback) {
   var token = req.headers['x-access-token'];
-  if (!token) {
+  console.log(req.user);
+  if (!token && !req.user) {
 
     callback(false);
 
-  } else {
+  } else if (!req.user) {
 
     var user = null;
     try {
@@ -228,9 +241,11 @@ exports.authCheck = function (req, res, callback) {
 
             callback(false);
         }
-    })
+    });
+  } else if (req.user) {
+    callback(req.user);
   }
-}
+};
 
 // NEEDS MIDDLEWARE
 exports.retrieveAll = function(req, res) {

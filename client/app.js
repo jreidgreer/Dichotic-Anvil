@@ -74,25 +74,16 @@ angular.module('borrow', ['ngRoute',
   };
   return attach;
 })
-.run(function ($rootScope, $location, Auth) {
-    window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '267351013600997',
-      cookie     : true,  // enable cookies to allow the server to access 
-                          // the session
-      xfbml      : true,  // parse social plugins on this page
-      version    : 'v2.5' // use graph api version 2.5
-    });
+.run(function ($rootScope, $location, Auth, $http) {
+  var dummyUser = {
+    userName: 'Bubba',
+    password: 'bubba'
   };
 
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "http://connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
+  Auth.login(dummyUser, function(token, user) {
+    $window.localStorage.setItem('com.borrow', token);
+    $location.path('/dashboard');
+  });
 
   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
     if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
