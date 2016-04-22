@@ -45,6 +45,7 @@ angular.module('borrow.userServices', [])
   };
 
   var isAuth = function () {
+    // return true;
     return !!$window.localStorage.getItem('com.borrow');
   };
 

@@ -36,9 +36,12 @@ angular.module('borrow.dashboard', [])
 
     // Items Currently Borrowing
     for (var i = 0; i < $scope.user.borrowing.length; i++) {
-        $scope.borrowing.push($scope.user.borrowing[i].item.itemName)
+        $scope.borrowing.push($scope.user.borrowing[i].item.itemName);
       }
     });
+    // .error(function(data) {
+    //   console.log(JSON.stringify(data));
+  // });
 
     $scope.viewProfile = function (friendId) {
       $location.path('/profile/'+ friendId);
@@ -55,7 +58,7 @@ angular.module('borrow.dashboard', [])
       })
       .catch(function(err) {
         console.log(err);
-      })
+      });
     };
 
     $scope.deny = function(id) {
@@ -69,7 +72,7 @@ angular.module('borrow.dashboard', [])
       })
       .catch(function(err) {
         console.log(err);
-      })
+      });
     };
 
   $scope.signout = function() {

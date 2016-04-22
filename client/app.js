@@ -11,7 +11,7 @@ angular.module('borrow', ['ngRoute',
   'borrow.profile'
 ])
 
-.config(function($routeProvider, filepickerProvider, $httpProvider) {
+.config(function($routeProvider, filepickerProvider, $provide, $httpProvider) {
   $routeProvider
 
   .when('/', {
@@ -60,10 +60,12 @@ angular.module('borrow', ['ngRoute',
 
   filepickerProvider.setKey('A1IrC7fsKQuqV78eZa0euz');
   $httpProvider.interceptors.push('AttachTokens');
+  $httpProvider.interceptors.push('myHttpInterceptor');
 })
 .factory('AttachTokens', function ($window) {
   var attach = {
     request: function (object) {
+      // console.log(object); //check contents of object
       var jwt = $window.localStorage.getItem('com.borrow');
       if (jwt) {
         object.headers['x-access-token'] = jwt;
@@ -74,6 +76,28 @@ angular.module('borrow', ['ngRoute',
   };
   return attach;
 })
+
+.factory('myHttpInterceptor', function($q) {
+  return {
+    request: function(config) {
+      console.log(config);
+      return config || $q.when(config);
+    },
+    requestError: function(rejection) {
+      console.log(rejection);
+      return $q.reject(rejection);
+    },
+    response: function(resp) {
+      console.log(resp);
+      return resp || $q.when(resp);
+    },
+    responseError: function(rejection) {
+      console.log(rejection);
+      return $q.reject(rejection);
+    }
+  };
+})
+
 .run(function ($rootScope, $location, Auth, $http) {
   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
     if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
