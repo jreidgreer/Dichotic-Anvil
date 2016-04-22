@@ -1,18 +1,9 @@
 
 //require user model and jwt
-<<<<<<< HEAD
-var User = require('../models/userModel.js');
-var facebookUser = require('../models/userModel.js');
-var Request = require('../models/requestModel.js');
-=======
 var User = require('../db.js').User;
 var Request = require('../db.js').Request;
 var Friends = require('../db.js').Friends;
 
-<<<<<<< a05c7cd707955a3dd8d0257453a16947d518d250
->>>>>>> 3b69d3346df404155cd5d7f9437eb9ad5e87abd9
-=======
->>>>>>> Implement Postgres conversion for users, items, and friends
 var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 var Sequelize = require('sequelize');
 
@@ -98,28 +89,8 @@ exports.verifyLogin = function(req, res) {
   var userName = req.body.userName;
   var password = req.body.password;
 
-<<<<<<< a05c7cd707955a3dd8d0257453a16947d518d250
-  if (req.user) {
-    facebookUser.findOne({'facebook.id': req.user.id }, function(err, fbUser) {
-      if (!fbUser) {
-        exports.sendError(res, 'Invalid user');
-      } else {
-        exports.createNewSessionForUser(fbUser, res);
-      }
-    });
-    return;
-  }
-
-  console.log('USERNAME======', userName);
-  console.log('PASSWORD======', password);
-
-  User.findOne({userName: userName}, function(err, user) {
-
-=======
->>>>>>> Implement Postgres conversion for users, items, and friends
   User.findOne({where: {userName: userName}})
   .then( function(user) {
-
     if(!user) {
       // no user with that username in database
       exports.sendError(res, 'Invalid username or password');
@@ -223,15 +194,6 @@ exports.getUser = function(req, res) {
 // OUR "IS LOGGED IN?" MIDDLEWARE FUNCTION
 exports.authCheck = function (req, res, authCallback) {
   var token = req.headers['x-access-token'];
-<<<<<<< a05c7cd707955a3dd8d0257453a16947d518d250
-  console.log(req.user);
-  if (!token && !req.user) {
-
-    callback(false);
-
-  } else if (!req.user) {
-=======
->>>>>>> Implement Postgres conversion for users, items, and friends
   if (!token) {
     authCallback(false);
   } else {
@@ -270,19 +232,12 @@ exports.authCheck = function (req, res, authCallback) {
 
             authCallback(false);
         }
-<<<<<<< a05c7cd707955a3dd8d0257453a16947d518d250
-    });
-  } else if (req.user) {
-    callback(req.user);
-    }
-=======
     })
->>>>>>> Implement Postgres conversion for users, items, and friends
     .catch(function(err) {
       console.log('Error Finding User During authCheck: ', err);
     });
   }
-};
+}
 
 // NEEDS MIDDLEWARE
 exports.retrieveAll = function(req, res) {
