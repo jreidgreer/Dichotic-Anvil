@@ -75,16 +75,6 @@ angular.module('borrow', ['ngRoute',
   return attach;
 })
 .run(function ($rootScope, $location, Auth, $http) {
-  var dummyUser = {
-    userName: 'Bubba',
-    password: 'bubba'
-  };
-
-  Auth.login(dummyUser, function(token, user) {
-    $window.localStorage.setItem('com.borrow', token);
-    $location.path('/dashboard');
-  });
-
   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
     if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
       $location.path('/login');

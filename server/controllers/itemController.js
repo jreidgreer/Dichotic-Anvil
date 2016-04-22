@@ -117,12 +117,15 @@ exports.borrow = function(req, res) {
         return;
       }
       // create new request object
-      Request.create({
-        borrowMessage: borrowMessage,
+      var newRequest = Request.build({
+        borrow_message: borrowMessage,
         duration: durationDays,
-        borrower: req.currentUser.id,
-        item: item.dataValues.id
-      })
+        approved: false,
+        denied: false
+      });
+      newRequest.BorrowerId =req.currentUser.id;
+      newRequest.Item = item.dataValues.id;
+      newRequest.save()
       .then(function(newRequest) {
         res.send(newRequest);
       })
@@ -144,8 +147,7 @@ exports.updateRequest = function(req, res) {
 
   // pull request from database
   Request.findOne({
-    where: {id: request_id},
-    include: ['Item']
+    where: {id: request_id}
   })
   .then(function(request) {
       if(!request) {
@@ -157,31 +159,36 @@ exports.updateRequest = function(req, res) {
         exports.sendError(res, 'Request is already approved or denied');
         return;
       }
-      // make sure item isnt already borrowed
-      if(request.item.borrowed) {
-        exports.sendError(res, 'Item is already borrowed');
-        return;
-      }
-      // check if the items creator is the current logged in user
-      if(request.item.owner.toString() !== req.currentUser.id.toString()) {
-        exports.sendError(res, 'You did not list this item');
-        return;
-      }
-      // finalize the request, set approved or denied, and set borrowed to true if approved=true
-      request.approved = (action === 'approve');
-      request.denied = !request.approved;
-
-      request.save()
-      .then(function (err) {
-      // set the borrowed state on the item
-      exports.setItemBorrowed(request.item.id, request.approved);
-      res.json({ success: true, message: 'Item successfully updated'});
+      // Fill in item
+      Item.findOne({
+        where: {id: request.id}
       })
-      .catch(function(err) {
-        console.log('An Error Occurred Resaving Request: ', err);
-      })
+      .then(function(foundItem) {
+        // make sure item isnt already borrowed
+        if(foundItem.borrowed) {
+          exports.sendError(res, 'Item is already borrowed');
+          return;
+        }
+        // check if the items creator is the current logged in user
+        if(foundItem.Owner.toString() !== req.currentUser.id.toString()) {
+          exports.sendError(res, 'You did not list this item');
+          return;
+        }
+        // finalize the request, set approved or denied, and set borrowed to true if approved=true
+        request.approved = (action === 'approve');
+        request.denied = !request.approved;
 
-  });
+        request.save()
+          .then(function () {
+            // set the borrowed state on the item
+            exports.setItemBorrowed(request.Item, request.approved);
+            res.json({ success: true, message: 'Item successfully updated'});
+          })
+          .catch(function(err) {
+            console.log('An Error Occurred Resaving Request: ', err);
+          });
+      })
+  }); // End Request.find then
 }
 
 exports.setItemBorrowed = function(item_id, borrowed){

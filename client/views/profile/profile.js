@@ -37,7 +37,7 @@ angular.module('borrow.profile', [])
   $scope.borrow = function(item){
     $http({
       method: 'POST',
-      url: '/api/items/'+ item._id + '/borrow',
+      url: '/api/items/'+ item.id + '/borrow',
       data: {duration: 5, message: 'Can I borrow this?'}
     })
     .then(function (resp) {

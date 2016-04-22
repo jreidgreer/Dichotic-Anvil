@@ -38,10 +38,7 @@ angular.module('borrow.dashboard', [])
     for (var i = 0; i < $scope.user.borrowing.length; i++) {
         $scope.borrowing.push($scope.user.borrowing[i].item.itemName)
       }
-    })
-    .error(function(data) {
-      console.log(JSON.stringify(data));
-  });
+    });
 
     $scope.viewProfile = function (friendId) {
       $location.path('/profile/'+ friendId);

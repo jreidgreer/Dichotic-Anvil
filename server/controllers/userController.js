@@ -1,15 +1,9 @@
 
 //require user model and jwt
-<<<<<<< HEAD
-var User = require('../models/userModel.js');
-var facebookUser = require('../models/userModel.js');
-var Request = require('../models/requestModel.js');
-=======
 var User = require('../db.js').User;
 var Request = require('../db.js').Request;
 var Friends = require('../db.js').Friends;
 
->>>>>>> 3b69d3346df404155cd5d7f9437eb9ad5e87abd9
 var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 var Sequelize = require('sequelize');
 
@@ -43,14 +37,13 @@ exports.filterUser = function(userObject, currentUser) {
   }
 
   // process the inventory and make sure we only show requests if the user object is the current user
-  if(userObject.id.toString() !== currentUser.id.toString())
-  {
-      for(var i = 0; i < responseObject.inventory.length; i++)
-      {
-        //console.log(delete responseObject.inventory[i]['requests']);
+  // if(userObject.id.toString() !== currentUser.id.toString()){
+  //     for(var i = 0; i < responseObject.inventory.length; i++)
+  //     {
+  //       //console.log(delete responseObject.inventory[i]['requests']);
 
-      }
-  }
+  //     }
+  // }
 
   return responseObject;
 };
@@ -96,25 +89,8 @@ exports.verifyLogin = function(req, res) {
   var userName = req.body.userName;
   var password = req.body.password;
 
-  if (req.user) {
-    facebookUser.findOne({'facebook.id': req.user.id }, function(err, fbUser) {
-      if (!fbUser) {
-        exports.sendError(res, 'Invalid user');
-      } else {
-        exports.createNewSessionForUser(fbUser, res);
-      }
-    });
-    return;
-  }
-
-  console.log('USERNAME======', userName);
-  console.log('PASSWORD======', password);
-
-  User.findOne({userName: userName}, function(err, user) {
-
   User.findOne({where: {userName: userName}})
   .then( function(user) {
-
     if(!user) {
       // no user with that username in database
       exports.sendError(res, 'Invalid username or password');
@@ -186,32 +162,22 @@ exports.getUser = function(req, res) {
               return friend.dataValues;
             });
 
-            foundUser.getInventory()
-            .then(function(foundUserInventory){
+            foundUser.loadInventory(function(foundUserInventory){
+              foundUserInventory
               sentUser.inventory = foundUserInventory.map(function(item) {
                 return item.dataValues;
               });
               if (isMe) { 
                 query = {'approved': true, 'BorrowerId': req.currentUser.id};
-                Request.findAll({
-                  where: query
-                  // include: ['Item']
-                })
-                .then(function(results) {
+                Request.loadRequestsWithItems(query, function(results) {
                   sentUser.borrowing = results;
                   res.json(exports.filterUser(sentUser, req.currentUser));
                 })
-                .catch(function(err) {
-                  console.log('An Error Occured Loading Requests: ', err);
-                });
               }
               else {
                 //otherwise just dish out the object
                 res.json(exports.filterUser(foundUser.dataValues, req.currentUser));
               }
-            })
-            .catch(function(err) {
-              console.log('An Error Occured Loading Inventory: ', err);
             })
           });
         } else {
@@ -228,12 +194,6 @@ exports.getUser = function(req, res) {
 // OUR "IS LOGGED IN?" MIDDLEWARE FUNCTION
 exports.authCheck = function (req, res, authCallback) {
   var token = req.headers['x-access-token'];
-  console.log(req.user);
-  if (!token && !req.user) {
-
-    callback(false);
-
-  } else if (!req.user) {
   if (!token) {
     authCallback(false);
   } else {
@@ -272,15 +232,12 @@ exports.authCheck = function (req, res, authCallback) {
 
             authCallback(false);
         }
-    });
-  } else if (req.user) {
-    callback(req.user);
-    }
+    })
     .catch(function(err) {
       console.log('Error Finding User During authCheck: ', err);
     });
   }
-};
+}
 
 // NEEDS MIDDLEWARE
 exports.retrieveAll = function(req, res) {
@@ -305,17 +262,6 @@ exports.retrieveAll = function(req, res) {
           if (foundUsers[i].id.toString() === req.currentUser.id.toString()) {
             foundUsers.splice(i, 1);
           }
-
-          // var user = foundUsers[i];
-          //   // clean up friends with filter
-          // for(var j = 0; j < user.friends.length; j++) {
-          //   user.friends[j] = exports.filterUser(user.friends[j], req.currentUser);
-
-          //   // remove friends of friends so it doesn't become a recursive mess
-          //   delete user.friends[j].friends;
-          // }
-          // push onto ret
-          // ret.push(exports.filterUser(user, req.currentUser));
         }
         res.json(foundUsers);
       })
