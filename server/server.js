@@ -19,7 +19,8 @@ var port = process.env.PORT || 3000;
 
 // ROUTES FOR FACEBOOK CONFIG
 //============================================
-require('./config/facebookConfig.js')(app, session, passport);
+// require('./config/facebookConfig.js')(app, session, passport);
+require('./config/passport.js')(app, session, passport);
 require('./config/routes.js')(app, express, passport);
 
 // START THE SERVER

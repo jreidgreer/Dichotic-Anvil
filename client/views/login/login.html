@@ -28,11 +28,11 @@
         <label for="inputPassword">Password</label>
         <input type='password' class="form-control" placeholder="Password" name='password' ng-model="password" id="inputPassword"required>
       </div>
-      <button type="submit" class="btn btn-primary">Login</button>
+      <div class="buttons">
+        <button type="submit" class="btn btn-primary">Login</button>
+        <!--FACEBOOK LOGIN-->
+        <a href="/auth/facebook" class="btn btn-primary" role="button">Facebook</a>
+      </div>
     </form>
   </div>
-  <!--FACEBOOK LOGIN-->
-  <!-- <button class="btn btn-primary"><a href="/auth/facebook"><span class="facebook">Facebook</span></a></button> -->
-  <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-  </fb:login-button>
 </div>

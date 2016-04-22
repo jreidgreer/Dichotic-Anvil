@@ -1,7 +1,6 @@
 var userController = require('../controllers/userController.js');
 var itemController = require('../controllers/itemController.js');
 
-
 // paths that we skip the auth middleware
 var middlewareIgnorePaths = [
   "/api/users/signup",
@@ -10,24 +9,41 @@ var middlewareIgnorePaths = [
 
 module.exports = function (app, express, passport) {
 
+  //isAuth
+  var isAuth = function(req, res, next) {
+    req.isAuthenticated() ? next() : res.status(403).send('Error: Not Authorized.');
+  };
+
   //FACEBOOK ROUTES
   //============================================
-  app.get('/#/auth/facebook', passport.authenticate('facebook', {
-    scope: ['email', 'public_profile']
-    // successRedirect: '/#/dashboard',
-    // failureRedirect: '/#/login'
-  }));
-  app.get('/#/auth/facebook/callback', passport.authenticate('facebook', {
+
+  // var checkLogin = function() { 
+  //   passport.authenticate('facebook', { scope: 'email' });
+  //   console.log('inside checkLogin...');
+  // };
+
+  // app.get('/auth/facebook', checkLogin);
+
+  app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
+
+  // var authenticateLogin = function() {
+  //   passport.authenticate('facebook', {
+  //     failureRedirect: '/login'
+  //   });
+  //   console.log('inside authenticateLogin...');
+  // };
+
+  // app.get('/auth/facebook/callback', authenticateLogin);
+
+  app.get('/auth/facebook/callback', passport.authenticate('facebook', { 
     successRedirect: '/#/dashboard',
     failureRedirect: '/#/login'
-  }),
-    function(req, res) {
-      var tempPassportSession = req.session.passport;
-      req.session.regenerate(function() {
-        req.session.passport = tempPassportSession;
-        res.redirect('/#/dashboard');
-      });
-    });
+  }));
+
+  app.get('/logout', function(req, res) {
+    req.session.destroy();
+    res.redirect('/');
+  });
 
   // MIDDLEWARE
   //  all requests (except for signup/login) pass through this middleware function, if they do not pass, we cancel the request/response
@@ -55,7 +71,6 @@ module.exports = function (app, express, passport) {
       });
 
   });
-
 
   // USERS
   //============================================

@@ -65,3 +65,20 @@ userSchema.pre('save', function(next){
 //Create a model using the schema
 var User = mongoose.model('User', userSchema);
 module.exports = User;
+
+//Facebook User
+var facebookUserSchema = new Schema({
+
+  id: String,
+  token: String,
+  name: String,
+  email: String
+});
+
+//dummy method
+facebookUserSchema.methods.comparePasswords = function(inputPassword, callback) {
+  callback(null, true);
+};
+
+var facebookUser = mongoose.model('facebookUser', facebookUserSchema);
+module.exports = facebookUser;
