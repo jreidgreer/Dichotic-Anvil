@@ -3,6 +3,7 @@ angular.module('borrow.upload', [])
     $scope.item = {};
     //Send the newly created superhero to the server to store in the db
     $scope.createItem = function(){
+        console.log('Posting Item');
         $http.post('/api/items', $scope.item)
             .success(function(data){
                 console.log(JSON.stringify(data));
@@ -23,8 +24,8 @@ angular.module('borrow.upload', [])
                 openTo: 'IMAGE_SEARCH'
             },
             function(Blob){
-                console.log(JSON.stringify(Blob));
-                $scope.item.picture = Blob;
+                console.log(JSON.stringify(Blob.url));
+                $scope.item.picture = Blob.url;
                 $scope.$apply();
             }
         );
