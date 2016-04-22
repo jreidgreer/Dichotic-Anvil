@@ -46,14 +46,13 @@ exports.filterUser = function(userObject, currentUser) {
   }
 
   // process the inventory and make sure we only show requests if the user object is the current user
-  if(userObject.id.toString() !== currentUser.id.toString())
-  {
-      for(var i = 0; i < responseObject.inventory.length; i++)
-      {
-        //console.log(delete responseObject.inventory[i]['requests']);
+  // if(userObject.id.toString() !== currentUser.id.toString()){
+  //     for(var i = 0; i < responseObject.inventory.length; i++)
+  //     {
+  //       //console.log(delete responseObject.inventory[i]['requests']);
 
-      }
-  }
+  //     }
+  // }
 
   return responseObject;
 };
@@ -192,32 +191,22 @@ exports.getUser = function(req, res) {
               return friend.dataValues;
             });
 
-            foundUser.getInventory()
-            .then(function(foundUserInventory){
+            foundUser.loadInventory(function(foundUserInventory){
+              foundUserInventory
               sentUser.inventory = foundUserInventory.map(function(item) {
                 return item.dataValues;
               });
               if (isMe) { 
                 query = {'approved': true, 'BorrowerId': req.currentUser.id};
-                Request.findAll({
-                  where: query
-                  // include: ['Item']
-                })
-                .then(function(results) {
+                Request.loadRequestsWithItems(query, function(results) {
                   sentUser.borrowing = results;
                   res.json(exports.filterUser(sentUser, req.currentUser));
                 })
-                .catch(function(err) {
-                  console.log('An Error Occured Loading Requests: ', err);
-                });
               }
               else {
                 //otherwise just dish out the object
                 res.json(exports.filterUser(foundUser.dataValues, req.currentUser));
               }
-            })
-            .catch(function(err) {
-              console.log('An Error Occured Loading Inventory: ', err);
             })
           });
         } else {
@@ -318,17 +307,6 @@ exports.retrieveAll = function(req, res) {
           if (foundUsers[i].id.toString() === req.currentUser.id.toString()) {
             foundUsers.splice(i, 1);
           }
-
-          // var user = foundUsers[i];
-          //   // clean up friends with filter
-          // for(var j = 0; j < user.friends.length; j++) {
-          //   user.friends[j] = exports.filterUser(user.friends[j], req.currentUser);
-
-          //   // remove friends of friends so it doesn't become a recursive mess
-          //   delete user.friends[j].friends;
-          // }
-          // push onto ret
-          // ret.push(exports.filterUser(user, req.currentUser));
         }
         res.json(foundUsers);
       })
