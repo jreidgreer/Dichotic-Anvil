@@ -10,6 +10,7 @@ var session = require('express-session');
 var passport = require('passport');
 
 mongoose.connect('mongodb://localhost/borrow');
+var bodyParser = require('body-parser');
 
 // MIDDLEWARE
 //============================================

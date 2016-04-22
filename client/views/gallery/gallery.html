@@ -45,7 +45,7 @@
 <div class="container result">
   <div ng-class="item ? 'col-md-6' : 'col-md-4'" class="item" ng-repeat="item in items | filter:search | orderBy:'item.itemName':reverse" ng-click='borrow(item)' >
    <div class="thumbnail">
-    <img ng-src="{{item.picture.url | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
+    <img ng-src="{{item.picture | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
       <div class="caption text-center">
           <h3>{{item.itemName}}</h3>
           <p><label>Description: </label> {{item.itemDescription}}</p>

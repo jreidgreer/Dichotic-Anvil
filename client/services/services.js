@@ -12,6 +12,16 @@ angular.module('borrow.userServices', [])
     });
   };
 
+  var getMe = function (callback) {
+    return $http({
+      method: 'GET',
+      url: '/api/user/me'
+    })
+    .then(function (resp) {
+      callback(resp.data);
+    });
+  };
+
   var createUser = function (user, callback) {
     return $http({
       method: 'POST',
@@ -48,6 +58,7 @@ angular.module('borrow.userServices', [])
     createUser: createUser,
     updateUser: updateUser,
     isAuth: isAuth,
-    signout: signout
+    signout: signout,
+    getMe: getMe
   };
 });

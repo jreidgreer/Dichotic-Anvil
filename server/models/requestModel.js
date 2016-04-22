@@ -1,28 +1,18 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var relationship = require("mongoose-relationship");
+var User = require('./userModel.js');
+var Item = require('./itemModel.js');
+var Sequelize = require('sequelize');
+var db = require('../db');
 
-var requestSchema = new Schema({
-  item : {type: Schema.ObjectId, ref:'Item', childPath: 'requests'},
-  borrower: {type: Schema.ObjectId, ref:'User'}, //req.currentUser
-  borrow_message: String,
-  durationDays: Number,
-  approved: Boolean,
-  denied: Boolean,
-  createdAt: {type: Date, default: Date.now}
+var Request = db.define('request', {
+  borrow_message: Sequelize.STRING,
+  durationDays: Sequelize.INTEGER,
+  approved: Sequelize.BOOLEAN,
+  denied: Sequelize.BOOLEAN,
 });
 
-requestSchema.pre('save', function(next){
-    now = new Date();
-    if (!this.createdAt) {
-        this.createdAt = now;
-    }
-    next();
-});
-
-requestSchema.plugin(relationship, {relationshipPathName: 'item'});
+Request.belongsTo(User, { as: 'Borrower'});
+Request.hasOne(Item, { as: 'Item'});
 
 //Create a model using the schema
-var Request = mongoose.model('Request', requestSchema);
 module.exports = Request;
 

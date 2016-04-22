@@ -13,7 +13,7 @@ angular.module('borrow.signup', [])
                 openTo: 'IMAGE_SEARCH'
             },
             function(Blob){
-                $scope.picture = Blob;
+                $scope.picture = Blob.url;
                 $scope.$apply();
             }
         );
@@ -31,8 +31,7 @@ $scope.signUp = function() {
         lastName: $scope.lastName,
         userName: $scope.userName,
         password: $scope.password,
-        picture: $scope.picture,
-        created_At: Date()
+        picture: $scope.picture
       };
 
 

@@ -1,14 +1,13 @@
 
 //require Item model
-var Item = require('../models/itemModel.js');
-var Request = require('../models/requestModel.js');
+var Item = require('../db.js').Item;
+var Request = require('../db.js').Request;
 
 // CRUD ACTIONS
 //============================================
 
 // Use this to dish out an error to the client
 exports.sendError =  function(res, errorString){
-
   error = {
     success: false,
   };
@@ -20,74 +19,76 @@ exports.sendError =  function(res, errorString){
 
 // NEEDS MIDDLEWARE
 exports.createOne = function(req, res) {
-  var newItem = new Item(req.body);
   
   // set the owner to the current users _id
+  // console.log('Current User: ', req.currentUser);
+  // console.log('Request Body: ', req.body);
 
-  console.log(req.currentUser);
-
-  newItem.owner = req.currentUser._id;
-
-  newItem.save(function(err) {
-    if(err){
-      return res.json(err);
-    }
-    res.json(newItem);
+  var newItem = Item.build(req.body);
+  newItem.Owner = req.currentUser.id;
+  newItem.save()
+  .then(function(item) {
+    res.json(item.dataValues);
+  })
+  .catch(function(err) {
+    console.log('Error Occurred Creating Item: ', err);
   });
 };
 
 // NEEDS MIDDLEWARE
 exports.retrieveOne = function(req, res) {
   //have to look in req.params to check for the id. Set the _id to to the value in req.params.id
-  var query = {_id: req.params.item_id};
-  Item.findById(query, function(err, matchingItem){
-    if(err){
-      return res.send(err);
-    }
-    res.json(matchingItem);
+  var query = {id: req.params.item_id};
+  Item.findOne({where: query})
+  .then(function(matchingItem){
+    res.json(matchingItem.dataValues);
+  })
+  .catch(function(err) {
+    console.log('Error Occurred During Retrieval: ', err);
+    return res.status(500).send(err);
   });
 };
 
 // NEEDS MIDDLEWARE
 exports.retrieveAll = function(req, res) {
-  Item.find(function(err, allItems){
-    if(err){
-      return res.send(err);
-    }
-    res.json(allItems);
-  });
+  Item.findAll()
+  .then(function(allItems){
+    var sanitizedResults = [];
+    
+    allItems.map(function(item) {
+      sanitizedResults.push(item.dataValues);
+    });
+
+    res.json(sanitizedResults);
+  })
+  .catch(function(err) {
+    return res.status(500).send(err);
+  })
 };
 
 // NEEDS MIDDLEWARE
 exports.updateOne = function(req, res) {
-  var query = {_id: req.params.item_id};
-  Item.findById(query, function(err, matchingItem){
-    if(err) {
-      return res.send(err);
-    } else {
-    // Update the item
-    item = req.body;
-     // Save the item with its new name
-    item.save(function (err) {
-          // As always, We check for errors
-      if (err) {
-        res.send(err); // Send any errors
-      } else {
-        res.json({ message: 'Item updated!'});
-      }
-    });
-   }
+  var query = {id: req.params.item_id};
+  Item.update(req.body, query)
+  .then(function(item){
+    res.send(item.dataValues);
+  })
+  .catch(function(err) {
+    console.log('Error Occurred Updating: ', err);
+    res.status(500).send(err);
   });
 };
 
 // NEEDS MIDDLEWARE
 exports.deleteOne = function(req, res) {
   var query = {_id: req.params.item_id};
-  Item.findOneByIdAndRemove(query, function(err, matchingItem){
-    if(err){
-      return res.send(err);
-    }
-    res.json(matchingItem);
+  Item.destroy(query)
+  .then(function(deleted) {
+    res.send(deleted.dataValues);
+  })
+  .catch(function(err) {
+    console.log('Error Occurred During Deletion: ', err);
+    res.status(500).send(err);
   });
 };
 
@@ -99,123 +100,98 @@ exports.borrow = function(req, res) {
   // validate duration
   var borrowMessage = req.body.message || '';
   var durationDays = parseInt(req.body.duration);
-  if(isNaN(durationDays) || durationDays < 1 || durationDays > 7)
-  {
+  if(isNaN(durationDays) || durationDays < 1 || durationDays > 7) {
     exports.sendError(res, 'Invalid duration');
     return;
   }
-
-
   // pull item from database
-  Item.findOne({_id: item_id}, function(err, item) {
-      if(!item)
-      {
+  Item.findOne({where: {id: item_id}})
+    .then(function(item) {
+      if(!item){
         exports.sendError(res, 'Item does not exist');
         return;
       }
-
       // make sure item is not already borrowed
-      if(item.borrowed)
-      {
+      if(item.borrowed){
         exports.sendError(res, 'Item is already borrowed');
         return;
       }
-
       // create new request object
-      var newRequest = new Request();
-      newRequest.borrowMessage = borrowMessage;
-      newRequest.duration = durationDays;
-      newRequest.borrower = req.currentUser._id;
-      newRequest.item = item._id;
-
-      newRequest.save(function(err){
-
-        if(err){
-          exports.sendError(res, 'Error creating new borrow request');
-          return;
-        }
-
-        res.json(newRequest);
-
+      Request.create({
+        borrowMessage: borrowMessage,
+        duration: durationDays,
+        borrower: req.currentUser.id,
+        item: item.dataValues.id
+      })
+      .then(function(newRequest) {
+        res.send(newRequest);
+      })
+      .catch(function(err) {
+        console.log('An Error Occurred During Request Creation', err);
       });
-
   });
-
 }
 
 // NEEDS MIDDELWARE
 exports.updateRequest = function(req, res) {
-
-
   var request_id = req.params.request_id;
-  console.log(request_id);
   var action = req.body.action || '';
 
-  if(action !== 'approve' && action !== 'deny')
-  {
+  if(action !== 'approve' && action !== 'deny') {
     exports.sendError(res, 'Invalid action');
     return;
   }
 
   // pull request from database
-  Request.findOne({_id: request_id}, function(err, request) {
-      if(!request)
-      {
+  Request.findOne({
+    where: {id: request_id},
+    include: ['Item']
+  })
+  .then(function(request) {
+      if(!request) {
         exports.sendError(res, 'Request does not exist');
         return;
       }
-
       // make sure request is not already approved or denied
-      if(request.denied || request.approved)
-      {
+      if(request.denied || request.approved) {
         exports.sendError(res, 'Request is already approved or denied');
         return;
       }
-
       // make sure item isnt already borrowed
-      if(request.item.borrowed)
-      {
+      if(request.item.borrowed) {
         exports.sendError(res, 'Item is already borrowed');
         return;
       }
-
       // check if the items creator is the current logged in user
-      if(request.item.owner.toString() !== req.currentUser._id.toString())
-      {
+      if(request.item.owner.toString() !== req.currentUser.id.toString()) {
         exports.sendError(res, 'You did not list this item');
         return;
       }
-
       // finalize the request, set approved or denied, and set borrowed to true if approved=true
       request.approved = (action === 'approve');
       request.denied = !request.approved;
 
-      request.save(function (err) {
-      if (err){
-        exports.sendError(res, 'Request update error');
-        return;
-      } else {
+      request.save()
+      .then(function (err) {
+      // set the borrowed state on the item
+      exports.setItemBorrowed(request.item.id, request.approved);
+      res.json({ success: true, message: 'Item successfully updated'});
+      })
+      .catch(function(err) {
+        console.log('An Error Occurred Resaving Request: ', err);
+      })
 
-
-        // set the borrowed state on the item
-        exports.setItemBorrowed(request.item._id, request.approved);
-
-        res.json({ success: true, message: 'Item successfully updated'});
-      }
-    });
-
-  }).populate('item');
+  });
 }
 
-exports.setItemBorrowed = function(item_id, borrowed)
-{
+exports.setItemBorrowed = function(item_id, borrowed){
   // pull request from database
-  Item.findOne({_id: item_id}, function(err, item) {
-
-    item.borrowed = borrowed;
-    item.save(function(err){
-
-    });
-
+  Item.update({borrowed: borrowed}, {where: {id: item_id}})
+  .then(function(item) {
+    res.send(item.dataValues);
+  })
+  .catch(function(err) {
+    console.log('An Error Occured Setting Borrowed Property: ', err);
+    res.status(500).send(err);
   });
 }
