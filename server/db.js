@@ -138,8 +138,36 @@ var Friends = db.define('friends', {
 //======================================================
 
 var Message = db.define('message', {
-  message: Sequelize.TEXT
+  message: Sequelize.TEXT,
+  title: Sequelize.STRING
 });
+
+Message.loadMessages = function(id, callback) {
+  Message.findAll({where: {ToUser: id}})
+  .then(function(foundMessages) {
+    var currentMessage = 0;
+    var addUser = function() {
+      if(foundMessages[currentMessage]) {
+        // Initialize as empty array
+        foundMessages[currentMessage].dataValues.foundUserInfo = {};
+        User.findOne({
+          where: {id: foundMessages[currentMessage].FromUser},
+          attributes: {
+            exclude: ['password', 'salt']
+          }
+        })
+        .then(function(loadedUser) {
+          foundMessages[currentMessage].dataValues.foundUserInfo = loadedUser;
+          currentMessage++;
+          return addUser();
+        })
+      } else {
+        callback(foundMessages); 
+      }
+    }
+    addUser();
+  })
+};
 
 //======================================================
 
@@ -162,5 +190,6 @@ module.exports = {
   Item: Item,
   User: User,
   Request: Request,
-  Friends: Friends
+  Friends: Friends,
+  Message: Message
 };

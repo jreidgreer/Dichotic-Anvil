@@ -8,6 +8,8 @@ angular.module('borrow', ['ngRoute',
   'borrow.landing',
   'borrow.dashboard',
   'borrow.users',
+  'borrow.sendMessage',
+  'borrow.viewMessages',
   'borrow.profile'
 ])
 
@@ -54,6 +56,16 @@ angular.module('borrow', ['ngRoute',
   .when('/profile/:user_id', {
     templateUrl : './views/profile/profile.html',
     controller: 'profileController',
+    authenticate: true
+  })
+  .when('/message/send/:user_id', {
+    templateUrl : './views/messages/send/send.html',
+    controller: 'sendMessageController',
+    authenticate: true
+  })
+  .when('/messages/', {
+    templateUrl : './views/messages/view/view.html',
+    controller: 'viewMessagesController',
     authenticate: true
   })
   .otherwise('/');

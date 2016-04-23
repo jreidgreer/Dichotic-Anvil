@@ -20,7 +20,8 @@ exports.createMessage = function(req, res) {
   }
 
   var createdMessage = Message.build({
-    message: newMessage.message
+    message: newMessage.message,
+    title: newMessage.title
   });
 
   createdMessage.ToUser = newMessage.ToUser;
@@ -37,15 +38,8 @@ exports.createMessage = function(req, res) {
 };
 
 exports.loadMessages = function(req, res) {
-  Message.findAll({
-    where: {ToUser: req.currentUser.id}, 
-    include: ['FromUser']})
-  .then(function(foundMessages) {
+  Message.loadMessages(req.currentUser.id, function(foundMessages) {
     res.send(foundMessages);
-  })
-  .catch(function(err) {
-    console.log('An Error Occured Retrieving Messages: ', err);
-    res.status(500).send(err);
   })
 };
 

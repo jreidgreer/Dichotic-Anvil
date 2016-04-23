@@ -12,7 +12,7 @@ var Sequelize = require('sequelize');
 
 // only these fields get sent to the client from the user model
 exports.userWhiteList = [
-  "_id",
+  "id",
   "userName",
   "firstName",
   "lastName",
@@ -230,10 +230,9 @@ exports.getUser = function(req, res) {
 exports.authCheck = function (req, res, authCallback) {
   var token = req.headers['x-access-token'];
   console.log('User Stored on Session: ', req.session);
-  var sessionUser;
-  if (req.session.passport) {
-    sessionUser = req.session.passport.user;
-  }
+  if(req.session.passport){
+    var sessionUser = req.session.passport.user
+  };
 
   console.log('authCheck Triggered');
 

@@ -91,8 +91,8 @@ module.exports = function (app, express, passport) {
 
   // MESSAGES
   //============================================
-  app.get('/api/messages:user_id', messageController.loadMessages);
-  app.get('/api/messages:user_id/sent', messageController.loadSentMessages);
+  app.get('/api/messages/', messageController.loadMessages);
+  app.get('/api/messages/sent', messageController.loadSentMessages);
   app.post('/api/messages', messageController.createMessage);
   app.delete('/api/messages/:message_id', messageController.deleteMessage);
 

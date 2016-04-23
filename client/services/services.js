@@ -105,4 +105,32 @@ angular.module('borrow.userServices', [])
     borrow: borrow,
     getAll: getAll,
   };
+})
+.factory('Message', function($http) {
+  var createMessage = function(input, callback) {
+    $http({
+      method: 'POST',
+      url: '/api/messages',
+      data: input
+    })
+    .then(callback)
+    .catch(function(err) {
+      console.log('Error Borrowing Item: ', err);
+    });
+  };
+
+  var totalMessages = function(callback) {
+    $http.get('/api/messages/')
+    .then(function(resp) {
+      callback(resp.data.length);
+    })
+    .catch(function(data) {
+          console.log('Error: ' + data);
+    });
+  }
+
+  return {
+    createMessage: createMessage,
+    totalMessages: totalMessages
+  };
 });
