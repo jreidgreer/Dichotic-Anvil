@@ -135,14 +135,25 @@ var Friends = db.define('friends', {
   user2: Sequelize.INTEGER
 });
 
+//======================================================
+
+var Message = db.define('message', {
+  message: Sequelize.TEXT
+});
+
+//======================================================
+
 User.hasMany(Item, {as: 'Inventory', foreignKey: 'Owner'});
-// User.hasMany(User, {as: 'Friends'});
-// User.belongsToMany(User, {as: 'Friends', through: 'UserFriends'});
 
 Item.hasMany(Request, {as: 'Requests', foreignKey: 'Item'});
-// Item.belongsTo(User, {as: 'Owner', });
 
 Request.belongsTo(User, { as: 'Borrower'});
+
+// Messaging 
+User.hasMany(Message, {as: 'Messages', foreignKey: 'ToUser'});
+User.hasMany(Message, {as: 'sentMessages', foreignKey: 'FromUser'});
+Message.belongsTo(User, {foreignKey: 'FromUser'});
+Message.belongsTo(User, {foreignKey: 'ToUser'});
 
 db.sync({force: true});
 

@@ -1,5 +1,6 @@
 var userController = require('../controllers/userController.js');
 var itemController = require('../controllers/itemController.js');
+var messageController = require('../controllers/messageController.js');
 
 // paths that we skip the auth middleware
 var middlewareIgnorePaths = [
@@ -73,31 +74,38 @@ module.exports = function (app, express, passport) {
 
   // USERS
   //============================================
-  app.get('/api/user/:user_id', logger, userController.getUser);
-  app.get('/api/users', logger, userController.retrieveAll);
-  app.put('/api/users/:user_id', logger, userController.updateOne);
+  app.get('/api/user/:user_id', userController.getUser);
+  app.get('/api/users', userController.retrieveAll);
+  app.put('/api/users/:user_id', userController.updateOne);
 
   // TO ADD A FRIEND
-  app.post('/api/user/me/friends', logger, userController.addFriend);
+  app.post('/api/user/me/friends', userController.addFriend);
 
-  app.post('/api/users/signup', logger, userController.createOne);
-  app.post('/api/users/login', logger, userController.verifyLogin);
+  app.post('/api/users/signup', userController.createOne);
+  app.post('/api/users/login', userController.verifyLogin);
 
   // ITEMS
   //============================================
-  app.get('/api/items', logger, itemController.retrieveAll);
-  app.post('/api/items', logger, itemController.createOne);
+  app.get('/api/items', itemController.retrieveAll);
+  app.post('/api/items', itemController.createOne);
+
+  // MESSAGES
+  //============================================
+  app.get('/api/messages:user_id', messageController.loadMessages);
+  app.get('/api/messages:user_id/sent', messageController.loadSentMessages);
+  app.post('/api/messages', messageController.createMessage);
+  app.delete('/api/messages/:message_id', messageController.deleteMessage);
 
   // TO BORROW AN ITEM
-  app.post('/api/items/:item_id/borrow', logger, itemController.borrow);
+  app.post('/api/items/:item_id/borrow', itemController.borrow);
 
    // REQUESTS
   //============================================
-  app.put('/api/requests/:request_id', logger, itemController.updateRequest);
+  app.put('/api/requests/:request_id', itemController.updateRequest);
 
 
-  app.get('/api/items/:item_id', logger, itemController.retrieveOne);
-  app.put('/api/items/:item_id', logger, itemController.updateOne);
-  app.delete('/api/items/:item_id', logger, itemController.deleteOne);
+  app.get('/api/items/:item_id', itemController.retrieveOne);
+  app.put('/api/items/:item_id', itemController.updateOne);
+  app.delete('/api/items/:item_id', itemController.deleteOne);
 
 };

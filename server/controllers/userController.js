@@ -1,10 +1,6 @@
 var User = require('../db.js').User;
 var Request = require('../db.js').Request;
 var Friends = require('../db.js').Friends;
-
-var User = require('../db.js').User;
-var Request = require('../db.js').Request;
-var Friends = require('../db.js').Friends;
 var jwt = require('jwt-simple'); // used to create, sign, and verify tokens
 var Sequelize = require('sequelize');
 
