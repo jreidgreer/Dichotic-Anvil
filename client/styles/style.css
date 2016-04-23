@@ -174,10 +174,6 @@ p {
   padding-bottom: 20px;
 }
 
-.thumbnail {
-  
-}
-
 .image-block {
     border: 3px solid white ;
     background-color: black;
@@ -204,7 +200,8 @@ p {
     color: white;
 }
 
-.friendtable {
+.friendtable,
+.gallerytable {
     width:25%;
     margin: 0 auto;
     background-color: #fff;

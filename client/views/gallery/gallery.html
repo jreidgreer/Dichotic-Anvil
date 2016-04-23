@@ -28,18 +28,15 @@
       <p class="subtext">found {{(items | filter:search).length}} of {{items.length}}</p>
     </div>
   </form>
-  <div class="item" ng-repeat="item in items | filter:search | orderBy:'item.itemName':reverse" ng-click='borrow(item)' >
-    <div class="thumbnail">
-      <img ng-src="{{item.picture | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
-      <div class="caption text-center">
-        <h3>{{item.itemName}}</h3>
-        <p><label>Description: </label> {{item.itemDescription}}</p>
-        <button class="btn btn-default">borrow?</button>
-        <a ng-href="/#/detail/{{item.id}}"> </a>
-      </div>
-    </div>
-  </div>
+  <table class="gallerytable">
+    <tr class="gallerylist" ng-repeat="item in items | filter:search | orderBy:'item.itemName':reverse" ng-click='borrow(item)'>
+    <td><img ng-src="{{item.picture | fpConvert: {filter:'sharpen', w:150, h:75} }}" /></td>
+    <td>{{item.itemName}}</td>
+    <td><button class="btn btn-default btn-add">borrow?</button></td>
+    <td><a ng-href="/#/detail/{{item.id}}"> </a></td>
+  </table>
+  <br>
   <a class="btn btn-default" href="#/dashboard">return to dashboard</a>
- </div>
+</div>
 
 
