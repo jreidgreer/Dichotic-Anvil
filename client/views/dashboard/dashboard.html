@@ -26,7 +26,7 @@
     <div class="jumbotron transparent">
       <h1>my profile</h1>
       <img ng-src="{{user.picture}}" class="img-circle center-block" style="width:150px;height:150px">
-      <h3>hi, i'm {{user.firstName + ' ' + user.lastName}}!</h3>
+      <h3>hi, i'm {{user.firstName}}!</h3>
       <h3>my friends</h3>
       <p>{{ numFriends }} friend(s)</p>
       <div ng-repeat="friend in user.friends">
@@ -56,8 +56,8 @@
       </div>
       <h3>borrow requests</h3>
       <p>{{ numMessages }} request(s)</p>
-        <div class="item-requests" ng-repeat="request in requestItems">
-        <p class"text-right">{{request.borrow_message}} <button type="button" class="btn btn-default" ng-click="approve(request)">approve</button><button type="button" class="btn btn-default" ng-click="deny(request)">deny</button></p>
+        <div class="item-requests" ng-repeat="request in requests">
+        <p class"text-right">{{request.requester}}: can i borrow your {{request.item}}? <button type="button" class="btn btn-default" ng-click="approve(request)">approve</button><button type="button" class="btn btn-default" ng-click="deny(request)">deny</button></p>
       </div>
       <h3>things i'm borrowing</h3>
       <p>{{ numBorrowing }} thing(s)</p>
