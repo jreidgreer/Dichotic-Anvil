@@ -25,6 +25,7 @@
       <div class="jumbotron transparent">
         <h1>{{user.userName}}'s profile</h1>
         <img ng-src="{{user.picture | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
+        <a class="btn btn-default" href="{{'/#/message/send/' + user_id}}" style="width: 150px">send message</a>
         <h3>{{user.userName}}'s friends</h3>
         <p>{{ numFriends }} friend(s)</p>
         <div ng-repeat="friend in user.friends">

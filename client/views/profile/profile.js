@@ -6,9 +6,9 @@ angular.module('borrow.profile', [])
   $scope.items = [];
   $scope.myFriend = '';
 
-  var user_id = $routeParams.user_id;
+  $scope.user_id = $routeParams.user_id;
   // Get the user object to populate dashboard
-  $http.get('/api/user/' + user_id)
+  $http.get('/api/user/' + $scope.user_id)
     .success(function(data){
       // console.log(JSON.stringify(data));
       $scope.user = data;

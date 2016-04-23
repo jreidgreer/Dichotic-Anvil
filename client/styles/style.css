@@ -221,3 +221,51 @@ th, td {
     font-size: 22px;
 }
 
+.message {
+  background: #FFFFFF;
+  padding: 10px;
+  width: 50%;
+  margin: auto;
+  margin-bottom: 10px;
+  box-shadow: 0 0 1px 1px #d5d5d5;
+}
+
+.message-author-info {
+  overflow: hidden;
+  border-bottom: 1px solid #F7F3E4;
+  padding-bottom: 5px;
+}
+
+.message-avatar {
+  float: left;
+  width: 80px;
+  margin-right: 10px;
+}
+
+.message-author {
+  float: left;
+  min-height: 80px;
+  line-height: 80px;
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 22px;
+}
+
+.message-title {
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 30px;
+}
+
+.message-text {
+  color: #222;
+  font-size: 18px;
+}
+
+.reply-holder {
+  overflow: hidden;
+}
+
+.reply-holder a{
+  width: 150px;
+  margin: 10px;
+  float: right;
+}

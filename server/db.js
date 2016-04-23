@@ -135,14 +135,53 @@ var Friends = db.define('friends', {
   user2: Sequelize.INTEGER
 });
 
+//======================================================
+
+var Message = db.define('message', {
+  message: Sequelize.TEXT,
+  title: Sequelize.STRING
+});
+
+Message.loadMessages = function(id, callback) {
+  Message.findAll({where: {ToUser: id}})
+  .then(function(foundMessages) {
+    var currentMessage = 0;
+    var addUser = function() {
+      if(foundMessages[currentMessage]) {
+        // Initialize as empty array
+        foundMessages[currentMessage].dataValues.foundUserInfo = {};
+        User.findOne({
+          where: {id: foundMessages[currentMessage].FromUser},
+          attributes: {
+            exclude: ['password', 'salt']
+          }
+        })
+        .then(function(loadedUser) {
+          foundMessages[currentMessage].dataValues.foundUserInfo = loadedUser;
+          currentMessage++;
+          return addUser();
+        })
+      } else {
+        callback(foundMessages); 
+      }
+    }
+    addUser();
+  })
+};
+
+//======================================================
+
 User.hasMany(Item, {as: 'Inventory', foreignKey: 'Owner'});
-// User.hasMany(User, {as: 'Friends'});
-// User.belongsToMany(User, {as: 'Friends', through: 'UserFriends'});
 
 Item.hasMany(Request, {as: 'Requests', foreignKey: 'Item'});
-// Item.belongsTo(User, {as: 'Owner', });
 
 Request.belongsTo(User, { as: 'Borrower'});
+
+// Messaging 
+User.hasMany(Message, {as: 'Messages', foreignKey: 'ToUser'});
+User.hasMany(Message, {as: 'sentMessages', foreignKey: 'FromUser'});
+Message.belongsTo(User, {foreignKey: 'FromUser'});
+Message.belongsTo(User, {foreignKey: 'ToUser'});
 
 db.sync({force: true});
 
@@ -151,5 +190,6 @@ module.exports = {
   Item: Item,
   User: User,
   Request: Request,
-  Friends: Friends
+  Friends: Friends,
+  Message: Message
 };

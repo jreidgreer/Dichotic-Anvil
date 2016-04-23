@@ -1,0 +1,45 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <ul class="navbar-right list-inline nav-icons">
+      <li>
+        <a ng-click="signout()"><i class="fa fa-sign-out fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-user fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/users"><i class="fa fa-users fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-envelope fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <span class="badge">{{ numMessages }}</span>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="user-container">
+  <h1>My Messages</h2>
+    <div ng-repeat="message in messages" class="message">
+    <div class="message-author-info">
+    <div class="message-avatar">
+    <img ng-src="{{message.foundUserInfo.picture | fpConvert: {filter:'sharpen'} }}" class="img-circle" style="width:80px;height:80px">
+    </div>
+    <div class="message-author">
+    {{message.foundUserInfo.firstName + ' ' + message.foundUserInfo.lastName}}
+    </div>
+    </div>
+
+    <div class="message-title">{{message.title}}</div>
+    <p class="message-text">{{message.message}}</p>
+    <div class="reply-holder">
+    <a class="btn btn-default" href="{{'/#/message/send/' + message.foundUserInfo.id}}" >reply</a>
+    </div>
+    </div>
+    <br>
+  <a class="btn btn-default" href="#/dashboard">return to dashboard</a>
+</div>
+
+
