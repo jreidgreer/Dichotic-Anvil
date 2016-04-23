@@ -3,8 +3,10 @@ var itemController = require('../controllers/itemController.js');
 
 // paths that we skip the auth middleware
 var middlewareIgnorePaths = [
-  "/api/users/signup",
-  "/api/users/login"
+  '/api/users/signup',
+  '/api/users/login',
+  '/auth/facebook',
+  '/auth/facebook/callback'
 ];
 
 module.exports = function (app, express, passport) {
@@ -31,7 +33,7 @@ module.exports = function (app, express, passport) {
 
   app.get('/logout', function(req, res) {
     req.session.destroy();
-    res.redirect('/');
+    res.redirect('/#/');
   });
 
   // MIDDLEWARE
@@ -50,7 +52,7 @@ module.exports = function (app, express, passport) {
 
         // did not pass the auth check, stop the request/response
         if(!passedAuthentication) {
-          console.log('Authentication Failed');
+          console.log('Authentication Failed - NON-PASSPORT VERSION BACK-END');
           userController.sendError(res, 'Unauthenticated');
           return;
         }

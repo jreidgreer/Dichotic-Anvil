@@ -63,11 +63,6 @@ angular.module('borrow.userServices', [])
     getMe: getMe
   };
 })
-.factory('facebookAuth', function() {
-  return {
-    //
-  };
-})
 .factory('Item', function($http) {
   var borrow = function(input, callback) {
     $http({
@@ -81,7 +76,7 @@ angular.module('borrow.userServices', [])
     .then(callback)
     .catch(function(err) {
       console.log('Error Borrowing Item: ', err);
-    })
+    });
   };
 
   return {

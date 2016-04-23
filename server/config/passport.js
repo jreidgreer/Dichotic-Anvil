@@ -37,7 +37,7 @@ module.exports = function(app, session, passport) {
     clientID: configAuth.facebookAuth.appID,
     clientSecret: configAuth.facebookAuth.appSecret,
     callbackURL: configAuth.facebookAuth.callbackUrl,
-    profileFields: ['id', 'first_name', 'last_name', 'email'],
+    profileFields: ['id', 'displayName', 'first_name', 'last_name', 'email', 'gender', 'photos', 'birthday'],
   },
 
     function(accesstoken, refreshToken, profile, done) {
@@ -66,39 +66,34 @@ module.exports = function(app, session, passport) {
       process.nextTick(function() {
 
         //find user in database based on facebook id
-        User.findOne( { 'facebook.id' : profile.id }, function(err, user) {
-
-          //if err, return
-          if (err) {
-            return done(err);
-          }
-
+        User.findOne( {where: {'userName' : profile._json.email.toLowerCase()}} )
+        .then(function(user) {
           //if user is found, log in
           if (user) {
-            user.access_token = accesstoken;
-            console.log("USER===============", user);
             done(null, user);
           } else {
             //create new user
             User.create({
-              userName: profile.emails[0].value.toLowerCase(),
-              password: 1234,
+              // name: profile.displayName,
               firstName: profile.name.givenName,
-              lastName: profile.name.familyName
-            }).then(function(err, newUser) {
+              lastName: profile.name.familyName,
+              userName: profile.emails[0].value.toLowerCase(),
+              password: '1234',
+              email: profile._json.email.toLowerCase(),
+              facebookId: profile.id,
+              picture: profile.photos[0].value
+            })
+            .then(function(newUser) {
               console.log('user created ', newUser);
               done(null, newUser);
-            });
-
-            //save new user to database
-            User.save(function(err) {
-              if (err) {
-                throw err;
-              }
-
-              return done(null, User);
+            })
+            .catch(function(err) {
+              console.log('Error saving Facebook user! ', err);
             });
           }
+        })
+        .catch(function(err) {
+          console.log('Error Searching For Existing FB User: ', err);
         });
       });
     }
