@@ -31,7 +31,8 @@
         <label for="inputPassword">password</label>
         <input type='password' class="form-control" name='password' ng-model="password" id="inputPassword"required>
       </div>
-      <a href="/auth/facebook" class="btn btn-primary" role="button">Facebook</a>
+      <!-- <a href="/auth/facebook" class="btn btn-primary" role="button">Facebook</a> -->
+      <div class="facebook-login" ng-click="FBlogin()"><button class="btn btn-primary">Facebook</button></div>
       <button type="submit" class="btn btn-default btn-sign">sign in</button>
       <p class="subtext">not a member? sign up <a href="/#/signup">here</a>!</p>
     </form>

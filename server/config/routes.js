@@ -75,8 +75,6 @@ module.exports = function (app, express, passport) {
   app.get('/api/users', logger, userController.retrieveAll);
   app.put('/api/users/:user_id', logger, userController.updateOne);
 
-  app.get('/api/user/me', logger, userController.getUser);
-
   // TO ADD A FRIEND
   app.post('/api/user/me/friends', logger, userController.addFriend);
 

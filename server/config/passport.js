@@ -66,7 +66,7 @@ module.exports = function(app, session, passport) {
       process.nextTick(function() {
 
         //find user in database based on facebook id
-        User.findOne( {where: {'userName' : profile._json.email.toLowerCase()}} )
+        User.findOne( { where: { 'userName' : profile._json.email.toLowerCase() } } )
         .then(function(user) {
           //if user is found, log in
           if (user) {
