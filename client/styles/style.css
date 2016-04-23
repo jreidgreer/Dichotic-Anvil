@@ -1,93 +1,174 @@
- html, body, .ng-scope {
+html, body, .ng-scope {
   height: 100%;
+  width: 100%;
 }
 
-/*.super-container {
-  margin-top: 30px;
-}*/
-
-.signup-container {
-  background-color: #FFFCF2;
-  margin-top: 0px;
-  width: 50%;
-  height: 100%;
-  margin: auto;
+body {
+  background-color: #E4E4E4;
 }
 
-.signupForm {
-  width: 50%;
-  margin: 0 auto;
+a {
+  -webkit-transition: all .35s;
+  -moz-transition: all .35s;
+  transition: all .35s;
 }
 
-.buttons {
-  margin: 0 auto;
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-align: center;
 }
 
-.form-group .firstName {
-  margin-top: 15px;
-}
-.form-group h3 {
-  text-align: center;
-}
-
-.form-group .pic {
-  text-align: center;
+p {
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 28px;
+  color: #fff;
 }
 
-.jumbotron {
+.subtext {
+  color: #333;
+  font-size: 20px;
+}
+
+.navbar-default {
+  border-color: #333;
+  background-color: #333;
+  margin-bottom: 0;
+  position: absolute;
+}
+
+.nav-icons {
+  margin: 10px 10px;
+}
+
+.nav-icon {
+  color: #FFC204;
+}
+
+.nav-icon:hover {
+  color: #fff;
+}
+
+.badge {
+  margin-bottom:10px;
+}
+
+.landing-container {
   height: 800px;
-  color: white;
   background: url('../assets/header-bg.jpg') no-repeat;
   background-size: cover;
-  text-shadow: #444 0 1px 1px;
+  opacity: 0.87;
 }
 
-.dashboard-container {
-    display:table;
-    width: 100%;
-    height: 100%;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 0;
+.landing-container h1 {
+  font-size: 85px;
+  font-family: 'Bitter', serif;
+  margin-top: 200px;
+  color: #fff;
 }
 
-.dashboard-row {
-    height: 100%;
-    display: table-row;
+.landing-container p {
+  margin-bottom: 75px;
 }
 
-.nav-color {
+.btn-default {
+  display: block;
+  width: 250px;
+  margin: 10px auto;
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 20px;
+  border-radius: 24px;
   background-color: #FFC204;
-  margin: 0;
-  height: 60px;
-  border-radius:0;
+  border-color: #FFC204;
+  color: #333;
 }
 
-.dashboard-left {
-  float: none;
-  padding-top: 2em;
-  background-color: #FFFCF2;
-  display: table-cell;
+.btn-default:focus,
+.btn-default:active,
+.btn-default:active:focus {
+  outline: none;
+  box-shadow: none;
 }
 
-.dashboard-right {
-  float: none;
-  display: table-cell;
-  background-color: white;
+.btn-sign {
+  margin-top: 40px;
 }
 
-.dashboard-row-top-right {
-  padding-right: 20px;
-  background-color: white;
+.btn-add {
+  width: 150px;
 }
 
-.dashboard-row-bottom-right {
-  padding-right: 20px;
-  background-color: white;
-
+.signup-container,
+.login-container,
+.dashboard-container,
+.upload-container,
+.gallery-container,
+.user-container {
+  padding-top: 100px;
 }
 
+.signup-container h1,
+.login-container h1,
+.dashboard-container h1,
+.upload-container h1,
+.gallery-container h1,
+.user-container h1 {
+  font-size: 44px;
+  font-family: 'Bitter', serif;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.dashboard-container h1 {
+  font-size: 34px;
+  margin-bottom: 15px;
+}
+
+.dashboard-container h3 {
+  font-size: 28px;
+  font-family: 'Archivo Narrow', sans-serif;
+}
+
+.dashboard-container p {
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+}
+
+.dashboard-container ul li {
+  list-style-type: none;
+  text-align: center;
+}
+
+.signupForm,
+.loginForm,
+.addForm,
+.searchForm {
+  width: 250px;
+  margin: 0 auto;
+  margin-bottom: 100px;
+  text-align: center;
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 18px;
+  color: #333;
+}
+
+.upload {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.thumbnail {
+  
+}
 
 .image-block {
     border: 3px solid white ;
@@ -99,6 +180,7 @@
     text-align: center;
     vertical-align: bottom;
 }
+
 .image-block > p {
     width: 100%;
     height: 100%;
@@ -108,77 +190,22 @@
     background-color: rgba(3,3,3,0.0);
     color: rgba(6,6,6,0.0);
 }
+
 .image-block:hover > p {
     background-color: rgba(28,61,178,0.5);
     color: white;
 }
-#itemsContainer {
-  text-align: center;
-}
 
-span.glyphicon-piggy-bank, span.glyphicon-tree-conifer, span.glyphicon-user {
-    font-size: 5em;
-}
-
-.login-page-background {
-  height: 100%;
-  width: 100%;
-  background-color: #FFFCF2;
-  margin-right: auto;
-  margin-left: auto;
-}
-h2.panel-title {
-    font-size: 25px;
-}
-
-section.uploadbg {
-    height: 100%;
-    width: 100%;
-    background-color: #FFFCF2;
-}
-
-.text-right {
-  text-align: right
-}
-
-ul {
-  list-style-type: none;
-}
-body {
-  height: 100%;
-    width: 100%;
-    background-color: #FFFCF2;
-}
-
-section.userbg {
-    height: 100%;
-    width: 100%;
-    background-color: #FFFCF2;
-}
-
-h2.userlist {
-  text-align: center;
-}
-
-table.friendtable {
+.friendtable {
     width:25%;
-    margin-left:auto;
-    margin-right:auto;
+    margin: 0 auto;
+    background-color: #fff;
 }
 
 th, td {
-    padding: 5px;
+    padding: 15px;
     text-align: center;
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 22px;
 }
-table.friendtable tr:nth-child(even) {
-    background-color: #eee;
-}
-table.friendtable tr:nth-child(odd) {
-   background-color:#fff;
-}
-table.friendtable th  {
-    background-color: black;
-    color: white;
-}
-
 

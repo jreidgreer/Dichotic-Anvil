@@ -12,9 +12,12 @@ angular.module('borrow.profile', [])
     .success(function(data){
       // console.log(JSON.stringify(data));
       $scope.user = data;
-      console.log($scope.user)
+      console.log($scope.user);
+
+      $scope.numFriends = $scope.user.friends.length;
 
       $scope.numPersonalItems = $scope.user.inventory.length;
+      console.log($scope.numPersonalItems);
       // Iterate over inventory to populate user items
       for (var i = 0; i < $scope.user.inventory.length; i++) {
         $scope.items.push($scope.user.inventory[i])

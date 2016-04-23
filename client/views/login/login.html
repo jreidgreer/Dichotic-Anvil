@@ -1,38 +1,38 @@
-<!-- Header -->
-<div class="navbar nav-color">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
-  <div class='navbar-left'>
-    <div class="title">
-      <h2 href="#dashboard" class="text-left">borrow</h2>
-      <!-- <h2 href="#dashboard" class="text-left">borrow</h2> -->
-    </div>
+    <ul class="navbar-right list-inline nav-icons">
+      <li>
+        <a href="#"><i class="fa fa-sign-out fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#"><i class="fa fa-user fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#"><i class="fa fa-users fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#"><i class="fa fa-envelope fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <span class="badge">0</span>
+      </li>
+    </ul>
   </div>
-    <div class="navbar-right">
-      <p class="navbar-text">
-        <a href="#signup" class="btn btn-default navbar-link" href="/#/signup">Signup</a>
-      </p>
-    </div>
-  </div>
-</div>
+</nav>
 
- <!-- Login Form -->
- <div class="container-fluid login-page-background">
-  <div class="col-md-4 col-md-offset-3">
-    <form name='loginForm' ng-submit='login()' class='signupForm' autocomplete="off">
-      <h1>Login Page</h1>
+ <div class="login-container">
+  <h1>log in</h1>
+    <form class='loginForm' ng-submit='login()' autocomplete="off">
       <div class="form-group">
-        <label for="inputUserName">Username</label>
-        <input type='text' class="form-control" placeholder="Username" name='username' ng-model="userName" id="inputUserName"required>
+        <label for="inputUserName">username</label>
+        <input type='text' class="form-control" name='username' ng-model="userName" id="inputUserName"required>
       </div>
       <div class="form-group">
-        <label for="inputPassword">Password</label>
-        <input type='password' class="form-control" placeholder="Password" name='password' ng-model="password" id="inputPassword"required>
+        <label for="inputPassword">password</label>
+        <input type='password' class="form-control" name='password' ng-model="password" id="inputPassword"required>
       </div>
-      <div class="buttons">
-        <button type="submit" class="btn btn-primary">Login</button>
-        <!--FACEBOOK LOGIN-->
-        <a href="/auth/facebook" class="btn btn-primary" role="button">Facebook</a>
-      </div>
+      <a href="/auth/facebook" class="btn btn-primary" role="button">Facebook</a>
+      <button type="submit" class="btn btn-default btn-sign">sign in</button>
+      <p class="subtext">not a member? sign up <a href="/#/signup">here</a>!</p>
     </form>
-  </div>
 </div>

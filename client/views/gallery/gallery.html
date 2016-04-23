@@ -1,60 +1,45 @@
-<div class="navbar nav-color">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
-  <div class='navbar-left'>
-    <div class="title">
-      <h2 class="text-left">borrow</h2>
+    <ul class="navbar-right list-inline nav-icons">
+      <li>
+        <a ng-click="signout()"><i class="fa fa-sign-out fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-user fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/users"><i class="fa fa-users fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-envelope fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <span class="badge">{{ numMessages }}</span>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="gallery-container">
+  <h1>find an item</h1>
+  <form class="searchForm" action="" method="POST" role="form">
+    <div class="form-group">
+      <input type="search" class="form-control" ng-model="search">
+      <p class="subtext">found {{(items | filter:search).length}} of {{items.length}}</p>
     </div>
-  </div>
-    <div class="navbar-right">
-      <p class="navbar-text">
-      <a class="btn btn-default navbar-link" href="#/dashboard">Go back to dashboard</a>
-        <a class="btn btn-default" ng-click='signout()'>Logout</a>
-
-      </p>
-    </div>
-  </div>
-</div>
-<section>
-<div class="container">
-<h1>Search for items to borrow!</h1>
-  <div class="row">
-    <style type="text/css">
-    h1 {
-      text-align: center;
-    }
-      .controls {
-        padding-bottom: 20px;
-        margin-bottom: 10px;
-      }
-      .container .row blockquote {
-        border-left: 0px !Important;
-      }
-    </style>
-`</div>
-
-<div class="col-md-12">
-    <form action="" method="POST" role="form">
-      <div class="input-group">
-        <input type="search" id="search" class="form-control" ng-model="search">
-        <div class="input-group-addon">Found {{(items | filter:search).length}} of {{items.length}}</div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="container result">
-  <div ng-class="item ? 'col-md-6' : 'col-md-4'" class="item" ng-repeat="item in items | filter:search | orderBy:'item.itemName':reverse" ng-click='borrow(item)' >
-   <div class="thumbnail">
-    <img ng-src="{{item.picture | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
+  </form>
+  <div class="item" ng-repeat="item in items | filter:search | orderBy:'item.itemName':reverse" ng-click='borrow(item)' >
+    <div class="thumbnail">
+      <img ng-src="{{item.picture | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
       <div class="caption text-center">
-          <h3>{{item.itemName}}</h3>
-          <p><label>Description: </label> {{item.itemDescription}}</p>
-          <button>borrow?</button>
-        <div class="text-right">
-          <a ng-href="/#/detail/{{item._id}}" </a>
-        </div>
+        <h3>{{item.itemName}}</h3>
+        <p><label>Description: </label> {{item.itemDescription}}</p>
+        <button class="btn btn-default">borrow?</button>
+        <a ng-href="/#/detail/{{item.id}}"> </a>
       </div>
     </div>
   </div>
-</div>
-</section>
+  <a class="btn btn-default" href="#/dashboard">return to dashboard</a>
+ </div>
+
+

@@ -1,30 +1,35 @@
-
-
-  <div class="navbar nav-color">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
-  <div class='navbar-left'>
-    <div class="title">
-      <h2 class="text-left">borrow</h2>
-    </div>
+    <ul class="navbar-right list-inline nav-icons">
+      <li>
+        <a ng-click="signout()"><i class="fa fa-sign-out fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-user fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/users"><i class="fa fa-users fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-envelope fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <span class="badge">{{ numMessages }}</span>
+      </li>
+    </ul>
   </div>
+</nav>
 
-    <div class="navbar-right">
-      <p class="navbar-text">
-      <a class="btn btn-default navbar-link" href="#/dashboard">Go back to dashboard</a>
-        <a class="btn btn-default navbar-link" ng-click='signout()'>Logout</a>
-      </p>
-    </div>
-  </div>
-</div>
-
-<section class="userbg">
-    <h2 class="userlist">User List</h2>
+<div class="user-container">
+  <h1>users</h2>
     <table class="friendtable">
 			<tr class="friendlist" ng-repeat='user in users'>
-        <td > <img ng-src="{{user.picture | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:80px;height:80px"> </td>
-        <td > {{user.userName}} </td>
-        <td> <button class="btn btn-default" ng-click='addFriend(user.userName)'>Add friend</button></td>
-      </table>
+        <td><img ng-src="{{user.picture | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:80px;height:80px"> </td>
+        <td> {{user.userName}} </td>
+        <td> <button class="btn btn-default btn-add" ng-click='addFriend(user.userName)'>add friend</button></td>
+    </table>
+    <br>
+  <a class="btn btn-default" href="#/dashboard">return to dashboard</a>
+</div>
 
 
-</section>
