@@ -56,14 +56,14 @@
       </div>
       <h3>borrow requests</h3>
       <p>{{ numMessages }} request(s)</p>
+        <div class="item-requests" ng-repeat="request in requestItems">
+        <p class"text-right">{{request.borrow_message}} <button type="button" class="btn btn-default" ng-click="approve(request)">approve</button><button type="button" class="btn btn-default" ng-click="deny(request)">deny</button></p>
+      </div>
       <h3>things i'm borrowing</h3>
       <p>{{ numBorrowing }} thing(s)</p>
       <ul>
-        <li class="text-right" ng-repeat='borrow in borrowing'><h4>{{borrow}}</h4></li>
+        <li class="text-right" ng-repeat='borrow in borrowing'><h4>{{borrow.numBorrowing}}</h4></li>
       </ul>
-      <div class="item-requests" ng-repeat='request in requestItems'>
-        <p class"text-right">{{request}} <button type="button" class="btn btn-default" ng-click="approve(request)">approve</button><button type="button" class="btn btn-default" ng-click="deny(request)">deny</button></p>
-      </div>
     </div>
   </div>
 

@@ -29,7 +29,7 @@ angular.module('borrow.dashboard', [])
         if ($scope.user.inventory[i].requests) {
           // console.log($scope.user.inventory[i].requests);
           for (var j = 0; j < $scope.user.inventory[i].requests.length; j++) {
-            console.log($scope.user.inventory[i].requests[j]);
+            console.log($scope.user.inventory[i].requests[j].borrow_message);
             $scope.requestItems.push($scope.user.inventory[i].requests[j]);
           }
         }
