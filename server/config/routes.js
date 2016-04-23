@@ -17,27 +17,16 @@ module.exports = function (app, express, passport) {
   //FACEBOOK ROUTES
   //============================================
 
-  // var checkLogin = function() { 
-  //   passport.authenticate('facebook', { scope: 'email' });
-  //   console.log('inside checkLogin...');
-  // };
-
-  // app.get('/auth/facebook', checkLogin);
+  //API endpoints for signIn, signUp, and checkAuth
+  app.get('/api/users/signedin', function(req, res) {
+    res.send(req.isAuthenticated() ? req.user : false);
+  });
 
   app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
 
-  // var authenticateLogin = function() {
-  //   passport.authenticate('facebook', {
-  //     failureRedirect: '/login'
-  //   });
-  //   console.log('inside authenticateLogin...');
-  // };
-
-  // app.get('/auth/facebook/callback', authenticateLogin);
-
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { 
-    successRedirect: '/#/dashboard',
-    failureRedirect: '/#/login'
+      successRedirect: '/#/dashboard',
+      failureRedirect: '/#/'
   }));
 
   app.get('/logout', function(req, res) {
@@ -83,6 +72,8 @@ module.exports = function (app, express, passport) {
   app.get('/api/user/:user_id', logger, userController.getUser);
   app.get('/api/users', logger, userController.retrieveAll);
   app.put('/api/users/:user_id', logger, userController.updateOne);
+
+  app.get('/api/user/me', logger, userController.getUser);
 
   // TO ADD A FRIEND
   app.post('/api/user/me/friends', logger, userController.addFriend);

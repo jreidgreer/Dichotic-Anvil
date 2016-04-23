@@ -1,7 +1,7 @@
 //passport.js
 
 var FacebookStrategy = require('passport-facebook').Strategy;
-var facebookUser = require('../models/userModel.js');
+var User = require('../db.js').User;
 var configAuth = require('./fb.js');
 
 module.exports = function(app, session, passport) {
@@ -12,7 +12,7 @@ module.exports = function(app, session, passport) {
 
   //deserialize user
   passport.deserializeUser(function(user, done) {
-    facebookUser.findById(user._id, function(err, user) {
+    User.findById(user._id, function(err, user) {
       console.log('in deserialize============= ', user);
       done(err, user);
     });
@@ -40,17 +40,33 @@ module.exports = function(app, session, passport) {
     profileFields: ['id', 'first_name', 'last_name', 'email'],
   },
 
-    function(token, refreshToken, profile, done) {
+    function(accesstoken, refreshToken, profile, done) {
       console.log('PROFILE:=============');
       console.log(profile);
 
       console.log('TOKEN:=============');
-      console.log(token);
+      console.log(accesstoken);
+
+      done(null, profile);
+
+      // User.findOrCreate(
+      //   { facebookId: profile.id },
+      // function(err, user) {
+      //   if (user) {
+      //     user.access_token = accessToken;
+      //     user.save(function(err, doc) {
+      //       done(err, doc);
+      //     });
+      //   } else {
+      //     done(err, user);
+      //   }
+      // });
+
       //async
       process.nextTick(function() {
 
         //find user in database based on facebook id
-        facebookUser.findOne( { 'facebook.id' : profile.id }, function(err, user) {
+        User.findOne( { 'facebook.id' : profile.id }, function(err, user) {
 
           //if err, return
           if (err) {
@@ -59,24 +75,28 @@ module.exports = function(app, session, passport) {
 
           //if user is found, log in
           if (user) {
-            return done(null, user);
+            user.access_token = accesstoken;
+            console.log("USER===============", user);
+            done(null, user);
           } else {
             //create new user
-            var newFacebookUser = new facebookUser();
-
-            //set facebook info
-            newFacebookUser.id = profile.id;
-            newFacebookUser.token = token;
-            newFacebookUser.name = profile.name.givenName + ' ' + profile.name.familyName;
-            newFacebookUser.email = (profile.emails[0].value).toLowerCase();
+            User.create({
+              userName: profile.emails[0].value.toLowerCase(),
+              password: 1234,
+              firstName: profile.name.givenName,
+              lastName: profile.name.familyName
+            }).then(function(err, newUser) {
+              console.log('user created ', newUser);
+              done(null, newUser);
+            });
 
             //save new user to database
-            newFacebookUser.save(function(err) {
+            User.save(function(err) {
               if (err) {
                 throw err;
               }
 
-              return done(null, newFacebookUser);
+              return done(null, User);
             });
           }
         });

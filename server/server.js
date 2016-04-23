@@ -7,6 +7,7 @@ var app = express();
 //============================================
 var session = require('express-session');
 var passport = require('passport');
+
 var bodyParser = require('body-parser');
 
 // MIDDLEWARE
@@ -17,6 +18,7 @@ var port = process.env.PORT || 3000;
 
 // ROUTES FOR FACEBOOK CONFIG
 //============================================
+require('./config/passport.js')(app, session, passport);
 require('./config/routes.js')(app, express, passport);
 
 // START THE SERVER
