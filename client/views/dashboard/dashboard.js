@@ -6,14 +6,17 @@ angular.module('borrow.dashboard', [])
   $scope.items = [];
   $scope.requestItems = [];
   $scope.requestMessages = [];
+  $scope.numMessages = $scope.requestMessages.length;
   $scope.myFriend = '';
   $scope.borrowing = [];
+  $scope.numBorrowing = $scope.borrowing.length;
 
   // Get the user object to populate dashboard
   Auth.getMe(function(data) {
     console.log('Received User Data: ', data);
     $scope.user = data;
     $scope.numPersonalItems = $scope.user.inventory.length;
+    $scope.numFriends = $scope.user.friends.length;
 
     // User Items
     for (var i = 0; i < $scope.user.inventory.length; i++) {
@@ -26,7 +29,6 @@ angular.module('borrow.dashboard', [])
         if ($scope.user.inventory[i].requests) {
           // console.log($scope.user.inventory[i].requests);
           for (var j = 0; j < $scope.user.inventory[i].requests.length; j++) {
-
             console.log($scope.user.inventory[i].requests[j]);
             $scope.requestItems.push($scope.user.inventory[i].requests[j]);
           }

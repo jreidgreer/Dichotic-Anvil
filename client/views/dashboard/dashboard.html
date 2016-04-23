@@ -1,65 +1,70 @@
-<!-- Nav -->
-<div class="navbar nav-color">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
-  <div class='navbar-left'>
-    <div class="title">
-      <h2 class="text-left">borrow</h2>
-    </div>
+    <ul class="navbar-right list-inline nav-icons">
+      <li>
+        <a ng-click="signout()"><i class="fa fa-sign-out fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-user fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/users"><i class="fa fa-users fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-envelope fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <span class="badge">{{ numMessages }}</span>
+      </li>
+    </ul>
   </div>
-    <div class="navbar-right">
-      <p class="navbar-text">
-        <a class="btn btn-default navbar-link" href="/#/login" ng-click='signout()'>Logout</a>
-      </p>
-    </div>
-  </div>
-</div>
+</nav>
 
-<!-- Dashboard Container -->
-<div class="container dashboard-container">
-  <div class="row dashboard-row">
 
-    <!-- Left Column -->
-    <div class="col-lg-3 dashboard-left">
+<div class="dashboard-container">
+  <div class="col-sm-3">
+    <div class="jumbotron transparent">
+      <h1>my profile</h1>
       <img ng-src="{{user.picture | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
-      <h3 class="text-center">{{user.userName}}</h3>
-      <div class="text-center">
-        <div class="btn-group-vertical">
-				<a class="btn btn-info" href="#/upload" >Add a thing!</a>
-				<a class="btn btn-info" href="#/gallery">Search all the things</a>
-        <a class="btn btn-info" href="#/users">Search all the users</a>
+      <h3>hi, i'm {{user.userName}}!</h3>
+      <h3>my friends</h3>
+      <p>{{ numFriends }} friend(s)</p>
+      <div ng-repeat="friend in user.friends">
+        <p class="subtext"><a ng-click ="viewProfile(friend.id)">{{friend.userName}}</a></p>
       </div>
-			</div>
-
-      <h3>My friends</h3>
-      <ul>
-        <li ng-repeat='friend in user.friends'> <a ng-click='viewProfile(friend.id)'><h4> {{friend.userName}} </h4></a></li>
-      </ul>
-    </div>
-
-
-
-    <!-- Right Column -->
-    <div class="col-lg-9 dashboard-right">
-      <div class="row dashboard-row-top-right">
-        <h3 class="text-right">Things you're borrowing</h3>
-        <ul>
-          <li class="text-right" ng-repeat='borrow in borrowing'><h4>{{borrow}}</h4></li>
-        </ul>
-        <h3 class="text-right">Messages</h3>
-        <div class="text-right" class="item-requests" ng-repeat='request in requestItems'>
-          <p class"text-right">{{request.borrow_message}} <button type="button" class="btn btn-default" ng-click="approve(request.id)">Approve </button> <button type="button" class="btn btn-default" ng-click="deny(request.id)">Deny </button></p>
-        </div>
-      </div>
-      <div class="row dashboard-row-bottom-right">
-          <h3 class="text-right">You currently have {{ numPersonalItems }} items</h3>
-        <div id="itemsContainer">
-        </div>
-        <h3>My things</h3>
-        <div class="image-block col-sm-4" ng-repeat='item in items' style="background: url({{item}}) no-repeat center top;background-size:cover;">
-        </div>
-      </div>
+      <h3>my things</h3>
+      <p>{{ numPersonalItems }} thing(s)</p>
+      <div ng-repeat='item in items' style="background: url({{item}}) no-repeat center top;background-size:cover;">
       </div>
     </div>
-
   </div>
+
+
+  <div class="col-sm-9">
+    <div class="jumbotron transparent">
+      <h1>my dashboard</h1>
+      <div class="text-center">
+        <div class="btn-group">
+          <a class="btn btn-default" href="#/upload" >add a thing</a>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-default" href="#/gallery">search all things</a>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-default" href="#/users">find friends</a>
+        </div>
+      </div>
+      <h3>borrow requests</h3>
+      <p>{{ numMessages }} request(s)</p>
+      <h3>things i'm borrowing</h3>
+      <p>{{ numBorrowing }} thing(s)</p>
+      <ul>
+        <li class="text-right" ng-repeat='borrow in borrowing'><h4>{{borrow}}</h4></li>
+      </ul>
+      <div class="item-requests" ng-repeat='request in requestItems'>
+        <p class"text-right">{{request}} <button type="button" class="btn btn-default" ng-click="approve(request)">approve</button><button type="button" class="btn btn-default" ng-click="deny(request)">deny</button></p>
+      </div>
+    </div>
+  </div>
+
 </div>

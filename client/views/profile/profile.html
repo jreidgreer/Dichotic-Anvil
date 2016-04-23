@@ -1,49 +1,47 @@
-<!-- Nav -->
-<div class="navbar nav-color">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
-  <div class='navbar-left'>
-    <div class="title">
-      <h2 class="text-left">borrow</h2>
-    </div>
+    <ul class="navbar-right list-inline nav-icons">
+      <li>
+        <a ng-click="signout()"><i class="fa fa-sign-out fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-user fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/users"><i class="fa fa-users fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <a href="#/dashboard"><i class="fa fa-envelope fa-2x nav-icon" aria-hidden="true"></i></a>
+      </li>
+      <li>
+        <span class="badge">{{ numMessages }}</span>
+      </li>
+    </ul>
   </div>
-    <div class="navbar-right">
-      <p class="navbar-text">
-        <a class="btn btn-default navbar-link" href="#/dashboard">Go back to dashboard</a>
-        <a class="btn btn-default navbar-link" href="/#/login" ng-click="signout()">Logout</a>
-      </p>
+</nav>
+
+<div class="dashboard-container">
+    <div class="col-sm-3">
+      <div class="jumbotron transparent">
+        <h1>{{user.userName}}'s profile</h1>
+        <img ng-src="{{user.picture | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
+        <h3>{{user.userName}}'s friends</h3>
+        <p>{{ numFriends }} friend(s)</p>
+        <div ng-repeat="friend in user.friends">
+          <p class="subtext"><a ng-click ="viewProfile(friend._id)">{{friend.userName}}</a></p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-<!-- Dashboard Container -->
-<div class="container dashboard-container">
-  <div class="row dashboard-row">
-
-    <!-- Left Column -->
-    <div class="col-lg-3 dashboard-left">
-      <img ng-src="{{user.picture.url | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
-      <h3 class="text-center">{{user.userName}}</h3>
-      <h3>My friends</h3>
-      <ul>
-        <li ng-repeat='friend in user.friends'> <a ng-click='viewProfile(friend._id)'{{friend.userName}}> </a></li>
-      </ul>
-    </div>
-
-
-
-    <!-- Right Column -->
-    <div class="col-lg-9 dashboard-right">
-      <div class="row dashboard-row-top-right">
-      <div class="row dashboard-row-bottom-right">
+    <div class="col-sm-9">
+      <div class="jumbotron transparent">
         <div id="itemsContainer">
         </div>
-        <h3>My things</h3>
+        <h1>{{user.userName}}'s dashboard</h1>
+        <h3>{{user.userName}}'s things</h3>
+        <p>{{user.userName}} is lending out {{user.numPersonalItems}} things</p>
         <div class="image-block col-sm-4" ng-repeat='item in items' ng-click='borrow(item)'style="background: url({{item.picture}}) no-repeat center top;background-size:cover;">
           <p>borrow?</p>
         </div>
       </div>
-      </div>
     </div>
-
-  </div>
 </div>
