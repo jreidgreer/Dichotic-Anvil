@@ -80,19 +80,19 @@ angular.module('borrow', ['ngRoute',
 .factory('myHttpInterceptor', function($q) {
   return {
     request: function(config) {
-      console.log(config);
+      // console.log(config);
       return config || $q.when(config);
     },
     requestError: function(rejection) {
-      console.log(rejection);
+      // console.log(rejection);
       return $q.reject(rejection);
     },
     response: function(resp) {
-      console.log(resp);
+      // console.log(resp);
       return resp || $q.when(resp);
     },
     responseError: function(rejection) {
-      console.log(rejection);
+      // console.log(rejection);
       return $q.reject(rejection);
     }
   };
