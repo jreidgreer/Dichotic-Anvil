@@ -15,13 +15,16 @@ angular.module('borrow.login', [])
     });
   };
 
-  // $scope.FBlogin = function() {
-  //   FB.login(function(response) {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-        
-  //     }
-  //   });
-  // };
+  $scope.FBlogin = function() {
+    FB.login(function(response) {
+        if (response.authResponse) {
+         console.log('Welcome!  Fetching your information.... ');
+         FB.api('/auth/facebook', function(response) {
+           console.log('Good to see you, ' + response.name + '.');
+         });
+        } else {
+         console.log('User cancelled login or did not fully authorize.');
+        }
+    }, {scope: 'email,user_likes'});
+  };
 });

@@ -25,8 +25,8 @@
   <div class="col-sm-3">
     <div class="jumbotron transparent">
       <h1>my profile</h1>
-      <img ng-src="{{user.picture | fpConvert: {filter:'sharpen'} }}" class="img-circle center-block" style="width:150px;height:150px">
-      <h3>hi, i'm {{user.userName}}!</h3>
+      <img ng-src="{{user.picture}}" class="img-circle center-block" style="width:150px;height:150px">
+      <h3>hi, i'm {{user.firstName + ' ' + user.lastName}}!</h3>
       <h3>my friends</h3>
       <p>{{ numFriends }} friend(s)</p>
       <div ng-repeat="friend in user.friends">

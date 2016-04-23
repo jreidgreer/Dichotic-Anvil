@@ -12,10 +12,7 @@ module.exports = function(app, session, passport) {
 
   //deserialize user
   passport.deserializeUser(function(user, done) {
-    User.findById(user._id, function(err, user) {
-      console.log('in deserialize============= ', user);
-      done(err, user);
-    });
+    done(null, user);
   });
 
   //express session
@@ -37,64 +34,46 @@ module.exports = function(app, session, passport) {
     clientID: configAuth.facebookAuth.appID,
     clientSecret: configAuth.facebookAuth.appSecret,
     callbackURL: configAuth.facebookAuth.callbackUrl,
-    profileFields: ['id', 'displayName', 'first_name', 'last_name', 'email', 'gender', 'photos', 'birthday'],
+    profileFields: ['id', 'displayName', 'first_name', 'last_name', 'email', 'gender', 'birthday', 'picture.type(large)'],
   },
 
     function(accesstoken, refreshToken, profile, done) {
-      console.log('PROFILE:=============');
+      // console.log('PROFILE:=============');
       console.log(profile);
 
-      console.log('TOKEN:=============');
+      // console.log('TOKEN:=============');
       console.log(accesstoken);
 
-      done(null, profile);
-
-      // User.findOrCreate(
-      //   { facebookId: profile.id },
-      // function(err, user) {
-      //   if (user) {
-      //     user.access_token = accessToken;
-      //     user.save(function(err, doc) {
-      //       done(err, doc);
-      //     });
-      //   } else {
-      //     done(err, user);
-      //   }
-      // });
-
-      //async
-      process.nextTick(function() {
-
-        //find user in database based on facebook id
-        User.findOne( {where: {'userName' : profile._json.email.toLowerCase()}} )
-        .then(function(user) {
-          //if user is found, log in
-          if (user) {
-            done(null, user);
-          } else {
-            //create new user
-            User.create({
-              // name: profile.displayName,
-              firstName: profile.name.givenName,
-              lastName: profile.name.familyName,
-              userName: profile.emails[0].value.toLowerCase(),
-              password: '1234',
-              email: profile._json.email.toLowerCase(),
-              facebookId: profile.id,
-              picture: profile.photos[0].value
-            })
-            .then(function(newUser) {
-              console.log('user created ', newUser);
-              done(null, newUser);
-            })
-            .catch(function(err) {
-              console.log('Error saving Facebook user! ', err);
-            });
-          }
-        })
-        .catch(function(err) {
-          console.log('Error Searching For Existing FB User: ', err);
-        });
+      //find user in database based on facebook id
+      User.findOne( { where: { 'userName' : profile._json.email.toLowerCase() } } )
+      .then(function(user) {
+        console.log('Found User', user);
+        //if user is found, log in
+        if (user) {
+          done(null, user);
+        } else {
+          //create new user
+          User.create({
+            // name: profile.displayName,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            userName: profile.emails[0].value.toLowerCase(),
+            password: '1234',
+            email: profile._json.email.toLowerCase(),
+            facebookId: profile.id,
+            picture: profile.photos ? profile.photos[0].value : '/img/faces/unknown-user-pic.jpg'
+          })
+          .then(function(newUser) {
+            console.log('user created ', newUser);
+            done(null, newUser);
+          })
+          .catch(function(err) {
+            console.log('Error saving Facebook user! ', err);
+          });
+        }
+      })
+      .catch(function(err) {
+        console.log('Error Searching For Existing FB User: ', err);
       });
     }
   ));

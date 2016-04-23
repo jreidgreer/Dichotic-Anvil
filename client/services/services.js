@@ -51,7 +51,8 @@ angular.module('borrow.userServices', [])
 
   var signout = function () {
     $window.localStorage.removeItem('com.borrow');
-    $location.path('/');
+    var landingUrl = "http://" + $window.location.host + '/logout';
+    $window.location.href = landingUrl;
   };
 
   return {

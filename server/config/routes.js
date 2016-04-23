@@ -32,8 +32,10 @@ module.exports = function (app, express, passport) {
   }));
 
   app.get('/logout', function(req, res) {
-    req.session.destroy();
-    res.redirect('/#/');
+    console.log('logged out');
+    req.session.destroy(function(err) {
+      res.redirect('/');
+    });
   });
 
   // MIDDLEWARE
@@ -74,8 +76,6 @@ module.exports = function (app, express, passport) {
   app.get('/api/user/:user_id', logger, userController.getUser);
   app.get('/api/users', logger, userController.retrieveAll);
   app.put('/api/users/:user_id', logger, userController.updateOne);
-
-  app.get('/api/user/me', logger, userController.getUser);
 
   // TO ADD A FRIEND
   app.post('/api/user/me/friends', logger, userController.addFriend);
