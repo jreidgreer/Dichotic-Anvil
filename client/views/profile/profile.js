@@ -16,8 +16,8 @@ angular.module('borrow.profile', [])
 
       $scope.numFriends = $scope.user.friends.length;
 
-      $scope.numPersonalItems = $scope.user.inventory.length;
-      console.log($scope.numPersonalItems);
+      $scope.user.numPersonalItems = $scope.user.inventory.length;
+
       // Iterate over inventory to populate user items
       for (var i = 0; i < $scope.user.inventory.length; i++) {
         $scope.items.push($scope.user.inventory[i])

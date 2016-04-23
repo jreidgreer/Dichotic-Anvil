@@ -38,7 +38,7 @@
         </div>
         <h1>{{user.userName}}'s dashboard</h1>
         <h3>{{user.userName}}'s things</h3>
-        <p>{{user.userName}} is lending out {{user.numPersonalItems}} things</p>
+        <p>{{user.userName}} is lending out {{user.numPersonalItems}} thing(s)</p>
         <div class="image-block col-sm-4" ng-repeat='item in items' ng-click='borrow(item)'style="background: url({{item.picture}}) no-repeat center top;background-size:cover;">
           <p>borrow?</p>
         </div>
