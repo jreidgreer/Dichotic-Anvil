@@ -100,8 +100,14 @@ angular.module('borrow', ['ngRoute',
 
 .run(function ($rootScope, $location, Auth, $http) {
   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
-    if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
-      $location.path('/login');
+    if (next.$$route && next.$$route.authenticate) {
+      if (Auth.isAuth()) {
+        $http.get('/api/users/signedin').then(function(user){
+          if (!user) {
+            $location.path('/login');
+          }
+        });
+      }
     }
   });
 });

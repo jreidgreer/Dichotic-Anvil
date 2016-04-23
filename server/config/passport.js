@@ -1,7 +1,6 @@
 //passport.js
 
 var FacebookStrategy = require('passport-facebook').Strategy;
-// var facebookUser = require('../models/userModel.js');
 var User = require('../db.js').User;
 var configAuth = require('./fb.js');
 
@@ -50,6 +49,19 @@ module.exports = function(app, session, passport) {
 
       done(null, profile);
 
+      // User.findOrCreate(
+      //   { facebookId: profile.id },
+      // function(err, user) {
+      //   if (user) {
+      //     user.access_token = accessToken;
+      //     user.save(function(err, doc) {
+      //       done(err, doc);
+      //     });
+      //   } else {
+      //     done(err, user);
+      //   }
+      // });
+
       //async
       process.nextTick(function() {
 
@@ -63,6 +75,8 @@ module.exports = function(app, session, passport) {
 
           //if user is found, log in
           if (user) {
+            user.access_token = accesstoken;
+            console.log("USER===============", user);
             done(null, user);
           } else {
             //create new user
@@ -75,14 +89,6 @@ module.exports = function(app, session, passport) {
               console.log('user created ', newUser);
               done(null, newUser);
             });
-
-            // var newFacebookUser = new facebookUser();
-
-            // //set facebook info
-            // newFacebookUser.id = profile.id;
-            // newFacebookUser.token = accesstoken;
-            // newFacebookUser.name = profile.name.givenName + ' ' + profile.name.familyName;
-            // newFacebookUser.email = (profile.emails[0].value).toLowerCase();
 
             //save new user to database
             User.save(function(err) {

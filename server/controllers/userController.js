@@ -147,6 +147,7 @@ exports.verifyLogin = function(req, res) {
     .catch(function(err) {
       console.log('An Error Occured Logging In: ', err);
     });
+    });
   });
 };
 
@@ -202,7 +203,6 @@ exports.getUser = function(req, res) {
             });
 
             foundUser.loadInventory(function(foundUserInventory){
-              foundUserInventory
               sentUser.inventory = foundUserInventory.map(function(item) {
                 return item.dataValues;
               });
@@ -211,13 +211,13 @@ exports.getUser = function(req, res) {
                 Request.loadRequestsWithItems(query, function(results) {
                   sentUser.borrowing = results;
                   res.json(exports.filterUser(sentUser, req.currentUser));
-                })
+                });
               }
               else {
                 //otherwise just dish out the object
                 res.json(exports.filterUser(foundUser.dataValues, req.currentUser));
               }
-            })
+            });
           });
         } else {
             exports.sendError(res, 'No user found with that ID');
