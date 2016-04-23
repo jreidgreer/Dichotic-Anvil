@@ -20,7 +20,7 @@ angular.module('borrow.profile', [])
 
       // Iterate over inventory to populate user items
       for (var i = 0; i < $scope.user.inventory.length; i++) {
-        $scope.items.push($scope.user.inventory[i])
+        $scope.items.push($scope.user.inventory[i]);
        }
       // Iterate over inventory to populate items that have requests
       for (var i = 0; i < $scope.user.inventory.length; i++) {
@@ -30,7 +30,7 @@ angular.module('borrow.profile', [])
       }
       // Push strings to requestMessages array
       for(var i = 0; i < $scope.requestItems.length; i++) {
-        $scope.requestMessages.push($scope.requestItems[i].whoWantsIt + ' would like to borrow your ' + $scope.requestItems[i].itemName)
+        $scope.requestMessages.push($scope.requestItems[i].whoWantsIt + ' would like to borrow your ' + $scope.requestItems[i].itemName);
       }
     })
     .error(function(data) {

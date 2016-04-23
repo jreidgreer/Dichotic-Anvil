@@ -22,6 +22,17 @@ angular.module('borrow.userServices', [])
     });
   };
 
+  var getUser = function(user, callback) {
+    return $http({
+      method: 'GET',
+      url: '/api/users/' + user,
+      data: user
+    })
+    .then(function(resp) {
+      callback(resp.data.user);
+    });
+  };
+
   var createUser = function (user, callback) {
     return $http({
       method: 'POST',
@@ -59,6 +70,7 @@ angular.module('borrow.userServices', [])
     login: login,
     createUser: createUser,
     updateUser: updateUser,
+    getUser: getUser,
     isAuth: isAuth,
     signout: signout,
     getMe: getMe

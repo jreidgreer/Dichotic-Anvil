@@ -1,6 +1,6 @@
 //Dashboard controller
 
-angular.module('borrow.dashboard', ['borrow.gallery'])
+angular.module('borrow.dashboard', [])
   .controller('dashController', function($rootScope, $scope, $http, $location, Auth, filepickerService) {
 
   $scope.items = [];
@@ -21,17 +21,19 @@ angular.module('borrow.dashboard', ['borrow.gallery'])
     // User Items
     for (var i = 0; i < $scope.user.inventory.length; i++) {
         $scope.items.push($scope.user.inventory[i].picture)
-      }
+    }
 
     // Iterate over inventory to populate items that have requests
     for (var i = 0; i < $scope.user.inventory.length; i++) {
       if (!$scope.user.inventory[i].borrowed){
         if ($scope.user.inventory[i].requests) {
-          // console.log($scope.user.inventory[i].requests);
           for (var j = 0; j < $scope.user.inventory[i].requests.length; j++) {
             console.log("requests======", $scope.user.inventory[i].requests[j]);
             $scope.requestItems.push($scope.user.inventory[i].requests[j]);
             $scope.numMessages++; 
+            Auth.getUser($scope.user.inventory[i].requests[j].BorrowerId, function(data) {
+              console.log("borrower info====", data);
+            });
           }
         }
       }
