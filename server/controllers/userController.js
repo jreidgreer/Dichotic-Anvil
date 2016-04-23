@@ -233,21 +233,31 @@ exports.getUser = function(req, res) {
 // OUR "IS LOGGED IN?" MIDDLEWARE FUNCTION
 exports.authCheck = function (req, res, authCallback) {
   var token = req.headers['x-access-token'];
-  if (!token) {
+  console.log('User Stored on Session: ', req.session);
+  var sessionUser = req.session.passport.user;
+
+  console.log('authCheck Triggered');
+
+  // If no token but user is using a session
+  if (!token && !sessionUser) {
     authCallback(false);
-  } else if (req.user) {
-    callback(req.user);
-    } else {
-        console.log('Error Finding User During authCheck: ');
-    }
-    var user = null;
+  }
+  
+  var user = null;
+
+  if(!token && sessionUser) {
+    user = {};
+    user.userName = sessionUser.userName;
+  }
+
+  if(token && !sessionUser) {
     try {
       user = jwt.decode(token, 'shhhhh');
     }
     catch(err) {
       user = null;
     }
-
+  }
     // bad token
     if(!user) {
       authCallback(false);
