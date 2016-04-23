@@ -32,8 +32,10 @@ module.exports = function (app, express, passport) {
   }));
 
   app.get('/logout', function(req, res) {
-    req.session.destroy();
-    res.redirect('/#/');
+    console.log('logged out');
+    req.session.destroy(function(err) {
+      res.redirect('/');
+    });
   });
 
   // MIDDLEWARE

@@ -60,7 +60,6 @@ angular.module('borrow', ['ngRoute',
 
   filepickerProvider.setKey('A1IrC7fsKQuqV78eZa0euz');
   $httpProvider.interceptors.push('AttachTokens');
-  $httpProvider.interceptors.push('myHttpInterceptor');
 })
 .factory('AttachTokens', function ($window) {
   var attach = {
@@ -76,34 +75,14 @@ angular.module('borrow', ['ngRoute',
   };
   return attach;
 })
-
-.factory('myHttpInterceptor', function($q) {
-  return {
-    request: function(config) {
-      // console.log(config);
-      return config || $q.when(config);
-    },
-    requestError: function(rejection) {
-      // console.log(rejection);
-      return $q.reject(rejection);
-    },
-    response: function(resp) {
-      // console.log(resp);
-      return resp || $q.when(resp);
-    },
-    responseError: function(rejection) {
-      // console.log(rejection);
-      return $q.reject(rejection);
-    }
-  };
-})
-
 .run(function ($rootScope, $location, Auth, $http) {
   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
     if (next.$$route && next.$$route.authenticate) {
-      if (Auth.isAuth()) {
-        $http.get('/api/users/signedin').then(function(user){
-          if (!user) {
+      if (!Auth.isAuth()) {
+        console.log('Auth.isAuth() ', Auth.isAuth());
+        $http.get('/api/users/signedin').then(function(resp){
+          console.log('resp--------------> ', resp);
+          if (!resp.data) {
             $location.path('/login');
           }
         });
