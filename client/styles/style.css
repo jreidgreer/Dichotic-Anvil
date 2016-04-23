@@ -27,6 +27,14 @@ h6 {
   text-align: center;
 }
 
+.borrow-logo img {
+  width: 325px;
+  height: 83px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 230px;
+}
+
 p {
   font-family: 'Archivo Narrow', sans-serif;
   font-size: 28px;

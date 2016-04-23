@@ -234,7 +234,10 @@ exports.getUser = function(req, res) {
 exports.authCheck = function (req, res, authCallback) {
   var token = req.headers['x-access-token'];
   console.log('User Stored on Session: ', req.session);
-  var sessionUser = req.session.passport.user;
+  var sessionUser;
+  if (req.session.passport) {
+    sessionUser = req.session.passport.user;
+  }
 
   console.log('authCheck Triggered');
 
