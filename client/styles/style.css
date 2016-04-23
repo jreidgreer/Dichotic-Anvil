@@ -44,6 +44,7 @@ p {
 .subtext {
   color: #333;
   font-size: 20px;
+  font-family: 'Archivo Narrow', sans-serif;
 }
 
 .navbar-default {
@@ -114,6 +115,12 @@ p {
   width: 150px;
 }
 
+.btn-fb {
+  background-color:#3b5998;
+  border-color:#3b5998;
+  color: #fff;
+}
+
 .signup-container,
 .login-container,
 .dashboard-container,
@@ -174,10 +181,6 @@ p {
   padding-bottom: 20px;
 }
 
-.thumbnail {
-  
-}
-
 .image-block {
     border: 3px solid white ;
     background-color: black;
@@ -204,7 +207,8 @@ p {
     color: white;
 }
 
-.friendtable {
+.friendtable,
+.gallerytable {
     width:25%;
     margin: 0 auto;
     background-color: #fff;

@@ -22,6 +22,16 @@ angular.module('borrow.userServices', [])
     });
   };
 
+  var getUsers = function(callback) {
+    return $http({
+      method: 'GET',
+      url: '/api/users/'
+    })
+    .then(function(resp) {
+      callback(resp.data);
+    });
+  };
+
   var createUser = function (user, callback) {
     return $http({
       method: 'POST',
@@ -59,6 +69,7 @@ angular.module('borrow.userServices', [])
     login: login,
     createUser: createUser,
     updateUser: updateUser,
+    getUsers: getUsers,
     isAuth: isAuth,
     signout: signout,
     getMe: getMe
@@ -79,8 +90,19 @@ angular.module('borrow.userServices', [])
       console.log('Error Borrowing Item: ', err);
     });
   };
+    var getAll = function(callback) {
+    $http({
+      method: 'GET',
+      url: '/api/items/'
+    })
+    .then(callback)
+    .catch(function(err) {
+      console.log('Error Borrowing Item: ', err);
+    });
+  };
 
   return {
-    borrow: borrow
+    borrow: borrow,
+    getAll: getAll,
   };
 });
