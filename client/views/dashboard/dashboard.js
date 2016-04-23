@@ -1,12 +1,12 @@
 //Dashboard controller
 
-angular.module('borrow.dashboard', [])
+angular.module('borrow.dashboard', ['borrow.gallery'])
   .controller('dashController', function($rootScope, $scope, $http, $location, Auth, filepickerService) {
 
   $scope.items = [];
   $scope.requestItems = [];
   $scope.requestMessages = [];
-  $scope.numMessages = $scope.requestMessages.length;
+  $scope.numMessages = 0;
   $scope.myFriend = '';
   $scope.borrowing = [];
   $scope.numBorrowing = $scope.borrowing.length;
@@ -29,8 +29,9 @@ angular.module('borrow.dashboard', [])
         if ($scope.user.inventory[i].requests) {
           // console.log($scope.user.inventory[i].requests);
           for (var j = 0; j < $scope.user.inventory[i].requests.length; j++) {
-            console.log($scope.user.inventory[i].requests[j].borrow_message);
+            console.log("requests======", $scope.user.inventory[i].requests[j]);
             $scope.requestItems.push($scope.user.inventory[i].requests[j]);
+            $scope.numMessages++; 
           }
         }
       }
