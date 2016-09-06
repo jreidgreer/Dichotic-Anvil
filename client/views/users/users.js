@@ -1,5 +1,5 @@
 angular.module('borrow.users', [])
-	.controller('userController', function($scope, $http, Auth) {
+	.controller('userController', function($scope, $http, Auth, $location) {
 		$scope.users = '';
 		$http.get('/api/users')
 	  .success(function(data) {
@@ -23,7 +23,7 @@ angular.module('borrow.users', [])
     data: {userName: friend}
     })
     .then(function (resp) {
-      console.log(resp.data);
+      $location.path('/dashboard');
     });
   };
 
